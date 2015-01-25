@@ -10,12 +10,13 @@
  */
 module.exports = function(grunt) {
 
-	grunt.config.set('cssmin', {
-		dist: {
-			src: ['.tmp/public/concat/production.css'],
-			dest: '.tmp/public/min/production.min.css'
-		}
-	});
+  grunt.config.set('cssmin', {
+    build: {
+      files: {
+        '.tmp/public/styles/dist/main.min.css': ['.tmp/public/styles/main.css']
+      }
+    }
+  });
 
-	grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
 };
