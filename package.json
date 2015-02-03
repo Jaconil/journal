@@ -22,7 +22,7 @@
   },
   "scripts": {
     "postinstall": "grunt prod",
-    "start": "forever restart app.js --prod"
+    "start": "pm2 startOrRestart pm2.json"
   },
   "main": "app.js",
   "repository": {
