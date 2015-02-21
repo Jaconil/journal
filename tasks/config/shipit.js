@@ -6,7 +6,10 @@ module.exports = function(grunt) {
     default: {
       repositoryUrl: pkg.repository.url,
       keepReleases: 3,
-      servers: 'maxime-guihal.com'
+      servers: 'maxime-guihal.com',
+      linkedFiles: [
+        'config/local.js'
+      ]
     },
     prod: {
       workspace: '.deploy/prod',
@@ -21,6 +24,7 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-shipit');
   grunt.loadNpmTasks('shipit-deploy');
+  grunt.loadNpmTasks('shipit-shared');
 
   grunt.registerTask('app:install', 'app install', function () {
     grunt.shipit.remote(
@@ -31,7 +35,7 @@ module.exports = function(grunt) {
   grunt.registerTask('app:start', 'app start', function () {
     grunt.shipit.remote(
       'cd ' + grunt.shipit.releasePath + ' && npm start',
-      this.async());
+    this.async());
   });
 
   grunt.shipit.on('updated', function () {
