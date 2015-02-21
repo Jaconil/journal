@@ -18,7 +18,7 @@ module.exports = function(grunt) {
     dev: {
       workspace: '.deploy/dev',
       deployTo: 'dev/' + pkg.name,
-      branch: 'wip'
+      branch: 'develop'
     }
   });
 
