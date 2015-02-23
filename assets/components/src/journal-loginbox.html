@@ -1,0 +1,22 @@
+<link rel="import" href="../../lib/polymer/polymer.html">
+
+<polymer-element name="journal-loginbox" attributes="username password">
+    <template>
+      <style>
+          :host {
+            display: block;
+          }
+        </style>
+        <form class="loginbox animated fadeInDown">
+          <input type="text" name="{{username}}" autofocus/>
+          <input type="password" name="{{password}}"/>
+          <input type="submit" value="&#9654;"/>
+        </form>
+    </template>
+    <script>
+        Polymer("journal-loginbox", {
+          username: "username",
+          password: "password"
+        });
+    </script>
+</polymer-element>
