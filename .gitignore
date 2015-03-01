@@ -67,9 +67,10 @@ config/local.js
 ################################################
 
 node_modules
-bower_components
-assets/lib
-
+public/lib
+public/css
+public/js
+public/templates
 
 
 ################################################

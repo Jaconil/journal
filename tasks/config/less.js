@@ -16,11 +16,11 @@ module.exports = function(grunt) {
     dev: {
       files: [{
         expand: true,
-        cwd: 'assets/styles/',
+        cwd: 'src/less/',
         src: [
-          'main.less'
+          '*.less'
         ],
-        dest: '.tmp/public/styles/',
+        dest: 'public/css/',
         ext: '.css'
       }]
     }
