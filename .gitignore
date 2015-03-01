@@ -70,7 +70,8 @@ node_modules
 public/lib
 public/css
 public/js
-public/templates
+public/templates/*
+!public/templates/.gitkeep
 
 
 ################################################
