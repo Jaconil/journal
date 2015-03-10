@@ -2,9 +2,8 @@ module.exports = function (grunt) {
   grunt.registerTask('compileAssets', [
     'clean',
     'less',
-    'cssmin',
-    'uglify',
-    'vulcanize',
-    'copy'
+    'copy:templates',
+    'concat',
+    'copy:assets'
   ]);
 };

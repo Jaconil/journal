@@ -13,7 +13,15 @@
 module.exports = function(grunt) {
 
   grunt.config.set('copy', {
-    dev: {
+    templates: {
+      files: [{
+        expand: true,
+        cwd: 'src/templates',
+        src: ['*'],
+        dest: '.tmp/public/templates'
+      }]
+    },
+    assets: {
       files: [{
         expand: true,
         cwd: 'public',

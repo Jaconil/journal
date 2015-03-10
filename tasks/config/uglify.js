@@ -14,7 +14,7 @@ module.exports = function(grunt) {
   grunt.config.set('uglify', {
     build: {
       files: {
-        'public/js/main.min.js': ['src/js/*.js']
+        '.tmp/public/js/main.min.js': '.tmp/public/js/main.min.js'
       }
     }
   });

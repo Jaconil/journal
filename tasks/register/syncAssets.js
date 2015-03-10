@@ -1,8 +1,8 @@
 module.exports = function (grunt) {
   grunt.registerTask('syncAssets', [
     'less',
-    'uglify',
-    'vulcanize',
-    'sync'
+    'copy:templates',
+    'concat',
+    'sync:assets'
   ]);
 };

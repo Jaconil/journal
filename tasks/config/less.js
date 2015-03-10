@@ -20,8 +20,8 @@ module.exports = function(grunt) {
         src: [
           '*.less'
         ],
-        dest: 'public/css/',
-        ext: '.css'
+        dest: '.tmp/public/css/',
+        ext: '.min.css'
       }]
     }
   });
