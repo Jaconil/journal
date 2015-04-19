@@ -1,0 +1,25 @@
+<link rel="import" href="view-login.html">
+<link rel="import" href="view-write.html">
+
+<link rel="import" href="../lib/app-router/app-router.html">
+        
+<polymer-element name="journal-app">
+    <template>
+        <link rel="stylesheet" href="../css/journal-app.min.css">
+        
+        <app-router>
+            <app-route path="/login" element="view-login" bindRouter></app-route>
+            <app-route path="/write" element="view-write" bindRouter></app-route>
+            
+            <app-route path="*" redirect="/login"></app-route>
+        </app-router>
+        
+    </template>
+    <script type="text/javascript">
+        (function() {
+          Polymer("journal-app", {
+    
+          });
+        })();
+    </script>
+</polymer-element>

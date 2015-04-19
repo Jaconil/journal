@@ -6,17 +6,18 @@
   height: 100px;
   margin: auto;
   position: relative;
+  top: 40%;
+}
 
-  &::before {
-    content: '';
-    display: block;
-    background: @background;
-    width: 90%;
-    height: 2px;
-    top: 41px;
-    left: 5%;
-    position: relative;
-  }
+hr {
+  display: block;
+  background: @background;
+  width: 90%;
+  height: 1px;
+  top: -41px;
+  left: 5%;
+  position: relative;
+  margin: 0;
 }
 
 input {
@@ -58,5 +59,6 @@ input {
     top: 16px;
     right: -25px;
     font-size: 20px;
+    z-index: 1;
   }
 }

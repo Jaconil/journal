@@ -1,0 +1,54 @@
+<link rel="import" href="../lib/core-ajax/core-ajax.html">
+<link rel="import" href="../lib/core-localstorage/core-localstorage.html">
+
+<polymer-element name="journal-loginbox">
+    <template>
+        <link rel="stylesheet" href="../lib/animate.css/animate.min.css">
+        <link rel="stylesheet" href="../css/journal-loginbox.min.css">
+        
+        <form id="form" class="loginbox animated fadeInDown" method="post" autocomplete="off" on-submit={{submit}}>
+            <input type="text" value="{{username}}" autofocus />
+            <input type="password" value="{{password}}" />
+            <input type="submit" value="&#9654;" />
+            <hr>
+        </form>
+                    
+        <core-ajax id="ajax"
+            url="/api/auth/login" 
+            params='{"username":"{{username}}", "password":"{{encryptedPassword}}"}' 
+            handleAs="json" 
+            on-core-response="{{onLoginSuccess}}"
+            on-core-error="{{onLoginError}}">
+        </core-ajax>
+        
+        <core-localstorage name="token" value="{{token}}"></core-localstorage>
+    </template>
+    
+    <script type="text/javascript" src="../lib/crypto-js/crypto-js.js"></script>
+    
+    <script type="text/javascript">
+        (function() {
+          Polymer("journal-loginbox", {
+            encryptedPassword: '',
+
+            submit: function(event) {
+                event.preventDefault();
+                this.encryptedPassword = CryptoJS.SHA256(this.password).toString();
+                this.$.ajax.go();
+            },
+            
+            onLoginError: function(data) {
+                this.$.form.classList.remove('fadeInDown', 'shake');
+                setTimeout(function() {
+                    this.$.form.classList.add('shake');
+                }.bind(this), 0);
+            },
+            
+            onLoginSuccess: function(data) {
+                this.token = data.detail.response.token;
+                this.fire('logged');
+            }
+          });
+        })();
+    </script>
+</polymer-element>

@@ -14,16 +14,22 @@
 module.exports = function(grunt) {
 
   grunt.config.set('sync', {
-    templates: {
+    src: {
       files: [{
         expand: true,
-        cwd: 'src/templates',
+        cwd: 'src/components',
         src: ['*'],
-        dest: 'public/templates'
+        dest: '.tmp/public/components'
+      }, {
+        expand: true,
+        cwd: 'src/js',
+        src: ['*'],
+        dest: '.tmp/public/js'
       }]
     },
     assets: {
       files: [{
+        expand: true,
         cwd: 'public',
         src: ['**/*'],
         dest: '.tmp/public'
