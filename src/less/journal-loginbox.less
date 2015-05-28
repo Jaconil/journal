@@ -11,7 +11,7 @@
 
 hr {
   display: block;
-  background: @background;
+  background: @beige;
   width: 90%;
   height: 1px;
   top: -41px;
@@ -21,14 +21,14 @@ hr {
 }
 
 input {
-  background: url('../images/noise.png') @primary;
+  background: @darkgrey;
   box-sizing: border-box;
-  color: @background;
+  color: @beige;
 
   &:focus {
     border: 0;
     outline: 0;
-    color: @selected;
+    color: @lightgrey;
   }
 
   &[type=text], &[type=password] {
@@ -54,7 +54,7 @@ input {
     width: 50px;
     height: 50px;
     border-radius: 25px;
-    border: solid 3px @background;
+    border: solid 3px @beige;
     position: absolute;
     top: 16px;
     right: -25px;

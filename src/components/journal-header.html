@@ -1,0 +1,59 @@
+<link rel="import" href="../lib/core-ajax/core-ajax.html">
+<link rel="import" href="../lib/core-localstorage/core-localstorage.html">
+
+<polymer-element name="journal-header" attributes="selected">
+    <template>
+        <link rel="stylesheet" href="../css/journal-header.min.css">
+
+        <nav>
+            <ul>
+                <li class="{{ {active: selected == 'write', hidden: entriesToWrite == 0 } | tokenList }}">
+                    <a href="#/write"><i class="fa fa-pencil"></i> Ecrire <span>{{entriesToWrite}}</span></a>
+                </li>
+                <li class="{{ {active: selected == 'explore' } | tokenList }}">
+                    <a href="#/explore"><i class="fa fa-eye"></i> Explorer</a>
+                </li>
+                <li class="{{ {active: selected == 'search' } | tokenList }}">
+                    <a href="#/search"><i class="fa fa-search"></i> Rechercher</a>
+                </li>
+            </ul>
+        </nav>
+
+      
+        <core-localstorage name="token" value="{{token}}"></core-localstorage>
+        <core-ajax id="ajax" 
+            auto
+            url="/api/days?count=1" 
+            params='{"token":"{{token}}"}' 
+            handleAs="json" 
+            on-core-response="{{onRequestSuccess}}"
+            on-core-error="{{onRequestError}}">
+        </core-ajax>
+    </template>
+    
+    <script type="text/javascript" src="../lib/moment/moment.js"></script>
+    
+    <script type="text/javascript">
+        (function() {
+          Polymer("journal-header", {
+            entriesToWrite: null,
+            
+            onRequestSuccess: function(data) {
+                var firstDay = moment(data.detail.response.startDate);
+                var totalDays = moment().startOf('day').diff(firstDay, 'days');
+                
+                this.entriesToWrite = totalDays - data.detail.response.count;
+                
+                if (this.entriesToWrite === 0 && this.selected === 'write') {
+                    this.fire('noWrite');
+                }
+            },
+            
+            onRequestError: function(error) {
+                console.log(error);
+            }
+            
+          });
+        })();
+    </script>
+</polymer-element>
