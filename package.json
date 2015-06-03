@@ -4,6 +4,8 @@
   "version": "0.0.0",
   "description": "Personal journal",
   "dependencies": {
+    "babel": "^5.4.7",
+    "express": "^4.12.4",
     "grunt": "0.4.4",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-concat": "^0.5.1",
@@ -16,14 +18,16 @@
     "grunt-shipit": "^1.0.0",
     "grunt-sync": "~0.0.4",
     "grunt-vulcanize": "^0.6.4",
-    "jwt-simple": "^0.2.0",
-    "moment": "^2.9.0",
-    "shipit-deploy": "^1.1.1",
-    "shipit-shared": "jaconil/shipit-shared"
+    "jwt-simple": "^0.3.0",
+    "lodash": "^3.9.3",
+    "moment": "^2.10.3",
+    "mongodb": "^1.4.38",
+    "mongoskin": "^1.4.13",
+    "winston": "^1.0.0"
   },
   "scripts": {
     "postinstall": "grunt prod",
-    "start": "pm2 startOrRestart pm2.json"
+    "start": "babel-node app.js"
   },
   "main": "app.js",
   "repository": {
