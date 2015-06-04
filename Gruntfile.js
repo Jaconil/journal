@@ -1,39 +1,98 @@
 module.exports = function(grunt) {
 
-  // Load the include-all library in order to require all of our grunt
-  // configurations and task registrations dynamically.
-  var includeAll = require('include-all');
-  
-  /**
-   * Loads Grunt configuration modules from the specified
-   * relative path. These modules should export a function
-   * that, when run, should either load/configure or register
-   * a Grunt task.
-   */
-  function loadTasks(relPath) {
-    return includeAll({
-      dirname: require('path').resolve(__dirname, relPath),
-      filter: /(.+)\.js$/
-    }) || {};
-  }
+  grunt.initConfig({
+    clean: {
+      dev: ['public/css/**', 'public/build.*']
+    },
 
-  /**
-   * Invokes the function from a Grunt configuration module with
-   * a single argument - the `grunt` object.
-   */
-  function invokeConfigFn(tasks) {
-    for (var taskName in tasks) {
-      if (tasks.hasOwnProperty(taskName)) {
-        tasks[taskName](grunt);
+    less: {
+      dev: {
+        files: [{
+          expand: true,
+          cwd: 'public/less/',
+          src: ['*.less'],
+          dest: 'public/css/',
+          ext: '.min.css'
+        }]
+      }
+    },
+
+    cssmin: {
+      prod: {
+        files: [{
+          expand: true,
+          cwd: 'public/css',
+          src: ['*.min.css'],
+          dest: 'public/css',
+          ext: '.min.css'
+        }]
+      }
+    },
+
+    vulcanize: {
+      assets: {
+        options: {
+          csp: true,
+          excludes: {
+            imports: ['polymer.html']
+          }
+        },
+        files: {
+          'public/build.html': 'public/components/journal-app.html'
+        }
+      }
+    },
+
+    htmlmin: {
+      prod: {
+        options: {
+          removeComments: true,
+          collapseWhitespace: true
+        },
+        files: {
+          'public/build.html': 'public/build.html'
+        }
+      }
+    },
+
+    uglify: {
+      build: {
+        files: {
+          'public/build.js': 'public/build.js'
+        }
+      }
+    },
+
+    watch: {
+      assets: {
+        files: ['public/*'],
+        tasks: ['default']
       }
     }
-  }
+  });
 
-  // Load task functions
-  var taskConfigurations = loadTasks('./tasks/config');
-  var registerDefinitions = loadTasks('./tasks/register');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-vulcanize');
+  grunt.loadNpmTasks('grunt-contrib-htmlmin');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
-  // Run task functions to configure Grunt.
-  invokeConfigFn(taskConfigurations);
-  invokeConfigFn(registerDefinitions);
+  grunt.registerTask('dev', [
+    'clean',
+    'less',
+    'vulcanize'
+  ]);
+
+  grunt.registerTask('prod', [
+    'clean',
+    'less',
+    'cssmin',
+    'vulcanize',
+    'htmlmin',
+    'uglify'
+  ]);
+
+  grunt.registerTask('default', ['dev']);
 };
