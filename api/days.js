@@ -2,9 +2,9 @@
 
 var FIRST_DAY = '2002-05-31';
 
-module.exports = function(db) {
+module.exports = (db, logger) => {
   return {
-    find: function (req, res) {
+    find: (req, res) => {
       var whereFilter = {};
 
       // From
@@ -23,7 +23,8 @@ module.exports = function(db) {
       if (req.query.count) {
         db.collection('day').count(whereFilter, (err, days) => {
           if (err) {
-            return res.status(400).json('No matching days');
+            logger.error(err);
+            return res.status(500).json(err.errmsg);
           }
 
           return res.status(200).json({
@@ -34,7 +35,8 @@ module.exports = function(db) {
       } else {
         db.collection('day').find(whereFilter).toArray((err, days) => {
           if (err) {
-            return res.status(400).json('No matching days');
+            logger.error(err);
+            return res.status(500).json(err.errmsg);
           }
 
           return res.status(200).json({
