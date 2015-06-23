@@ -14,7 +14,7 @@
         </form>
                     
         <core-ajax id="ajax"
-            url="/api/auth/login" 
+            url="api/auth/login"
             params='{"username":"{{username}}", "password":"{{encryptedPassword}}"}' 
             handleAs="json" 
             on-core-response="{{onLoginSuccess}}"

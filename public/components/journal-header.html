@@ -23,7 +23,7 @@
         <core-localstorage name="token" value="{{token}}"></core-localstorage>
         <core-ajax id="ajax" 
             auto
-            url="/api/days?count=1" 
+            url="api/days?count=1"
             params='{"token":"{{token}}"}' 
             handleAs="json" 
             on-core-response="{{onRequestSuccess}}"
