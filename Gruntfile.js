@@ -5,6 +5,19 @@ module.exports = function(grunt) {
       dev: ['public/css/**', 'public/build.*']
     },
 
+    browserify: {
+      dev: {
+        files: {
+          'public/app.min.js': ['client/app.jsx']
+        },
+        options: {
+          transform: [
+            'babelify', 'reactify'
+          ]
+        }
+      }
+    },
+
     less: {
       dev: {
         files: [{
@@ -29,32 +42,6 @@ module.exports = function(grunt) {
       }
     },
 
-    vulcanize: {
-      assets: {
-        options: {
-          csp: true,
-          excludes: {
-            imports: ['polymer.html']
-          }
-        },
-        files: {
-          'public/build.html': 'public/components/journal-app.html'
-        }
-      }
-    },
-
-    htmlmin: {
-      prod: {
-        options: {
-          removeComments: true,
-          collapseWhitespace: true
-        },
-        files: {
-          'public/build.html': 'public/build.html'
-        }
-      }
-    },
-
     uglify: {
       build: {
         files: {
@@ -72,25 +59,21 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.loadNpmTasks('grunt-vulcanize');
-  grunt.loadNpmTasks('grunt-contrib-htmlmin');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   grunt.registerTask('dev', [
     'clean',
-    'less',
-    'vulcanize'
+    'less'
   ]);
 
   grunt.registerTask('prod', [
     'clean',
     'less',
     'cssmin',
-    'vulcanize',
-    'htmlmin',
     'uglify'
   ]);
 

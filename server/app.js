@@ -16,8 +16,8 @@ var db = require('mongoskin').db(unescape(url.format({
 })));
 
 var app = express();
-app.use(express.static('public'));
 
+app.use(express.static('public'));
 app.use('/api', require('./api')(express, db, logger));
 
 app.listen(config.port, () => logger.info('server launched'));

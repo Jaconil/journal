@@ -3,8 +3,7 @@ npm-debug.log
 
 public/lib
 public/css
-public/js
-public/build.*
+public/app.min.js
 
 *~
 .DS_STORE
