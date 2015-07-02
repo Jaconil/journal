@@ -2,7 +2,7 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     clean: {
-      dev: ['public/css/**', 'public/build.*']
+      dev: ['public/app.min.*']
     },
 
     browserify: {
@@ -20,24 +20,16 @@ module.exports = function(grunt) {
 
     less: {
       dev: {
-        files: [{
-          expand: true,
-          cwd: 'public/less/',
-          src: ['*.less'],
-          dest: 'public/css/',
-          ext: '.min.css'
-        }]
+        files: {
+          'public/app.min.css': ['client/**/*.less']
+        }
       }
     },
 
     cssmin: {
       prod: {
         files: [{
-          expand: true,
-          cwd: 'public/css',
-          src: ['*.min.css'],
-          dest: 'public/css',
-          ext: '.min.css'
+          'public/app.min.css': ['public/app.min.css']
         }]
       }
     },
@@ -45,15 +37,19 @@ module.exports = function(grunt) {
     uglify: {
       build: {
         files: {
-          'public/build.js': 'public/build.js'
+          'public/app.min.js': 'public/app.min.js'
         }
       }
     },
 
     watch: {
       assets: {
-        files: ['public/*'],
-        tasks: ['default']
+        files: ['client/**/*'],
+        tasks: ['default'],
+        options: {
+          interrupt: true,
+          debounce: 500
+        }
       }
     }
   });
@@ -67,11 +63,13 @@ module.exports = function(grunt) {
 
   grunt.registerTask('dev', [
     'clean',
+    'browserify',
     'less'
   ]);
 
   grunt.registerTask('prod', [
     'clean',
+    'browserify',
     'less',
     'cssmin',
     'uglify'

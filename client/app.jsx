@@ -1,9 +1,37 @@
 'use strict';
 
-var React = require('react');
-var App = require('./components/app');
+import React from 'react';
+import { Router, Route, Link, Redirect } from 'react-router';
+import { history as HashHistory } from 'react-router/lib/HashHistory';
 
-React.render(
-  <App />,
-  document.querySelector('content')
-);
+import App from './components/App/app.jsx';
+
+class About extends React.Component {
+  render() {
+    return (
+      <div>
+        About
+      </div>
+    );
+  }
+}
+
+class Inbox extends React.Component {
+  render() {
+    return (
+      <div>
+        Inbox
+      </div>
+    );
+  }
+}
+
+React.render((
+  <Router history={HashHistory}>
+    <Route component={App}>
+      <Route path="about" component={About}/>
+      <Route path="inbox" component={Inbox}/>
+      <Redirect from="/" to="/about" />
+    </Route>
+  </Router>
+), document.body);
