@@ -2,11 +2,14 @@
 
 var defaultConfig = {
   port: 1337,
+
   db_host: null,
   db_port: null,
   db_name: null,
   db_user: null,
-  db_password: null
+  db_password: null,
+
+  jwt_secret: 'secretKey'
 };
 
 // Env variables assignment

@@ -2,7 +2,7 @@
 
 var moment = require('moment');
 
-module.exports = (db, jwt, logger) => {
+module.exports = (db, jwt, logger, config) => {
   return {
     login: (req, res) => {
       db.collection('user').findOne({
@@ -18,13 +18,10 @@ module.exports = (db, jwt, logger) => {
           return res.status(401).json('User not found');
         }
 
-        var token = jwt.encode({
-          iss: user.id,
-          exp: moment().add(30, 'minutes').valueOf()
-        }, 'SecretKeyJournal');
-
         return res.status(200).json({
-          token: token
+          token: jwt.sign({id: user.id}, config.jwt_secret, {
+            expiresInMinutes: 30
+          })
         });
       });
     }
