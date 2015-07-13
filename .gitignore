@@ -1,9 +1,7 @@
 node_modules
 npm-debug.log
 
-public/lib
-public/css
-public/app.min.js
+public/app.min.*
 
 *~
 .DS_STORE

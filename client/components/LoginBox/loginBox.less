@@ -1,0 +1,64 @@
+@import "../../variables";
+
+.login-box {
+  display: block;
+  width: 300px;
+  height: 100px;
+  margin: auto;
+  position: relative;
+  top: 40%;
+
+  hr {
+    display: block;
+    background: @beige;
+    width: 90%;
+    height: 1px;
+    top: -41px;
+    left: 5%;
+    position: relative;
+    margin: 0;
+  }
+
+  input {
+    background: @darkgrey;
+    box-sizing: border-box;
+    color: @beige;
+
+    &:focus {
+      border: 0;
+      outline: 0;
+      color: @lightgrey;
+    }
+
+    &[type=text], &[type=password] {
+      width: 100%;
+      border: 0;
+      height: 40px;
+      font: 14px sans-serif;
+      padding: 5px 15px 5px 15px;
+      font-weight: bold;
+    }
+
+    &[type=text] {
+      border-radius: 5px 5px 0 0;
+    }
+
+    &[type=password] {
+      border-radius: 0 0 5px 5px;
+    }
+
+    &[type=submit] {
+      margin: 0;
+      padding: 0 0 2px 0;
+      width: 50px;
+      height: 50px;
+      border-radius: 25px;
+      border: solid 3px @beige;
+      position: absolute;
+      top: 16px;
+      right: -25px;
+      font-size: 20px;
+      z-index: 1;
+    }
+  }
+}
