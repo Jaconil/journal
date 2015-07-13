@@ -1,7 +1,5 @@
 'use strict';
 
-var moment = require('moment');
-
 module.exports = (db, jwt, logger, config) => {
   return {
     login: (req, res) => {

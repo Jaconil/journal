@@ -1,20 +1,20 @@
 'use strict';
 
 import React from 'react';
-import AuthStore from '../../stores/authStore';
+import UserStore, { events as userEvents } from '../../stores/userStore';
 import Dispatcher from '../../dispatcher';
 
 var LoginBox = React.createClass({
   componentDidMount: function() {
-    AuthStore.addChangeListener(this.onLogin);
+    UserStore.addChangeListener(this.onLogin);
   },
 
   componentWillUnmount: function() {
-    AuthStore.removeChangeListener(this.onLogin);
+    UserStore.removeChangeListener(this.onLogin);
   },
 
   onLogin: function() {
-    if (AuthStore.isLogged()) {
+    if (UserStore.isLogged()) {
       // redirection
     } else {
       //this.$.form.classList.remove('fadeInDown', 'shake');
@@ -30,7 +30,7 @@ var LoginBox = React.createClass({
     var username = React.findDOMNode(this.refs.username).value;
     var password = React.findDOMNode(this.refs.password).value;
 
-    Dispatcher.emit('auth.login', username, password);
+    Dispatcher.emit(userEvents.LOGIN, username, password);
   },
 
   render: function() {
