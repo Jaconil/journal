@@ -1,7 +1,10 @@
 'use strict';
 
 import _ from 'lodash';
-import BaseStore from './baseStore';
+import request from 'superagent';
+import crypto from 'crypto';
+
+import BaseStore, { events as baseEvents } from './baseStore';
 import Dispatcher from '../dispatcher';
 
 export var events = {
@@ -11,19 +14,39 @@ export var events = {
 class UserStore extends BaseStore {
   constructor() {
     super();
-
-    this.token = null;
-
     Dispatcher.on(events.LOGIN, _.bind(this.login, this));
+    Dispatcher.on(baseEvents.API_UNAUTHORISED, _.bind(this.clearToken, this));
+  }
+
+  setToken(token) {
+    sessionStorage.setItem('user.token', token);
+  }
+
+  getToken() {
+    return sessionStorage.getItem('user.token') || '';
+  }
+
+  clearToken() {
+    this.setToken('');
   }
 
   login(username, password) {
-    console.log('store login', username, password);
-    this.emitChange();
+    var hash = crypto.createHash('sha256').update(password).digest('hex');
+
+    this.fetchApi({
+      path: '/user/login',
+      query: {username: username, password: hash}
+    }, function(err, response) {
+      if (response.ok) {
+        this.setToken(response.body.token);
+      }
+
+      this.emitChange();
+    }.bind(this));
   }
 
   isLogged() {
-    return this.token !== null;
+    return this.getToken() !== '';
   }
 }
 

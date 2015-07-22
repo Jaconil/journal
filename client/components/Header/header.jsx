@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 var Header = React.createClass({
   render: function() {
     return (
-      <header>
+      <header className="animated fadeInDown">
         <nav className="nav-header">
           <ul>
             <li className="active">

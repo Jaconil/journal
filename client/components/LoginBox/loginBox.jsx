@@ -1,12 +1,30 @@
 'use strict';
 
 import React from 'react';
+import { Navigation } from 'react-router';
+import classNames from 'classnames'
+
 import UserStore, { events as userEvents } from '../../stores/userStore';
 import Dispatcher from '../../dispatcher';
 
 var LoginBox = React.createClass({
+
+  mixins: [ Navigation ],
+
+  getInitialState: function() {
+    return {
+      fade: true,
+      shake: false,
+      nbLogin: 0
+    };
+  },
+
   componentDidMount: function() {
     UserStore.addChangeListener(this.onLogin);
+
+    if (UserStore.isLogged()) {
+      this.transitionTo('write');
+    }
   },
 
   componentWillUnmount: function() {
@@ -15,12 +33,13 @@ var LoginBox = React.createClass({
 
   onLogin: function() {
     if (UserStore.isLogged()) {
-      // redirection
+      this.transitionTo('write');
     } else {
-      //this.$.form.classList.remove('fadeInDown', 'shake');
-      //setTimeout(function() {
-      //  this.$.form.classList.add('shake');
-      //}.bind(this), 0);
+      this.setState({
+        fade: false,
+        shake: true,
+        nbLogin: this.state.nbLogin + 1
+      });
     }
   },
 
@@ -34,8 +53,18 @@ var LoginBox = React.createClass({
   },
 
   render: function() {
+
+    var classes = classNames(
+      'login-box',
+      'animated',
+      {
+        fadeInDown: this.state.fade,
+        shake: this.state.shake
+      }
+    );
+
     return (
-      <form className="login-box animated fadeInDown" method="post" autoComplete="off" onSubmit={this.onSubmit}>
+      <form key={this.state.nbLogin} className={classes} method="post" autoComplete="off" onSubmit={this.onSubmit}>
         <input type="text" ref="username" autoFocus />
         <input type="password" ref="password" />
         <input type="submit" value="&#9654;" />
