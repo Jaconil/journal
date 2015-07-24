@@ -5,6 +5,7 @@ import { Navigation } from 'react-router';
 
 import Header from './../Header/header.jsx';
 
+import BaseStore from '../../stores/baseStore';
 import UserStore from '../../stores/userStore';
 
 var App = React.createClass({
@@ -18,11 +19,11 @@ var App = React.createClass({
   },
 
   componentDidMount: function() {
-    UserStore.addChangeListener(this.onTokenChange);
+    BaseStore.addChangeListener(this.onTokenChange);
   },
 
   componentWillUnmount: function() {
-    UserStore.removeChangeListener(this.onTokenChange);
+    BaseStore.removeChangeListener(this.onTokenChange);
   },
 
   onTokenChange: function() {

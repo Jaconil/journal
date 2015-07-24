@@ -3,12 +3,6 @@
 import { EventEmitter } from 'events';
 import request from 'superagent';
 
-import Dispatcher from '../dispatcher';
-
-export var events = {
-  API_UNAUTHORISED: 'api.unauthorized'
-};
-
 class BaseStore extends EventEmitter {
   constructor() {
     super();
@@ -26,11 +20,26 @@ class BaseStore extends EventEmitter {
     this.emit('change');
   }
 
+  setToken(token) {
+    sessionStorage.setItem('api.token', token);
+  }
+
+  getToken() {
+    return sessionStorage.getItem('api.token') || '';
+  }
+
+  clearToken() {
+    this.setToken('');
+    this.emitChange();
+  }
+
   fetchApi(options, callback) {
     var method = options.method || 'GET';
-    var path = '/api' + options.path || '';
+    var path = 'api' + options.path || '';
 
-    var req = request(method, path);
+    var req = request(method, path).query({
+      key: this.getToken()
+    });
 
     if (options.query) {
       req.query(options.query);
@@ -42,12 +51,11 @@ class BaseStore extends EventEmitter {
 
     req.end(function(err, response) {
       if (response.unauthorized) {
-        console.log('response 401');
-        Dispatcher.emit('API_UNAUTHORISED');
+        this.clearToken();
       }
 
       callback(err, response);
-    });
+    }.bind(this));
   }
 }
 
