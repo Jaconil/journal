@@ -3,6 +3,12 @@
 import { EventEmitter } from 'events';
 import request from 'superagent';
 
+import Dispatcher from '../dispatcher';
+
+export var events = {
+  API_UNAUTHORIZED: 'api.unauthorized'
+};
+
 class BaseStore extends EventEmitter {
   constructor() {
     super();
@@ -28,11 +34,6 @@ class BaseStore extends EventEmitter {
     return sessionStorage.getItem('api.token') || '';
   }
 
-  clearToken() {
-    this.setToken('');
-    this.emitChange();
-  }
-
   fetchApi(options, callback) {
     var method = options.method || 'GET';
     var path = 'api' + options.path || '';
@@ -51,7 +52,7 @@ class BaseStore extends EventEmitter {
 
     req.end(function(err, response) {
       if (response.unauthorized) {
-        this.clearToken();
+        Dispatcher.emit(events.API_UNAUTHORIZED);
       }
 
       callback(err, response);

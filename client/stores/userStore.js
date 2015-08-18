@@ -4,17 +4,34 @@ import _ from 'lodash';
 import request from 'superagent';
 import crypto from 'crypto';
 
-import BaseStore from './baseStore';
+import BaseStore, { events as baseEvents } from './baseStore';
 import Dispatcher from '../dispatcher';
 
 export var events = {
-  LOGIN: 'user.login'
+  LOGIN: 'user.login',
+  CLEAR: 'user.clear'
 };
 
 class UserStore extends BaseStore {
   constructor() {
     super();
     Dispatcher.on(events.LOGIN, _.bind(this.login, this));
+    Dispatcher.on(events.CLEAR, _.bind(this.clearToken, this));
+    Dispatcher.on(baseEvents.API_UNAUTHORIZED, _.bind(this.clearToken, this));
+  }
+
+  //setToken(token) {
+  //  super.setToken(token);
+  //  this.emitChange();
+  //}
+
+  clearToken() {
+    this.setToken('');
+    this.emitChange();
+  }
+
+  hasToken() {
+    return this.getToken() !== '';
   }
 
   login(username, password) {
@@ -30,10 +47,6 @@ class UserStore extends BaseStore {
 
       this.emitChange();
     }.bind(this));
-  }
-
-  isLogged() {
-    return this.getToken() !== '';
   }
 }
 

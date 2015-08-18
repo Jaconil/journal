@@ -4,8 +4,8 @@ import React from 'react';
 import { Navigation } from 'react-router';
 import classNames from 'classnames'
 
-import UserStore, { events as userEvents } from '../../stores/userStore';
-import Dispatcher from '../../dispatcher';
+import userStore, { events as userEvents } from '../../stores/userStore';
+import dispatcher from '../../dispatcher';
 
 var LoginBox = React.createClass({
 
@@ -20,19 +20,22 @@ var LoginBox = React.createClass({
   },
 
   componentDidMount: function() {
-    UserStore.addChangeListener(this.onLogin);
+    userStore.addChangeListener(this.onLogin);
 
-    if (UserStore.isLogged()) {
-      this.transitionTo('write');
-    }
+    dispatcher.emit(userEvents.CLEAR);
   },
 
   componentWillUnmount: function() {
-    UserStore.removeChangeListener(this.onLogin);
+    userStore.removeChangeListener(this.onLogin);
   },
 
   onLogin: function() {
-    if (UserStore.isLogged()) {
+    if (this.state.nbLogin === 0) {
+      this.state.nbLogin = 1;
+      return;
+    }
+
+    if (userStore.hasToken()) {
       this.transitionTo('write');
     } else {
       this.setState({
@@ -49,7 +52,7 @@ var LoginBox = React.createClass({
     var username = React.findDOMNode(this.refs.username).value;
     var password = React.findDOMNode(this.refs.password).value;
 
-    Dispatcher.emit(userEvents.LOGIN, username, password);
+    dispatcher.emit(userEvents.LOGIN, username, password);
   },
 
   render: function() {
@@ -67,7 +70,7 @@ var LoginBox = React.createClass({
       <form key={this.state.nbLogin} className={classes} method="post" autoComplete="off" onSubmit={this.onSubmit}>
         <input type="text" ref="username" autoFocus />
         <input type="password" ref="password" />
-        <input type="submit" value="&#9654;" />
+        <input type="submit" value="▶" />
         <hr />
       </form>
     );

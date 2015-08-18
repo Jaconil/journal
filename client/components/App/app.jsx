@@ -5,8 +5,8 @@ import { Navigation } from 'react-router';
 
 import Header from './../Header/header.jsx';
 
-import BaseStore from '../../stores/baseStore';
-import UserStore from '../../stores/userStore';
+import userStore from '../../stores/userStore';
+import dayStore from '../../stores/dayStore';
 
 var App = React.createClass({
 
@@ -14,32 +14,36 @@ var App = React.createClass({
 
   getInitialState: function() {
     return {
-      isLogged: UserStore.isLogged()
+      isLogged: userStore.hasToken()
     };
   },
 
   componentDidMount: function() {
-    BaseStore.addChangeListener(this.onTokenChange);
+    userStore.addChangeListener(this.onTokenChange);
+    dayStore.addChangeListener(this.onDataChange);
   },
 
   componentWillUnmount: function() {
-    BaseStore.removeChangeListener(this.onTokenChange);
+    userStore.removeChangeListener(this.onTokenChange);
+    dayStore.removeChangeListener(this.onDataChange);
   },
 
   onTokenChange: function() {
-    console.log('token change');
-    if (this.state.isLogged && !UserStore.isLogged()) {
-      console.log('redirection login');
+    if (this.state.isLogged && !userStore.hasToken()) {
       this.transitionTo('login');
     }
 
-    this.setState({isLogged: UserStore.isLogged()});
+    this.setState({isLogged: userStore.hasToken()});
+  },
+
+  onDataChange: function() {
+    this.forceUpdate();
   },
 
   render: function() {
     return (
       <div className="app-container">
-        {UserStore.isLogged() ? <Header /> : null}
+        {this.state.isLogged ? <Header remainDays={dayStore.getRemainDays()} /> : null}
         {this.props.children}
       </div>
     );

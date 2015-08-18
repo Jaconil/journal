@@ -4,6 +4,7 @@ import React from 'react';
 import { Link } from 'react-router';
 
 var Header = React.createClass({
+
   render: function() {
     return (
       <header className="animated fadeInDown">
@@ -13,7 +14,7 @@ var Header = React.createClass({
               <Link to="write">
                 <i className="fa fa-pencil"></i>
                 <span>Ecrire</span>
-                <span className="notification">1</span>
+                <span className="notification">{this.props.remainDays}</span>
               </Link>
             </li>
             <li className="">
