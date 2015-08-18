@@ -7,7 +7,6 @@ module.exports = (jwt, logger, config) => {
     if (token) {
       jwt.verify(token, config.jwt_secret, (err, decoded) => {
         if (err) {
-          logger.error(err);
           return res.status(401).json('Invalid token');
         } else {
           req.decoded = decoded;

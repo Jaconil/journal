@@ -16,13 +16,8 @@ class UserStore extends BaseStore {
     super();
     dispatcher.on(events.LOGIN, _.bind(this.login, this));
     dispatcher.on(events.CLEAR, _.bind(this.clearToken, this));
-    dispatcher.on(baseEvents.API_UNAUTHORIZED, _.bind(this.onUnauthorizedApiCall, this));
+    dispatcher.on(baseEvents.API_UNAUTHORIZED, _.bind(this.clearToken, this));
   }
-
-  //setToken(token) {
-  //  super.setToken(token);
-  //  this.emitChange();
-  //}
 
   clearToken() {
     this.setToken('');
@@ -34,6 +29,7 @@ class UserStore extends BaseStore {
   }
 
   onUnauthorizedApiCall() {
+    console.log('unauthorized2');
     if (this.hasToken()) {
       this.clearToken();
     }

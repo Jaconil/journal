@@ -3,7 +3,7 @@
 import { EventEmitter } from 'events';
 import request from 'superagent';
 
-import Dispatcher from '../dispatcher';
+import dispatcher from '../dispatcher';
 
 export var events = {
   API_UNAUTHORIZED: 'api.unauthorized'
@@ -39,7 +39,7 @@ class BaseStore extends EventEmitter {
     var path = 'api' + options.path || '';
 
     var req = request(method, path).query({
-      key: this.getToken()
+      token: this.getToken()
     });
 
     if (options.query) {
@@ -52,7 +52,7 @@ class BaseStore extends EventEmitter {
 
     req.end(function(err, response) {
       if (response.unauthorized) {
-        Dispatcher.emit(events.API_UNAUTHORIZED);
+        dispatcher.emit(events.API_UNAUTHORIZED);
       }
 
       callback(err, response);

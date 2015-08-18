@@ -29,7 +29,7 @@ var App = React.createClass({
   },
 
   onTokenChange: function() {
-    if (this.state.isLogged && !userStore.hasToken()) {
+    if (!userStore.hasToken()) {
       this.transitionTo('login');
     }
 

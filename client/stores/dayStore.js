@@ -2,9 +2,10 @@
 
 import _ from 'lodash';
 import request from 'superagent';
+import moment from 'moment';
 
 import BaseStore, { events as baseEvents } from './baseStore';
-import Dispatcher from '../dispatcher';
+import dispatcher from '../dispatcher';
 
 export var events = {
   INIT: 'day.init'
@@ -13,21 +14,31 @@ export var events = {
 class DayStore extends BaseStore {
   constructor() {
     super();
-    Dispatcher.on(events.INIT, _.bind(this.init, this));
+    dispatcher.on(events.INIT, _.bind(this.init, this));
+
+    this.remainDays = 0
   }
 
   getRemainDays() {
-    return 0;
+    return this.remainDays;
   }
 
   init() {
-    console.log('day init');
     this.fetchApi({
       path: '/days',
       query: {count: 1}
     }, function(err, response) {
       if (response.ok) {
-        console.log(response);
+
+        var firstDay = moment(response.body.startDate);
+        var totalDays = moment().startOf('day').diff(firstDay, 'days');
+
+        this.remainDays = totalDays - response.body.count;
+
+        //if (this.remainDays === 0 && this.selected === 'write') {
+        //  this.fire('noWrite');
+        //}
+
         this.emitChange();
       }
     }.bind(this));

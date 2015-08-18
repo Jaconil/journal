@@ -3,7 +3,18 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+import { events as dayEvents } from '../../stores/dayStore';
+import dispatcher from '../../dispatcher';
+
 var Header = React.createClass({
+
+  propTypes: {
+    remainDays: React.PropTypes.number.isRequired
+  },
+
+  componentDidMount: function() {
+    dispatcher.emit(dayEvents.INIT);
+  },
 
   render: function() {
     return (
