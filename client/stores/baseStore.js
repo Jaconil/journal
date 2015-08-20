@@ -2,6 +2,7 @@
 
 import { EventEmitter } from 'events';
 import request from 'superagent';
+import when from 'when';
 
 import dispatcher from '../dispatcher';
 
@@ -12,6 +13,10 @@ export var events = {
 class BaseStore extends EventEmitter {
   constructor() {
     super();
+  }
+
+  register(currentStore, event, handler) {
+    dispatcher.on(event, handler.bind(currentStore));
   }
 
   addChangeListener(callback) {
@@ -34,7 +39,7 @@ class BaseStore extends EventEmitter {
     return sessionStorage.getItem('api.token') || '';
   }
 
-  fetchApi(options, callback) {
+  fetchApi(options) {
     var method = options.method || 'GET';
     var path = 'api' + options.path || '';
 
@@ -50,13 +55,19 @@ class BaseStore extends EventEmitter {
       req.send(options.body);
     }
 
-    req.end(function(err, response) {
-      if (response.unauthorized) {
-        dispatcher.emit(events.API_UNAUTHORIZED);
-      }
+    return when.promise(function(resolve, reject) {
+      req.end(function(err, response) {
+        if (response.unauthorized) {
+          dispatcher.emit(events.API_UNAUTHORIZED);
+        }
 
-      callback(err, response);
-    }.bind(this));
+        if (!err && response.ok) {
+          resolve(response.body);
+        } else {
+          reject(err, response);
+        }
+      });
+    });
   }
 }
 

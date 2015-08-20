@@ -26,6 +26,7 @@
     "react-router": "^1.0.0-beta3",
     "reactify": "^1.1.1",
     "superagent": "^1.2.0",
+    "when": "^3.7.3",
     "winston": "^1.0.0"
   },
   "scripts": {

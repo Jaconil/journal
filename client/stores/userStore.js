@@ -4,7 +4,6 @@ import _ from 'lodash';
 import crypto from 'crypto';
 
 import BaseStore, { events as baseEvents } from './baseStore';
-import dispatcher from '../dispatcher';
 
 export var events = {
   LOGIN: 'user.login',
@@ -14,9 +13,9 @@ export var events = {
 class UserStore extends BaseStore {
   constructor() {
     super();
-    dispatcher.on(events.LOGIN, _.bind(this.login, this));
-    dispatcher.on(events.CLEAR, _.bind(this.clearToken, this));
-    dispatcher.on(baseEvents.API_UNAUTHORIZED, _.bind(this.clearToken, this));
+    this.register(this, events.LOGIN, this.login);
+    this.register(this, events.CLEAR, this.clearToken);
+    this.register(this, baseEvents.API_UNAUTHORIZED, this.clearToken);
   }
 
   clearToken() {
@@ -28,26 +27,19 @@ class UserStore extends BaseStore {
     return this.getToken() !== '';
   }
 
-  onUnauthorizedApiCall() {
-    console.log('unauthorized2');
-    if (this.hasToken()) {
-      this.clearToken();
-    }
-  }
-
   login(username, password) {
     var hash = crypto.createHash('sha256').update(password).digest('hex');
 
     this.fetchApi({
       path: '/user/login',
       query: {username: username, password: hash}
-    }, function(err, response) {
-      if (response.ok) {
-        this.setToken(response.body.token);
-      }
-
+    }).then(response => {
+      this.setToken(response.token);
+    }).catch(() => {
+      // do nothing for now
+    }).finally(() => {
       this.emitChange();
-    }.bind(this));
+    });
   }
 }
 
