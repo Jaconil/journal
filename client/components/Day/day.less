@@ -1,0 +1,89 @@
+@import "../../variables";
+
+section.day {
+  width: 60%;
+  margin: auto;
+  background: @darkgrey;
+  color: @text;
+  border-radius: 5px 5px;
+  position: relative;
+  margin-bottom: 30px;
+
+  header {
+    height: 50px;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+
+    div.status {
+      background-color: @green;
+      width: 20px;
+      height: 20px;
+      float: left;
+      margin-top: 16px;
+      margin-left: 2%;
+      border-radius: 10px;
+
+      &.not-written {
+        background-color: @red;
+      }
+    }
+
+    h1 {
+      line-height: 50px;
+      margin: 0;
+      margin-left: 60px;
+    }
+
+    &::after {
+      content: ' ';
+      display: block;
+      background-color: @beige;
+      width: 96%;
+      height: 2px;
+      margin-left: 2%;
+    }
+  }
+
+  div.text {
+    padding: 20px;
+    text-align: justify;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    font-size: 18px;
+  }
+
+  textarea {
+    border: 1px dashed @beige; //darken(@back, 5%);
+    width: 96%;
+    max-width: 96%;
+    margin: 2%;
+    background-color: darken(@darkgrey, 1%);
+    padding: 5px;
+    text-align: justify;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    font-size: 18px;
+    min-height: 150px;
+    box-sizing: border-box;
+    color: @text;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  div.actions {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-size: 16px;
+    position: absolute;
+    right: 40px;
+    bottom: 40px;
+
+    button {
+      border: 1px solid @beige;
+      background: @beige;
+      color: @darkgrey;
+      height: 26px;
+      width: 26px;
+      border-radius: 13px;
+      margin-right: 5px;
+    }
+  }
+}

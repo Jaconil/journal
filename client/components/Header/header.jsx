@@ -9,23 +9,23 @@ import dispatcher from '../../dispatcher';
 var Header = React.createClass({
 
   propTypes: {
-    remainDays: React.PropTypes.number.isRequired
+    remainingDays: React.PropTypes.number.isRequired
   },
 
   componentDidMount: function() {
-    dispatcher.emit(dayEvents.INIT);
+    dispatcher.emit(dayEvents.FETCH_REMAINING_DAYS_SUMMARY);
   },
 
   render: function() {
     return (
-      <header className="animated fadeInDown">
+      <header className="header animated fadeInDown">
         <nav className="nav-header">
           <ul>
             <li className="active">
               <Link to="write">
                 <i className="fa fa-pencil"></i>
                 <span>Ecrire</span>
-                <span className="notification">{this.props.remainDays}</span>
+                <span className="notification">{this.props.remainingDays}</span>
               </Link>
             </li>
             <li className="">

@@ -43,7 +43,7 @@ var App = React.createClass({
   render: function() {
     return (
       <div className="app-container">
-        {this.state.isLogged ? <Header remainDays={dayStore.getRemainingDays()} /> : null}
+        {this.state.isLogged ? <Header remainingDays={dayStore.getTotalRemainingDays()} /> : null}
         {this.props.children}
       </div>
     );

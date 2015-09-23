@@ -5,22 +5,30 @@ import request from 'superagent';
 import BaseStore from './baseStore';
 
 export var events = {
-  INIT: 'day.init'
+  FETCH_TOTAL_REMAINING_DAYS: 'day.fetchTotalRemainingDays',
+  FETCH_REMAINING_DAYS: 'day.fetchRemainingDays'
 };
 
 class DayStore extends BaseStore {
   constructor() {
     super();
-    this.register(this, events.INIT, this.init);
+    this.register(this, events.FETCH_TOTAL_REMAINING_DAYS, this.fetchTotalRemainingDays);
+    this.register(this, events.FETCH_REMAINING_DAYS, this.fetchRemainingDays);
 
-    this.remainingDays = 0
+    this.totalRemainingDays = 0;
+    this.remainingDays = 0;
+  }
+
+
+  getTotalRemainingDays() {
+    return this.totalRemainingDays;
   }
 
   getRemainingDays() {
     return this.remainingDays;
   }
 
-  init() {
+  fetchTotalRemainingDays() {
     this.fetchApi({
       path: '/days',
       query: {
@@ -28,7 +36,19 @@ class DayStore extends BaseStore {
         summary: 1
       }
     }).then(response => {
-      this.remainingDays = response.count;
+      this.totalRemainingDays = response.count;
+      this.emitChange();
+    });
+  }
+
+  fetchRemainingDays() {
+    this.fetchApi({
+      path: '/days',
+      query: {
+        status: 'notWritten'
+      }
+    }).then(response => {
+      this.remainingDays = response;
       this.emitChange();
     });
   }
