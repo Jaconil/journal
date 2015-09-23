@@ -20,6 +20,7 @@
     "jsonwebtoken": "^5.0.2",
     "lodash": "^3.9.3",
     "moment": "^2.10.3",
+    "moment-range": "^2.0.3",
     "mongodb": "^1.4.38",
     "mongoskin": "^1.4.13",
     "react": "^0.13.3",

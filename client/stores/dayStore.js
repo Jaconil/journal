@@ -1,7 +1,6 @@
 'use strict';
 
 import request from 'superagent';
-import moment from 'moment';
 
 import BaseStore from './baseStore';
 
@@ -24,12 +23,12 @@ class DayStore extends BaseStore {
   init() {
     this.fetchApi({
       path: '/days',
-      query: {count: 1}
+      query: {
+        status: 'notWritten',
+        summary: 1
+      }
     }).then(response => {
-      var firstDay = moment(response.startDate);
-      var totalDays = moment().startOf('day').diff(firstDay, 'days');
-
-      this.remainingDays = totalDays - response.count;
+      this.remainingDays = response.count;
       this.emitChange();
     });
   }
