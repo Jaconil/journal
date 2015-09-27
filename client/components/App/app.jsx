@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import { Navigation } from 'react-router';
 
 import Header from './../Header/header.jsx';
 
@@ -10,15 +9,13 @@ import dayStore from '../../stores/dayStore';
 
 var App = React.createClass({
 
-  mixins: [ Navigation ],
-
   getInitialState: function() {
     return {
       isLogged: userStore.hasToken()
     };
   },
 
-  componentDidMount: function() {
+  componentWillMount: function() {
     userStore.addChangeListener(this.onTokenChange);
     dayStore.addChangeListener(this.onDataChange);
   },
@@ -29,8 +26,8 @@ var App = React.createClass({
   },
 
   onTokenChange: function() {
-    if (!userStore.hasToken()) {
-      this.transitionTo('login');
+    if (!userStore.hasToken() && this.props.location.pathname !== '/login') {
+      this.props.history.pushState(null, '/login');
     }
 
     this.setState({isLogged: userStore.hasToken()});

@@ -12,8 +12,8 @@ var Header = React.createClass({
     remainingDays: React.PropTypes.number.isRequired
   },
 
-  componentDidMount: function() {
-    dispatcher.emit(dayEvents.FETCH_REMAINING_DAYS_SUMMARY);
+  componentWillMount: function() {
+    dispatcher.emit(dayEvents.FETCH_TOTAL_REMAINING_DAYS);
   },
 
   render: function() {

@@ -16,7 +16,7 @@ class DayStore extends BaseStore {
     this.register(this, events.FETCH_REMAINING_DAYS, this.fetchRemainingDays);
 
     this.totalRemainingDays = 0;
-    this.remainingDays = 0;
+    this.remainingDays = [];
   }
 
 
@@ -45,7 +45,8 @@ class DayStore extends BaseStore {
     this.fetchApi({
       path: '/days',
       query: {
-        status: 'notWritten'
+        status: 'notWritten',
+        limit: 10
       }
     }).then(response => {
       this.remainingDays = response;

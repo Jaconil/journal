@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { Navigation } from 'react-router';
+import { History } from 'react-router';
 import classNames from 'classnames'
 
 import userStore, { events as userEvents } from '../../stores/userStore';
@@ -9,7 +9,7 @@ import dispatcher from '../../dispatcher';
 
 var LoginBox = React.createClass({
 
-  mixins: [ Navigation ],
+  mixins: [ History ],
 
   getInitialState: function() {
     return {
@@ -19,9 +19,8 @@ var LoginBox = React.createClass({
     };
   },
 
-  componentDidMount: function() {
+  componentWillMount: function() {
     userStore.addChangeListener(this.onLogin);
-
     dispatcher.emit(userEvents.CLEAR);
   },
 
@@ -36,7 +35,7 @@ var LoginBox = React.createClass({
     }
 
     if (userStore.hasToken()) {
-      this.transitionTo('write');
+      this.history.pushState(null, '/write');
     } else {
       this.setState({
         fade: false,
