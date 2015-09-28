@@ -23,5 +23,5 @@ module.exports = (db, jwt, logger, config) => {
         });
       });
     }
-  }
+  };
 };

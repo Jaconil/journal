@@ -1,0 +1,37 @@
+{
+  "checkbuild": {
+    "enable": ["eslint", "david"],
+    "continueOnError": true,
+    "allowFailures": false
+  },
+
+  "david": {
+    "warn": {
+      "E404": true
+    }
+  },
+
+  "eslint": {
+    "args": ["client/**/*.js", "client/**/*.jsx", "server/**/*.js"]
+  },
+
+  "jscs": {
+    "args": ["client/**/*.js", "client/**/*.jsx", "server/**/*.js"]
+  },
+
+  "jsinspect": {
+    "args": ["client/**/*.js", "client/**/*.jsx", "server/**/*.js"],
+    "diff": true
+  },
+
+  "plato": {
+    "args": ["*.js"],
+    "maintainability": 75.00
+  },
+
+  "david": {
+    "dev": false,
+    "stable": true,
+    "ignore": []
+  }
+}

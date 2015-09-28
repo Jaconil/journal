@@ -16,5 +16,5 @@ module.exports = (jwt, logger, config) => {
     } else {
       return res.status(401).send('No token provided');
     }
-  }
+  };
 };

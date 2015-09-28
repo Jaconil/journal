@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { History } from 'react-router';
-import classNames from 'classnames'
+import classNames from 'classnames';
 
 import userStore, { events as userEvents } from '../../stores/userStore';
 import dispatcher from '../../dispatcher';

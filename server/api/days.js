@@ -119,5 +119,5 @@ module.exports = (db, logger) => {
         }
       });
     }
-  }
+  };
 };
