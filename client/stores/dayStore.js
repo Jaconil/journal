@@ -1,7 +1,5 @@
 'use strict';
 
-import request from 'superagent';
-
 import BaseStore from './baseStore';
 
 export var events = {

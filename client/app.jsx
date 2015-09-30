@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { Router, Route, Link, Redirect } from 'react-router';
+import { Router, Route, Redirect } from 'react-router';
 import createHashHistory from 'history/lib/createHashHistory';
 
 import App from './components/App/app.jsx';

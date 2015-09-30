@@ -3,18 +3,19 @@
 var defaultConfig = {
   port: 1337,
 
-  db_host: null,
-  db_port: null,
-  db_name: null,
-  db_user: null,
-  db_password: null,
+  dbHost: null,
+  dbPort: null,
+  dbName: null,
+  dbUser: null,
+  dbPassword: null,
 
-  jwt_secret: 'secretKey'
+  jwtSecret: 'secretKey'
 };
 
 // Env variables assignment
 module.exports = _.mapValues(defaultConfig, (defaultValue, key) => {
-  var value = process.env['npm_config_' + key] || process.env[key.toUpperCase()] || defaultValue;
+  var snakeKey = _.snakeCase(key);
+  var value = process.env['npm_config_' + snakeKey] || process.env[snakeKey.toUpperCase()] || defaultValue;
 
   if (value === null) {
     throw new Error('Env variable ' + key.toUpperCase() + ' is required but undefined');

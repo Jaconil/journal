@@ -9,10 +9,10 @@ var logger = require('./logger')();
 var db = require('mongoskin').db(unescape(url.format({
   protocol: 'mongodb',
   slashes: true,
-  hostname: config.db_host,
-  port: config.db_port,
-  pathname: config.db_name,
-  auth: config.db_user + ':' + config.db_password
+  hostname: config.dbHost,
+  port: config.dbPort,
+  pathname: config.dbName,
+  auth: config.dbUser + ':' + config.dbPassword
 })));
 
 var app = express();

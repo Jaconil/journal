@@ -9,7 +9,7 @@ import dispatcher from '../../dispatcher';
 
 var LoginBox = React.createClass({
 
-  mixins: [ History ],
+  mixins: [History],
 
   getInitialState: function() {
     return {

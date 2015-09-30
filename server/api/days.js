@@ -16,7 +16,7 @@ module.exports = (db, logger) => {
     var list = [];
     var range = moment.range(start, end);
 
-    range.by('days', function(day) {
+    range.by('days', (day) => {
       list.push({
         date: day.format('YYYY-MM-DD'),
         status: STATUSES.notWritten
@@ -96,8 +96,11 @@ module.exports = (db, logger) => {
 
         // hydrate the results
         _.each(days, day => {
-          var d = _.where(listDays, {date: day.date});
-          _.assign(d[0], day);
+          _.chain(listDays)
+            .where({date: day.date})
+            .first()
+            .assign(day)
+            .commit();
         });
 
         // filter the results
@@ -114,9 +117,9 @@ module.exports = (db, logger) => {
           return res.status(200).json({
             count: listDays.length
           });
-        } else {
-          return res.status(200).json(listDays);
         }
+
+        return res.status(200).json(listDays);
       });
     }
   };

@@ -8,10 +8,10 @@ module.exports = (jwt, logger, config) => {
       jwt.verify(token, config.jwt_secret, (err, decoded) => {
         if (err) {
           return res.status(401).json('Invalid token');
-        } else {
-          req.decoded = decoded;
-          next();
         }
+
+        req.decoded = decoded;
+        next();
       });
     } else {
       return res.status(401).send('No token provided');

@@ -1,6 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
 import crypto from 'crypto';
 
 import BaseStore, { events as baseEvents } from './baseStore';
