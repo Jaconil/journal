@@ -36,7 +36,8 @@
   },
   "scripts": {
     "prepublish": "$(npm bin)/grunt prod",
-    "start": "node server/app.js"
+    "start": "node server/app.js",
+    "test": "check-build"
   },
   "main": "server/app.js",
   "repository": {

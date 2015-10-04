@@ -17,7 +17,6 @@ class DayStore extends BaseStore {
     this.remainingDays = [];
   }
 
-
   getTotalRemainingDays() {
     return this.totalRemainingDays;
   }
