@@ -43,9 +43,17 @@ module.exports = function(grunt) {
     },
 
     watch: {
-      assets: {
-        files: ['client/**/*'],
-        tasks: ['default'],
+      js: {
+        files: ['client/**/*.js', 'client/**/*.jsx'],
+        tasks: ['browserify'],
+        options: {
+          interrupt: true,
+          debounce: 500
+        }
+      },
+      less: {
+        files: ['client/**/*.less'],
+        tasks: ['less'],
         options: {
           interrupt: true,
           debounce: 500

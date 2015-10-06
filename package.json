@@ -35,7 +35,7 @@
     "check-build": "^2.2.1"
   },
   "scripts": {
-    "prepublish": "$(npm bin)/grunt prod",
+    "prepublish": "grunt prod",
     "start": "node server/app.js",
     "test": "check-build"
   },
