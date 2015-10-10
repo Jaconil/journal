@@ -24,7 +24,8 @@
     "moment-range": "^2.0.3",
     "mongodb": "^2.0.0",
     "mongoskin": "^2.0.0",
-    "react": "^0.13.3",
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0",
     "react-router": "^1.0.0-rc1",
     "reactify": "^1.1.1",
     "superagent": "^1.2.0",
@@ -45,6 +46,6 @@
     "url": "git@github.com:Jaconil/journal.git"
   },
   "engines": {
-    "node" : ">=4.0.0"
+    "node": ">=4.0.0"
   }
 }
