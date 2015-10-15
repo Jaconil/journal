@@ -31,7 +31,7 @@ class UserStore extends BaseStore {
 
     this.fetchApi({
       path: '/user/login',
-      query: {username: username, password: hash}
+      query: { username: username, password: hash }
     }).then(response => {
       this.setToken(response.token);
     }).catch(() => {

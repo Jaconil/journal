@@ -12,5 +12,6 @@ module.exports = function(options) {
       }, options))
     ]
   });
+
   return logger;
 };

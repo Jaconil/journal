@@ -28,7 +28,9 @@ var WritePage = React.createClass({
   },
 
   onDaysChange: function() {
-    this.setState({remainingDays: dayStore.getRemainingDays()});
+    this.setState({
+      remainingDays: dayStore.getRemainingDays()
+    });
   },
 
   render: function() {

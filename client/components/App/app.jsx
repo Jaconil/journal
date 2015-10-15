@@ -30,7 +30,9 @@ var App = React.createClass({
       this.props.history.pushState(null, '/login');
     }
 
-    this.setState({isLogged: userStore.hasToken()});
+    this.setState({
+      isLogged: userStore.hasToken()
+    });
   },
 
   onDataChange: function() {

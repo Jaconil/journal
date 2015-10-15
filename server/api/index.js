@@ -3,7 +3,7 @@
 var jwt = require('jsonwebtoken');
 
 module.exports = (express, db, logger, config) => {
-  var router = express.Router();
+  var router = new express.Router();
 
   var checkToken = require('./middlewares/checkToken')(jwt, logger, config);
 

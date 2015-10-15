@@ -8,6 +8,7 @@ var STATUSES = {
 };
 
 var moment = require('moment');
+
 require('moment-range');
 
 module.exports = (db, logger) => {
@@ -79,8 +80,8 @@ module.exports = (db, logger) => {
       // build the db query
       var whereFilter = {
         date: {
-          '$gte': fromDate.format('YYYY-MM-DD'),
-          '$lte': toDate.format('YYYY-MM-DD')
+          $gte: fromDate.format('YYYY-MM-DD'),
+          $lte: toDate.format('YYYY-MM-DD')
         }
       };
 
@@ -97,7 +98,7 @@ module.exports = (db, logger) => {
         // hydrate the results
         _.each(days, day => {
           _.chain(listDays)
-            .where({date: day.date})
+            .where({ date: day.date })
             .first()
             .assign(day)
             .commit();
