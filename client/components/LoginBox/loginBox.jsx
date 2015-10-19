@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { History } from 'react-router';
 import classNames from 'classnames';
 
@@ -48,8 +49,8 @@ var LoginBox = React.createClass({
   onSubmit: function(event) {
     event.preventDefault();
 
-    var username = React.findDOMNode(this.refs.username).value;
-    var password = React.findDOMNode(this.refs.password).value;
+    var username = ReactDOM.findDOMNode(this.refs.username).value;
+    var password = ReactDOM.findDOMNode(this.refs.password).value;
 
     dispatcher.emit(userEvents.LOGIN, username, password);
   },
