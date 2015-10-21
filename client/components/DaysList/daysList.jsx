@@ -32,6 +32,11 @@ var DaysList = React.createClass({
 
   componentDidUpdate: function() {
     var items = this.refs.list.childNodes;
+
+    if (!items.length) {
+      return;
+    }
+
     var firstItemStyle = window.getComputedStyle(items[0]);
     var lastItemStyle = window.getComputedStyle(items[items.length - 1]);
 

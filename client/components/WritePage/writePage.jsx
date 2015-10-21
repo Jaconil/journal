@@ -14,7 +14,8 @@ var WritePage = React.createClass({
 
   getInitialState: function() {
     return {
-      remainingDays: []
+      remainingDays: [],
+      selectedDay: 0
     };
   },
 
@@ -34,25 +35,24 @@ var WritePage = React.createClass({
     });
   },
 
+  selectNextDay: function() {
+    this.setState({
+      selectedDay: this.state.selectedDay + 1
+    });
+  },
+
   render: function() {
 
     var days = this.state.remainingDays.map(function(day) {
       return (
-        <Day status="notWritten" date={day.date} key={day.date} />
+        <Day status="notWritten" date={day.date} key={day.date} onSubmit={this.selectNextDay} />
       );
-    });
+    }.bind(this));
 
     return (
       <section className="page writePage">
-        <DaysList selected={0}>
-          <div className="item">1</div>
-          <div className="item">2</div>
-          <div className="item">3</div>
-          <div className="item">4</div>
-          <div className="item">5</div>
-          <div className="item">6</div>
-          <div className="item">7</div>
-          <div className="item">8</div>
+        <DaysList selected={this.state.selectedDay}>
+          {days}
         </DaysList>
       </section>
     );

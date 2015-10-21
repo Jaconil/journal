@@ -4,6 +4,10 @@ import React from 'react';
 
 var Day = React.createClass({
 
+  handleClick: function() {
+    this.props.onSubmit();
+  },
+
   render: function() {
     return (
       <section className="day write">
@@ -13,7 +17,7 @@ var Day = React.createClass({
         </header>
         <div className="actions">
           <button><i className="fa fa-close"></i></button>
-          <button><i className="fa fa-check"></i></button>
+          <button onClick={this.handleClick}><i className="fa fa-check"></i></button>
         </div>
         <textarea></textarea>
       </section>
