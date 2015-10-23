@@ -13,6 +13,13 @@ require('moment-range');
 
 module.exports = (db, logger) => {
 
+  /**
+   * Builds a list of notWritten days between 2 dates
+   *
+   * @param {date} start - Start date
+   * @param {date} end   - End date
+   * @returns {Array} Array of days
+   */
   function buildListDays(start, end) {
     var list = [];
     var range = moment.range(start, end);
@@ -38,9 +45,9 @@ module.exports = (db, logger) => {
      *   - status : written, notWritten
      *   - limit: limits the number of days to display
      *
-     * @param req
-     * @param res
-     * @returns {*}
+     * @param {object} req - Request
+     * @param {object} res - Response
+     * @returns {json} Array of days
      */
     find: (req, res) => {
 

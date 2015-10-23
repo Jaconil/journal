@@ -28,7 +28,7 @@
     "react-dom": "^0.14.0",
     "react-router": "^1.0.0-rc1",
     "reactify": "^1.1.1",
-    "scroll": "0.0.3",
+    "scroll": "1.0.0",
     "superagent": "^1.2.0",
     "when": "^3.7.3",
     "winston": "^1.0.0"

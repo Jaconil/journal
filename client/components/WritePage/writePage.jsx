@@ -43,11 +43,11 @@ var WritePage = React.createClass({
 
   render: function() {
 
-    var days = this.state.remainingDays.map(function(day) {
+    var days = this.state.remainingDays.map((day) => {
       return (
         <Day status="notWritten" date={day.date} key={day.date} onSubmit={this.selectNextDay} />
       );
-    }.bind(this));
+    });
 
     return (
       <section className="page writePage">
