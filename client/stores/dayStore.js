@@ -35,6 +35,8 @@ class DayStore extends BaseStore {
     }).then(response => {
       this.totalRemainingDays = response.count;
       this.emitChange();
+    }).catch(() => {
+      // Do nothing for now
     });
   }
 
@@ -48,6 +50,8 @@ class DayStore extends BaseStore {
     }).then(response => {
       this.remainingDays = response;
       this.emitChange();
+    }).catch(() => {
+      // Do nothing for now
     });
   }
 }

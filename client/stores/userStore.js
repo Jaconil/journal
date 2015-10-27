@@ -34,10 +34,9 @@ class UserStore extends BaseStore {
       query: { username: username, password: hash }
     }).then(response => {
       this.setToken(response.token);
+      this.emitChange();
     }).catch(() => {
       // do nothing for now
-    }).finally(() => {
-      this.emitChange();
     });
   }
 }
