@@ -14,13 +14,16 @@ section.day {
     font-family: "Trebuchet MS", Helvetica, sans-serif;
 
     div.status {
-      background-color: @green;
       width: 20px;
       height: 20px;
       float: left;
       margin-top: 16px;
-      margin-left: 2%;
+      margin-left: 16px;
       border-radius: 10px;
+
+      &.written {
+        background-color: @green;
+      }
 
       &.not-written {
         background-color: @red;
@@ -30,7 +33,7 @@ section.day {
     h1 {
       line-height: 50px;
       margin: 0;
-      margin-left: 60px;
+      margin-left: 52px;
     }
 
     &::after {
