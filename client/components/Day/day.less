@@ -8,6 +8,11 @@ section.day {
   border-radius: 5px 5px;
   position: relative;
   margin-bottom: 30px;
+  transition: all 0.4s ease-in-out;
+
+  &.disabled {
+    opacity: 0.5;
+  }
 
   header {
     height: 50px;
@@ -34,6 +39,7 @@ section.day {
       line-height: 50px;
       margin: 0;
       margin-left: 52px;
+      font-size: 1.2rem;
     }
 
     &::after {

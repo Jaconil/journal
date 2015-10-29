@@ -43,14 +43,22 @@ var WritePage = React.createClass({
 
   render: function() {
 
-    var days = this.state.remainingDays.map((day) => {
+    var days = this.state.remainingDays.map((day, index) => {
+
+      if (index === this.state.selectedDay) {
+        return (
+          <Day data={day} key={day.date} onSubmit={this.selectNextDay} />
+        );
+      }
+
       return (
-        <Day status="toWrite" data={day} key={day.date} onSubmit={this.selectNextDay} />
+        <Day data={day} key={day.date} disabled />
       );
+
     });
 
     return (
-      <section className="page writePage animated bounceIn">
+      <section className="page writePage animated fadeIn">
         <DaysList selected={this.state.selectedDay}>
           {days}
         </DaysList>
