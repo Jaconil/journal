@@ -18,7 +18,7 @@ module.exports = (db, jwt, logger, config) => {
 
         return res.status(200).json({
           token: jwt.sign({ id: user.id }, config.jwtSecret, {
-            expiresInMinutes: 30
+            expiresIn: 30 * 60
           })
         });
       });
