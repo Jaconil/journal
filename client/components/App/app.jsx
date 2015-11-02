@@ -5,7 +5,7 @@ import React from 'react';
 import Header from './../Header/header.jsx';
 
 import userStore from '../../stores/userStore';
-import dayStore from '../../stores/dayStore';
+import daysStore from '../../stores/daysStore';
 
 var App = React.createClass({
 
@@ -17,12 +17,12 @@ var App = React.createClass({
 
   componentWillMount: function() {
     userStore.addChangeListener(this.onTokenChange);
-    dayStore.addChangeListener(this.onDataChange);
+    daysStore.addChangeListener(this.onDataChange);
   },
 
   componentWillUnmount: function() {
     userStore.removeChangeListener(this.onTokenChange);
-    dayStore.removeChangeListener(this.onDataChange);
+    daysStore.removeChangeListener(this.onDataChange);
   },
 
   onTokenChange: function() {
@@ -42,7 +42,7 @@ var App = React.createClass({
   render: function() {
     return (
       <div className="app-container">
-        {this.state.isLogged ? <Header remainingDays={dayStore.getTotalRemainingDays()} /> : null}
+        {this.state.isLogged ? <Header remainingDays={daysStore.getTotalRemainingDays()} /> : null}
         {this.props.children}
       </div>
     );

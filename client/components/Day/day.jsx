@@ -5,6 +5,8 @@ import moment from 'moment';
 import classNames from 'classnames';
 import _ from 'lodash';
 
+import dispatcher from '../../dispatcher';
+
 import 'moment/locale/fr';
 
 var Day = React.createClass({
@@ -19,7 +21,7 @@ var Day = React.createClass({
   },
 
   handleClick: function() {
-    dispatcher.emit(dayEvents.UPDATEDAY, this.refs.content.value);
+    dispatcher.emit(events.day.UPDATE, this.refs.content.value);
     this.props.onSubmit();
   },
 

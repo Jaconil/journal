@@ -3,7 +3,6 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import { events as dayEvents } from '../../stores/dayStore';
 import dispatcher from '../../dispatcher';
 
 var Header = React.createClass({
@@ -13,7 +12,7 @@ var Header = React.createClass({
   },
 
   componentWillMount: function() {
-    dispatcher.emit(dayEvents.FETCH_TOTAL_REMAINING_DAYS);
+    dispatcher.emit(events.days.FETCH_TOTAL_REMAINING_DAYS);
   },
 
   render: function() {

@@ -3,11 +3,11 @@
 import BaseStore from './baseStore';
 
 export var events = {
-  FETCH_TOTAL_REMAINING_DAYS: 'day.fetchTotalRemainingDays',
-  FETCH_REMAINING_DAYS: 'day.fetchRemainingDays'
+  FETCH_TOTAL_REMAINING_DAYS: 'days.fetchTotalRemainingDays',
+  FETCH_REMAINING_DAYS: 'days.fetchRemainingDays'
 };
 
-class DayStore extends BaseStore {
+class DaysStore extends BaseStore {
   constructor() {
     super();
     this.register(this, events.FETCH_TOTAL_REMAINING_DAYS, this.fetchTotalRemainingDays);
@@ -56,4 +56,4 @@ class DayStore extends BaseStore {
   }
 }
 
-export default new DayStore();
+export default new DaysStore();

@@ -139,7 +139,8 @@
     "modules": true
   },
   "globals": {
-    "_": false
+    "_": false,
+    "events": false
   },
   "plugins": [
     "react"

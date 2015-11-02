@@ -4,7 +4,7 @@ import React from 'react';
 import { History } from 'react-router';
 import classNames from 'classnames';
 
-import userStore, { events as userEvents } from '../../stores/userStore';
+import userStore from '../../stores/userStore';
 import dispatcher from '../../dispatcher';
 
 var LoginBox = React.createClass({
@@ -21,7 +21,7 @@ var LoginBox = React.createClass({
 
   componentWillMount: function() {
     userStore.addChangeListener(this.onLogin);
-    dispatcher.emit(userEvents.CLEAR);
+    dispatcher.emit(events.user.CLEAR);
   },
 
   componentWillUnmount: function() {
@@ -51,7 +51,7 @@ var LoginBox = React.createClass({
     var username = this.refs.username.value;
     var password = this.refs.password.value;
 
-    dispatcher.emit(userEvents.LOGIN, username, password);
+    dispatcher.emit(events.user.LOGIN, username, password);
   },
 
   render: function() {

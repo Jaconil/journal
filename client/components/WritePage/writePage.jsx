@@ -5,9 +5,8 @@ import React from 'react';
 import Day from './../Day/day.jsx';
 import DaysList from './../DaysList/daysList.jsx';
 
-import dayStore from '../../stores/dayStore';
+import dayStore from '../../stores/daysStore';
 
-import { events as dayEvents } from '../../stores/dayStore';
 import dispatcher from '../../dispatcher';
 
 var WritePage = React.createClass({
@@ -20,7 +19,7 @@ var WritePage = React.createClass({
   },
 
   componentDidMount: function() {
-    dispatcher.emit(dayEvents.FETCH_REMAINING_DAYS);
+    dispatcher.emit(events.days.FETCH_REMAINING_DAYS);
 
     dayStore.addChangeListener(this.onDaysChange);
   },
