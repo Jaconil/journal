@@ -19,16 +19,22 @@ class BaseStore extends EventEmitter {
     dispatcher.on(event, handler.bind(currentStore));
   }
 
-  addChangeListener(callback) {
-    this.addListener('change', callback);
+  addChangeListener(callback, context) {
+    var event = _(['change', context]).compact().join('.');
+
+    this.addListener(event, callback);
   }
 
-  removeChangeListener(callback) {
-    this.removeListener('change', callback);
+  removeChangeListener(callback, context) {
+    var event = _(['change', context]).compact().join('.');
+
+    this.removeListener(event, callback);
   }
 
-  emitChange() {
-    this.emit('change');
+  emitChange(context) {
+    var event = _(['change', context]).compact().join('.');
+
+    this.emit(event);
   }
 
   setToken(token) {

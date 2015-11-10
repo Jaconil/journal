@@ -13,8 +13,8 @@ var LoginBox = React.createClass({
 
   getInitialState: function() {
     return {
-      fade: true,
-      shake: false,
+      fade: true, // nbLogin === 0
+      shake: false, // nbLogin > 0
       nbLogin: 0
     };
   },
