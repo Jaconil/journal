@@ -13,8 +13,6 @@ var LoginBox = React.createClass({
 
   getInitialState: function() {
     return {
-      fade: true, // nbLogin === 0
-      shake: false, // nbLogin > 0
       nbLogin: 0
     };
   },
@@ -29,19 +27,12 @@ var LoginBox = React.createClass({
   },
 
   onLogin: function() {
-    if (this.state.nbLogin === 0) {
-      this.state.nbLogin = 1;
-      return;
-    }
+    this.setState({
+      nbLogin: this.state.nbLogin + 1
+    });
 
     if (userStore.hasToken()) {
       this.history.pushState(null, '/write');
-    } else {
-      this.setState({
-        fade: false,
-        shake: true,
-        nbLogin: this.state.nbLogin + 1
-      });
     }
   },
 
@@ -60,8 +51,8 @@ var LoginBox = React.createClass({
       'login-box',
       'animated',
       {
-        fadeInDown: this.state.fade,
-        shake: this.state.shake
+        fadeInDown: this.state.nbLogin <= 1,
+        shake: this.state.nbLogin > 1
       }
     );
 
