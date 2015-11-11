@@ -14,6 +14,7 @@ module.exports = (express, db, logger, config) => {
 
   router.use(checkToken);
   router.get('/days', days.find);
+  router.put('/days/:date', days.update);
 
   return router;
 };

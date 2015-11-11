@@ -129,6 +129,44 @@ module.exports = (db, logger) => {
 
         return res.status(200).json(listDays);
       });
+    },
+
+    /**
+     * Updates a day
+     *
+     * Payload should contain
+     *   - content: Content of the day
+     *   - status: written, notWritten
+     *
+     * @param {object} req - Request
+     * @param {object} res - Response
+     * @returns {json} Updated day
+     */
+    update: (req, res) => {
+      var date = moment(req.params.date, 'YYYY-MM-DD').startOf('day');
+
+      if (!date.isValid()) {
+        return res.status(400).json('Invalid date given');
+      }
+
+      if (!req.body || !req.body.content || !req.body.status) {
+        return res.status(400).json('Invalid payload');
+      }
+
+      var day = {
+        date: req.params.date,
+        content: req.body.content,
+        status: req.body.status
+      };
+
+      db.collection('day').updateOne({date: req.params.date}, day, {upsert: true}, function(err) {
+        if (err) {
+          logger.error(err);
+          return res.status(500).json(err.errmsg);
+        }
+
+        return res.status(200).json(day);
+      });
     }
   };
 };
