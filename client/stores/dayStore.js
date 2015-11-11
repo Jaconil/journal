@@ -22,8 +22,8 @@ class DayStore extends BaseStore {
 
     this.fetchApi({
       method: 'PUT',
-      path: '/days',
-      payload: day
+      path: '/days/' + date,
+      body: day
     }).then(response => {
       this.emitChange(date);
     }).catch(() => {

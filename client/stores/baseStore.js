@@ -3,6 +3,7 @@
 import { EventEmitter } from 'events';
 import request from 'superagent';
 import when from 'when';
+import _ from 'lodash';
 
 import dispatcher from '../dispatcher';
 
