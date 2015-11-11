@@ -1,5 +1,6 @@
 'use strict';
 
+import moment from 'moment';
 import BaseStore from './baseStore';
 
 export var events = {
@@ -26,11 +27,14 @@ class DaysStore extends BaseStore {
   }
 
   fetchTotalRemainingDays() {
+    var startDate = moment().subtract(30, 'days');
+
     this.fetchApi({
       path: '/days',
       query: {
         status: 'notWritten',
-        summary: 1
+        summary: 1,
+        from: startDate.format('YYYY-MM-DD')
       }
     }).then(response => {
       this.totalRemainingDays = response.count;
@@ -41,11 +45,14 @@ class DaysStore extends BaseStore {
   }
 
   fetchRemainingDays() {
+    var startDate = moment().subtract(30, 'days');
+
     this.fetchApi({
       path: '/days',
       query: {
         status: 'notWritten',
-        limit: 10
+        limit: 10,
+        from: startDate.format('YYYY-MM-DD')
       }
     }).then(response => {
       this.remainingDays = response;
