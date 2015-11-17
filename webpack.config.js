@@ -1,12 +1,13 @@
+var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  context: __dirname + '/public',
-  entry: '../client/app.jsx',
+  context: path.join(__dirname, 'public'),
+  entry: path.join('..', 'client', 'app.jsx'),
   output: {
-    path: __dirname + '/public',
-    filename: '[name].min.js'
+    path: path.join(__dirname, 'public'),
+    filename: 'app.min.js'
   },
   module: {
     loaders: [
@@ -27,12 +28,12 @@ module.exports = {
     ]
   },
   plugins: [
-    new ExtractTextPlugin('[name].min.css'),
-    new webpack.optimize.UglifyJsPlugin({
-      minimize: true,
-      compress: {
-        warnings: false
-      }
-    })
+    new ExtractTextPlugin('app.min.css'),
+    //new webpack.optimize.UglifyJsPlugin({
+    //  minimize: true,
+    //  compress: {
+    //    warnings: false
+    //  }
+    //})
   ]
 };

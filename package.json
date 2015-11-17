@@ -23,8 +23,11 @@
     "mongoskin": "^2.0.0",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
+    "react-redux": "^4.0.0",
     "react-router": "^1.0.0-rc1",
     "reactify": "^1.1.1",
+    "redux": "^3.0.4",
+    "redux-router": "^1.0.0-beta4",
     "scroll": "1.0.0",
     "style-loader": "^0.13.0",
     "superagent": "^1.2.0",
@@ -37,7 +40,6 @@
     "check-build": "^2.2.1"
   },
   "scripts": {
-    "prepublish": "grunt prod",
     "start": "node server/app.js",
     "test": "check-build",
     "webpack": "webpack",
