@@ -8,6 +8,8 @@ import _ from 'lodash';
 import dayStore from '../../stores/dayStore';
 import dispatcher from '../../dispatcher';
 
+import './day.less';
+
 import 'moment/locale/fr';
 
 var Day = React.createClass({

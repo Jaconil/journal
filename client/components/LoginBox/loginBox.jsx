@@ -7,6 +7,8 @@ import classNames from 'classnames';
 import userStore from '../../stores/userStore';
 import dispatcher from '../../dispatcher';
 
+import './loginBox.less';
+
 var LoginBox = React.createClass({
 
   mixins: [History],

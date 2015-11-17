@@ -5,6 +5,8 @@ import { Link } from 'react-router';
 
 import dispatcher from '../../dispatcher';
 
+import './header.less';
+
 var Header = React.createClass({
 
   propTypes: {

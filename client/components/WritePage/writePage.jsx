@@ -9,6 +9,8 @@ import dayStore from '../../stores/daysStore';
 
 import dispatcher from '../../dispatcher';
 
+import './writePage.less';
+
 var WritePage = React.createClass({
 
   getInitialState: function() {

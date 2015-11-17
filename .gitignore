@@ -2,7 +2,8 @@ node_modules
 npm-debug.log
 .node-version
 
-public/app.min.*
+public/*.min.*
+public/images/*
 
 *~
 .DS_STORE

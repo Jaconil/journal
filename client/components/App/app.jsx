@@ -7,6 +7,8 @@ import Header from './../Header/header.jsx';
 import userStore from '../../stores/userStore';
 import daysStore from '../../stores/daysStore';
 
+import './app.less';
+
 var App = React.createClass({
 
   getInitialState: function() {

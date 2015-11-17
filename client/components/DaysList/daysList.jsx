@@ -4,6 +4,8 @@ import React from 'react';
 import _ from 'lodash';
 import scroll from 'scroll';
 
+import './daysList.less';
+
 var DaysList = React.createClass({
 
   propTypes: {

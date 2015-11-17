@@ -1,7 +1,12 @@
+var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 module.exports = {
-  entry: './client/app.jsx',
+  context: __dirname + '/public',
+  entry: '../client/app.jsx',
   output: {
-    filename: './public/bundle.js'
+    path: __dirname + '/public',
+    filename: '[name].min.js'
   },
   module: {
     loaders: [
@@ -14,11 +19,20 @@ module.exports = {
         }
       }, {
         test: /\.less$/,
-        loader: 'style!css!less'
+        loader: ExtractTextPlugin.extract('style', 'css!less')
       }, {
         test: /\.png$/,
-        loader: 'url?limit=100000'
+        loader: 'url?limit=1000&name=images/[name].[ext]?[hash:6]'
       }
     ]
-  }
+  },
+  plugins: [
+    new ExtractTextPlugin('[name].min.css'),
+    new webpack.optimize.UglifyJsPlugin({
+      minimize: true,
+      compress: {
+        warnings: false
+      }
+    })
+  ]
 };
