@@ -23,7 +23,7 @@ const reducer = combineReducers({
 });
 
 const store = compose(
-  reduxReactRouter({ createHistory })
+  reduxReactRouter({ createHistory: createHistory.bind(undefined, {queryKey: false}) })
 )(createStore)(reducer);
 
 ReactDOM.render((
