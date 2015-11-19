@@ -3,6 +3,7 @@
 global._ = require('lodash');
 
 var url = require('url');
+var path = require('path');
 var express = require('express');
 var bodyParser = require('body-parser');
 
@@ -23,5 +24,9 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 
 app.use('/api', require('./api')(express, db, logger, config));
+
+app.get('*', function (request, response){
+  response.sendFile(path.resolve('public', 'index.html'));
+});
 
 app.listen(config.port, () => logger.info('server launched'));

@@ -1,6 +1,7 @@
 'use strict';
 
 /* eslint no-unused-vars: 0 */
+import _ from 'lodash';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, compose, combineReducers } from 'redux';
@@ -8,7 +9,8 @@ import { Provider } from 'react-redux';
 
 import { Route, Redirect } from 'react-router';
 import { routerStateReducer, reduxReactRouter, ReduxRouter } from 'redux-router';
-import createHistory from 'history/lib/createHashHistory';
+import { createHistory, useBasename } from 'history';
+
 
 import App from './components/App/app.jsx';
 import LoginBox from './components/LoginBox/loginBox.jsx';
@@ -22,8 +24,12 @@ const reducer = combineReducers({
   router: routerStateReducer
 });
 
+const history = _.partial(useBasename(createHistory), {
+  basename: process.env.BASEPATH
+});
+
 const store = compose(
-  reduxReactRouter({ createHistory: createHistory.bind(undefined, {queryKey: false}) })
+  reduxReactRouter({ createHistory: history })
 )(createStore)(reducer);
 
 ReactDOM.render((
