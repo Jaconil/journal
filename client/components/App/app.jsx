@@ -9,25 +9,26 @@ import daysStore from '../../stores/daysStore';
 
 import './app.less';
 
-var App = React.createClass({
+class App extends React.Component {
 
-  getInitialState: function() {
-    return {
+  constructor(props) {
+    super(props);
+    this.state = {
       isLogged: userStore.hasToken()
     };
-  },
+  }
 
-  componentWillMount: function() {
+  componentWillMount() {
     userStore.addChangeListener(this.onTokenChange);
     daysStore.addChangeListener(this.onDataChange);
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     userStore.removeChangeListener(this.onTokenChange);
     daysStore.removeChangeListener(this.onDataChange);
-  },
+  }
 
-  onTokenChange: function() {
+  onTokenChange() {
     if (!userStore.hasToken() && this.props.location.pathname !== '/login') {
       this.props.history.pushState(null, '/login');
     }
@@ -35,13 +36,13 @@ var App = React.createClass({
     this.setState({
       isLogged: userStore.hasToken()
     });
-  },
+  }
 
-  onDataChange: function() {
+  onDataChange() {
     this.forceUpdate();
-  },
+  }
 
-  render: function() {
+  render() {
     return (
       <div className="app-container">
         {this.state.isLogged ? <Header remainingDays={daysStore.getTotalRemainingDays()} /> : null}
@@ -49,6 +50,6 @@ var App = React.createClass({
       </div>
     );
   }
-});
+}
 
 export default App;
