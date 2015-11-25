@@ -6,33 +6,31 @@ import scroll from 'scroll';
 
 import './daysList.less';
 
-var DaysList = React.createClass({
+class DaysList extends React.Component {
 
-  propTypes: {
-    selected: React.PropTypes.number.isRequired
-  },
-
-  getInitialState: function() {
-    return {
+  constructor(props) {
+    super(props);
+    this.handleResize = this.handleResize.bind(this);
+    this.state = {
       windowHeight: window.innerHeight
     };
-  },
+  }
 
-  handleResize: function() {
+  handleResize() {
     this.setState({
       windowHeight: window.innerHeight
     });
-  },
+  }
 
-  componentDidMount: function() {
+  componentDidMount() {
     window.addEventListener('resize', this.handleResize);
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
-  },
+  }
 
-  componentDidUpdate: function() {
+  componentDidUpdate() {
     var items = this.refs.list.childNodes;
 
     if (!items.length) {
@@ -57,15 +55,19 @@ var DaysList = React.createClass({
     var topScroll = offsetDiff - heightDiff;
 
     scroll.top(this.refs.list, topScroll, { duration: 600 });
-  },
+  }
 
-  render: function() {
+  render() {
     return (
       <section className="daysList" ref="list">
         {this.props.children}
       </section>
     );
   }
-});
+}
+
+DaysList.propTypes = {
+  selected: React.PropTypes.number.isRequired
+};
 
 export default DaysList;

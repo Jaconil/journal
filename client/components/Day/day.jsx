@@ -1,6 +1,8 @@
 'use strict';
 
 import React from 'react';
+import { connect } from 'react-redux';
+
 import moment from 'moment';
 import classNames from 'classnames';
 import _ from 'lodash';
@@ -12,43 +14,41 @@ import './day.less';
 
 import 'moment/locale/fr';
 
-var Day = React.createClass({
+function setProps(state) {
+  return {};
+}
 
-  propTypes: {
-    data: React.PropTypes.shape({
-      date: React.PropTypes.string.isRequired,
-      status: React.PropTypes.string.isRequired
-    }).isRequired,
-    disabled: React.PropTypes.bool,
-    onSubmit: React.PropTypes.func
-  },
+class Day extends React.Component {
 
-  getInitialState: function() {
-    return {
+  constructor(props) {
+    super(props);
+    this.onChange = this.onChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.state = {
       day: this.props.data
     };
-  },
+  }
 
-  componentWillMount: function() {
+  componentWillMount() {
     dayStore.addChangeListener(this.onChange, this.state.day.date);
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     dayStore.removeChangeListener(this.onChange, this.state.day.date);
-  },
+  }
 
-  onChange: function() {
+  onChange() {
     this.setState({
       day: dayStore.getData()
     });
-  },
+  }
 
-  handleClick: function() {
+  handleClick() {
     dispatcher.emit(events.day.UPDATE, this.state.day.date, this.refs.content.value);
     this.props.onSubmit();
-  },
+  }
 
-  render: function() {
+  render() {
     var boxClasses = classNames('day', { disabled: this.props.disabled });
     var statusClasses = classNames('status', _.kebabCase(this.state.day.status));
 
@@ -77,6 +77,15 @@ var Day = React.createClass({
       </section>
     );
   }
-});
+}
 
-export default Day;
+Day.propTypes = {
+  data: React.PropTypes.shape({
+    date: React.PropTypes.string.isRequired,
+    status: React.PropTypes.string.isRequired
+  }).isRequired,
+  disabled: React.PropTypes.bool,
+  onSubmit: React.PropTypes.func
+};
+
+export default connect(setProps)(Day);

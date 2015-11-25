@@ -7,17 +7,13 @@ import dispatcher from '../../dispatcher';
 
 import './header.less';
 
-var Header = React.createClass({
+class Header extends React.Component {
 
-  propTypes: {
-    remainingDays: React.PropTypes.number.isRequired
-  },
-
-  componentWillMount: function() {
+  componentWillMount() {
     dispatcher.emit(events.days.FETCH_TOTAL_REMAINING_DAYS);
-  },
+  }
 
-  render: function() {
+  render() {
     return (
       <header className="header animated fadeInDown">
         <nav className="nav-header">
@@ -46,6 +42,10 @@ var Header = React.createClass({
       </header>
     );
   }
-});
+}
+
+Header.propTypes = {
+  remainingDays: React.PropTypes.number.isRequired
+};
 
 export default Header;

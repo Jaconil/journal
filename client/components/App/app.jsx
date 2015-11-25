@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import { connect } from 'react-redux';
 
 import Header from './../Header/header.jsx';
 
@@ -9,10 +10,16 @@ import daysStore from '../../stores/daysStore';
 
 import './app.less';
 
+function setProps(state) {
+  return {};
+}
+
 class App extends React.Component {
 
   constructor(props) {
     super(props);
+    this.onTokenChange = this.onTokenChange.bind(this);
+    this.onDataChange = this.onDataChange.bind(this);
     this.state = {
       isLogged: userStore.hasToken()
     };
@@ -52,4 +59,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default connect(setProps)(App);

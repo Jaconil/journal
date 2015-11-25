@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import { connect } from 'react-redux';
 
 import Day from './../Day/day.jsx';
 import DaysList from './../DaysList/daysList.jsx';
@@ -11,38 +12,44 @@ import dispatcher from '../../dispatcher';
 
 import './writePage.less';
 
-var WritePage = React.createClass({
+function setProps(state) {
+  return {};
+}
 
-  getInitialState: function() {
-    return {
+class WritePage extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.onDaysChange = this.onDaysChange.bind(this);
+    this.selectNextDay = this.selectNextDay.bind(this);
+    this.state = {
       remainingDays: [],
       selectedDay: 0
     };
-  },
+  }
 
-  componentDidMount: function() {
+  componentDidMount() {
     dispatcher.emit(events.days.FETCH_REMAINING_DAYS);
-
     dayStore.addChangeListener(this.onDaysChange);
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     dayStore.removeChangeListener(this.onDaysChange);
-  },
+  }
 
-  onDaysChange: function() {
+  onDaysChange() {
     this.setState({
       remainingDays: dayStore.getRemainingDays()
     });
-  },
+  }
 
-  selectNextDay: function() {
+  selectNextDay() {
     this.setState({
       selectedDay: this.state.selectedDay + 1
     });
-  },
+  }
 
-  render: function() {
+  render() {
 
     var days = this.state.remainingDays.map((day, index) => {
 
@@ -66,6 +73,6 @@ var WritePage = React.createClass({
       </section>
     );
   }
-});
+}
 
-export default WritePage;
+export default connect(setProps)(WritePage);
