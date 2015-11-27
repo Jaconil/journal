@@ -1,7 +1,9 @@
 'use strict';
 
 import React from 'react';
-import { History } from 'react-router';
+import { connect } from 'react-redux';
+import { pushState } from 'redux-router';
+
 import classNames from 'classnames';
 
 import userStore from '../../stores/userStore';
@@ -9,45 +11,50 @@ import dispatcher from '../../dispatcher';
 
 import './loginBox.less';
 
-var LoginBox = React.createClass({
+function setProps(state) {
+  return {};
+}
 
-  mixins: [History],
+class LoginBox extends React.Component {
 
-  getInitialState: function() {
-    return {
+  constructor(props) {
+    super(props);
+    this.onLogin = this.onLogin.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.state = {
       nbLogin: 0
     };
-  },
+  }
 
-  componentWillMount: function() {
+  componentWillMount() {
     userStore.addChangeListener(this.onLogin);
     dispatcher.emit(events.user.CLEAR);
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     userStore.removeChangeListener(this.onLogin);
-  },
+  }
 
-  onLogin: function() {
+  onLogin() {
     this.setState({
       nbLogin: this.state.nbLogin + 1
     });
 
     if (userStore.hasToken()) {
-      this.history.pushState(null, '/write');
+      this.props.dispatch(pushState(null, '/write'));
     }
-  },
+  }
 
-  onSubmit: function(event) {
+  onSubmit(event) {
     event.preventDefault();
 
     var username = this.refs.username.value;
     var password = this.refs.password.value;
 
     dispatcher.emit(events.user.LOGIN, username, password);
-  },
+  }
 
-  render: function() {
+  render() {
 
     var classes = classNames(
       'login-box',
@@ -67,6 +74,7 @@ var LoginBox = React.createClass({
       </form>
     );
   }
-});
 
-export default LoginBox;
+}
+
+export default connect(setProps)(LoginBox);
