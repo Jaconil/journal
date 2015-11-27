@@ -1,5 +1,7 @@
 'use strict';
 
+require('dotenv').load();
+
 var defaultConfig = {
   port: 1337,
 

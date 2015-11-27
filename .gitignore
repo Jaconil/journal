@@ -9,3 +9,4 @@ public/images/*
 .DS_STORE
 .idea
 .c9
+.env
