@@ -4,13 +4,12 @@
 import _ from 'lodash';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, compose, combineReducers } from 'redux';
+
 import { Provider } from 'react-redux';
-
 import { Route, Redirect } from 'react-router';
-import { routerStateReducer, reduxReactRouter, ReduxRouter } from 'redux-router';
-import { createHistory, useBasename } from 'history';
+import { ReduxRouter } from 'redux-router';
 
+import createStore from './store';
 
 import App from './components/App/app.jsx';
 import LoginBox from './components/LoginBox/loginBox.jsx';
@@ -20,17 +19,7 @@ import events from './events';
 
 global.events = events;
 
-const reducer = combineReducers({
-  router: routerStateReducer
-});
-
-const history = _.partial(useBasename(createHistory), {
-  basename: process.env.BASEPATH
-});
-
-const store = compose(
-  reduxReactRouter({ createHistory: history })
-)(createStore)(reducer);
+const store = createStore();
 
 ReactDOM.render((
   <Provider store={store}>
