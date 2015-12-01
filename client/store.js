@@ -7,10 +7,11 @@ import { routerStateReducer, reduxReactRouter } from 'redux-router';
 import { createHistory, useBasename } from 'history';
 
 var initialUserState = {
-  isLogged: false
+  isLogged: false,
+  token: ''
 };
 
-var userReducer = function (state = initialUserState, action) {
+var userReducer = function(state = initialUserState, action) {
   switch (action.type) {
     default:
       return state;

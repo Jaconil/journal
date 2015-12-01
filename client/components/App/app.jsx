@@ -11,7 +11,9 @@ import daysStore from '../../stores/daysStore';
 import './app.less';
 
 function setProps(state) {
-  return {};
+  return {
+    isLogged: state.user.isLogged
+  };
 }
 
 class App extends React.Component {
