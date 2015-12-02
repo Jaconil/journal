@@ -52,7 +52,6 @@ class LoginBox extends React.Component {
     var username = this.refs.username.value;
     var password = this.refs.password.value;
 
-    //dispatcher.emit(events.user.LOGIN, username, password);
     this.props.dispatch(login(username, password));
   }
 
@@ -62,8 +61,8 @@ class LoginBox extends React.Component {
       'login-box',
       'animated',
       {
-        fadeInDown: this.props.nbLogin <= 1,
-        shake: this.props.nbLogin > 1
+        fadeInDown: this.props.nbLogin === 0,
+        shake: this.props.nbLogin > 0
       }
     );
 

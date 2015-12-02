@@ -13,7 +13,7 @@ module.exports = (db, jwt, logger, config) => {
         }
 
         if (!user) {
-          return res.status(401).json('User not found');
+          return res.status(404).json('User not found');
         }
 
         return res.status(200).json({

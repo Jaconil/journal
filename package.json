@@ -28,7 +28,6 @@
     "react-router": "^1.0.0-rc1",
     "redux": "^3.0.4",
     "redux-router": "^1.0.0-beta4",
-    "redux-thunk": "^1.0.0",
     "scroll": "1.0.0",
     "style-loader": "^0.13.0",
     "superagent": "^1.2.0",
