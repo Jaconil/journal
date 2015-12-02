@@ -9,10 +9,14 @@ import classNames from 'classnames';
 import userStore from '../../stores/userStore';
 import dispatcher from '../../dispatcher';
 
+import { login } from '../../userActions.js';
+
 import './loginBox.less';
 
 function setProps(state) {
-  return {};
+  return {
+    nbLogin: state.user.nbLogin
+  };
 }
 
 class LoginBox extends React.Component {
@@ -21,9 +25,6 @@ class LoginBox extends React.Component {
     super(props);
     this.onLogin = this.onLogin.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.state = {
-      nbLogin: 0
-    };
   }
 
   componentWillMount() {
@@ -36,9 +37,9 @@ class LoginBox extends React.Component {
   }
 
   onLogin() {
-    this.setState({
-      nbLogin: this.state.nbLogin + 1
-    });
+    //this.setState({
+    //  nbLogin: this.state.nbLogin + 1
+    //});
 
     if (userStore.hasToken()) {
       this.props.dispatch(pushState(null, '/write'));
@@ -51,7 +52,8 @@ class LoginBox extends React.Component {
     var username = this.refs.username.value;
     var password = this.refs.password.value;
 
-    dispatcher.emit(events.user.LOGIN, username, password);
+    //dispatcher.emit(events.user.LOGIN, username, password);
+    this.props.dispatch(login(username, password));
   }
 
   render() {
@@ -60,13 +62,13 @@ class LoginBox extends React.Component {
       'login-box',
       'animated',
       {
-        fadeInDown: this.state.nbLogin <= 1,
-        shake: this.state.nbLogin > 1
+        fadeInDown: this.props.nbLogin <= 1,
+        shake: this.props.nbLogin > 1
       }
     );
 
     return (
-      <form key={this.state.nbLogin} className={classes} method="post" autoComplete="off" onSubmit={this.onSubmit}>
+      <form key={this.props.nbLogin} className={classes} method="post" autoComplete="off" onSubmit={this.onSubmit}>
         <input type="text" ref="username" autoFocus />
         <input type="password" ref="password" />
         <input type="submit" value="▶" />

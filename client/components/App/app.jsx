@@ -12,7 +12,7 @@ import './app.less';
 
 function setProps(state) {
   return {
-    isLogged: state.user.isLogged
+    isLogged: state.user.token !== ''
   };
 }
 

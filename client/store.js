@@ -2,13 +2,14 @@
 
 import _ from 'lodash';
 
-import { createStore, compose, combineReducers } from 'redux';
+import { createStore, compose, combineReducers, applyMiddleware } from 'redux';
 import { routerStateReducer, reduxReactRouter } from 'redux-router';
 import { createHistory, useBasename } from 'history';
+import thunk from 'redux-thunk';
 
 var initialUserState = {
-  isLogged: false,
-  token: ''
+  token: '',
+  nbLogin: 0
 };
 
 var userReducer = function(state = initialUserState, action) {
@@ -37,6 +38,7 @@ export default function() {
   });
 
   return compose(
+    applyMiddleware(thunk),
     reduxReactRouter({ createHistory: history })
   )(createStore)(reducer);
 };
