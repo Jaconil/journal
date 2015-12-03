@@ -4,7 +4,7 @@ import { pushState } from 'redux-router';
 
 export default function(store) {
   return next => action => {
-    if (action.type !== 'USER_CHECKLOGIN') {
+    if (action.type !== 'USER_CHECKAUTH') {
       return next(action);
     }
 

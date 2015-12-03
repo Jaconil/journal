@@ -1,11 +1,11 @@
 'use strict';
 
-var initialUserState = {
+var initialState = {
   token: sessionStorage.getItem('user.token') || '',
   nbLogin: 0
 };
 
-export default function(state = initialUserState, action) {
+export default function(state = initialState, action) {
   switch (action.type) {
     case 'USER_UNAUTHORIZED':
     case 'USER_LOGOUT':

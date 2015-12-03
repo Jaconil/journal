@@ -35,10 +35,15 @@ function logout() {
   };
 }
 
-function checkLogin() {
+/**
+ * Checks the current user auth
+ *
+ * @returns {object} Action
+ */
+function checkAuth() {
   return {
-    type: 'USER_CHECKLOGIN'
+    type: 'USER_CHECKAUTH'
   };
 }
 
-export { login, logout, checkLogin };
+export { login, logout, checkAuth };

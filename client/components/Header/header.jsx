@@ -3,15 +3,9 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import dispatcher from '../../dispatcher';
-
 import './header.less';
 
 class Header extends React.Component {
-
-  componentWillMount() {
-    dispatcher.emit(events.days.FETCH_TOTAL_REMAINING_DAYS);
-  }
 
   render() {
     return (
@@ -22,7 +16,7 @@ class Header extends React.Component {
               <Link to="write">
                 <i className="fa fa-pencil"></i>
                 <span>Ecrire</span>
-                <span className="notification">{this.props.remainingDays}</span>
+                <span className="notification">{this.props.notWrittenDays}</span>
               </Link>
             </li>
             <li className="">
@@ -45,7 +39,7 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  remainingDays: React.PropTypes.number.isRequired
+  notWrittenDays: React.PropTypes.number.isRequired
 };
 
 export default Header;

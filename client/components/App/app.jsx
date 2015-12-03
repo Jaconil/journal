@@ -2,35 +2,35 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { pushState } from 'redux-router';
 
 import Header from './../Header/header.jsx';
 
-import { checkLogin } from '../../actionCreators/user.js';
-
-import daysStore from '../../stores/daysStore';
+import { checkAuth } from '../../actionCreators/user.js';
+import { getNotWrittenDays } from '../../actionCreators/days.js';
 
 import './app.less';
 
 function setProps(state) {
   return {
     isLogged: state.user.token !== '',
+    notWrittenDays: state.days.notWrittenDays.length
   };
 }
 
 class App extends React.Component {
 
   componentWillMount() {
-    this.props.dispatch(checkLogin());
-    //if (!this.props.isLogged && this.props.location.pathname !== '/login') {
-    //  this.props.dispatch(pushState(null, '/login'));
-    //}
+    this.props.dispatch(checkAuth());
+
+    if (this.props.isLogged) {
+      this.props.dispatch(getNotWrittenDays());
+    }
   }
 
   render() {
     return (
       <div className="app-container">
-        {this.props.isLogged ? <Header remainingDays={daysStore.getTotalRemainingDays()} /> : null}
+        {this.props.isLogged ? <Header notWrittenDays={this.props.notWrittenDays} /> : null}
         {this.props.children}
       </div>
     );
