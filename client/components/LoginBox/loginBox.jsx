@@ -2,20 +2,17 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { pushState } from 'redux-router';
 
 import classNames from 'classnames';
 
-import userStore from '../../stores/userStore';
-import dispatcher from '../../dispatcher';
-
-import { login } from '../../userActions.js';
+import { login, logout } from '../../actionCreators/user.js';
 
 import './loginBox.less';
 
 function setProps(state) {
   return {
-    nbLogin: state.user.nbLogin
+    nbLogin: state.user.nbLogin,
+    isLogged: state.user.token !== ''
   };
 }
 
@@ -23,27 +20,11 @@ class LoginBox extends React.Component {
 
   constructor(props) {
     super(props);
-    this.onLogin = this.onLogin.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentWillMount() {
-    userStore.addChangeListener(this.onLogin);
-    dispatcher.emit(events.user.CLEAR);
-  }
-
-  componentWillUnmount() {
-    userStore.removeChangeListener(this.onLogin);
-  }
-
-  onLogin() {
-    //this.setState({
-    //  nbLogin: this.state.nbLogin + 1
-    //});
-
-    if (userStore.hasToken()) {
-      this.props.dispatch(pushState(null, '/write'));
-    }
+    this.props.dispatch(logout());
   }
 
   onSubmit(event) {

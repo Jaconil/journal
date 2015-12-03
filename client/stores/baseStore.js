@@ -39,11 +39,11 @@ class BaseStore extends EventEmitter {
   }
 
   setToken(token) {
-    sessionStorage.setItem('api.token', token);
+    sessionStorage.setItem('user.token', token);
   }
 
   getToken() {
-    return sessionStorage.getItem('api.token') || '';
+    return sessionStorage.getItem('user.token') || '';
   }
 
   fetchApi(options) {
