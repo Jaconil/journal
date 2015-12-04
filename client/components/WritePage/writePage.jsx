@@ -6,68 +6,44 @@ import { connect } from 'react-redux';
 import Day from './../Day/day.jsx';
 import DaysList from './../DaysList/daysList.jsx';
 
-import dayStore from '../../stores/daysStore';
-
-import dispatcher from '../../dispatcher';
+import { getNotWrittenDays, selectNextNotWrittenDay } from '../../actionCreators/days.js';
 
 import './writePage.less';
 
 function setProps(state) {
-  return {};
+  return {
+    notWrittenDays: state.days.notWrittenDays,
+    selectedDay: state.days.notWrittenSelectedDay
+  };
 }
 
 class WritePage extends React.Component {
 
   constructor(props) {
     super(props);
-    this.onDaysChange = this.onDaysChange.bind(this);
     this.selectNextDay = this.selectNextDay.bind(this);
-    this.state = {
-      remainingDays: [],
-      selectedDay: 0
-    };
   }
 
-  componentDidMount() {
-    dispatcher.emit(events.days.FETCH_REMAINING_DAYS);
-    dayStore.addChangeListener(this.onDaysChange);
-  }
-
-  componentWillUnmount() {
-    dayStore.removeChangeListener(this.onDaysChange);
-  }
-
-  onDaysChange() {
-    this.setState({
-      remainingDays: dayStore.getRemainingDays()
-    });
+  componentWillMount() {
+    this.props.dispatch(getNotWrittenDays());
   }
 
   selectNextDay() {
-    this.setState({
-      selectedDay: this.state.selectedDay + 1
-    });
+    this.props.dispatch(selectNextNotWrittenDay());
   }
 
   render() {
-
-    var days = this.state.remainingDays.map((day, index) => {
-
-      if (index === this.state.selectedDay) {
-        return (
-          <Day data={day} key={day.date} onSubmit={this.selectNextDay} />
-        );
+    var days = this.props.notWrittenDays.map((day, index) => {
+      if (index === this.props.selectedDay) {
+        return (<Day data={day} key={day.date} onSubmit={this.selectNextDay} />);
       }
 
-      return (
-        <Day data={day} key={day.date} disabled />
-      );
-
+      return (<Day data={day} key={day.date} disabled />);
     });
 
     return (
       <section className="page writePage animated fadeIn">
-        <DaysList selected={this.state.selectedDay}>
+        <DaysList selected={this.props.selectedDay}>
           {days}
         </DaysList>
       </section>

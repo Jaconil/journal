@@ -10,4 +10,10 @@ function getNotWrittenDays() {
   };
 }
 
-export { getNotWrittenDays };
+function selectNextNotWrittenDay() {
+  return {
+    type: 'DAYS_NEXT_NOTWRITTEN'
+  };
+}
+
+export { getNotWrittenDays, selectNextNotWrittenDay };

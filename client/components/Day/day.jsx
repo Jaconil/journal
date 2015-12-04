@@ -7,8 +7,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import _ from 'lodash';
 
-import dayStore from '../../stores/dayStore';
-import dispatcher from '../../dispatcher';
+import { update } from '../../actionCreators/day.js';
 
 import './day.less';
 
@@ -22,40 +21,22 @@ class Day extends React.Component {
 
   constructor(props) {
     super(props);
-    this.onChange = this.onChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.state = {
-      day: this.props.data
-    };
-  }
-
-  componentWillMount() {
-    dayStore.addChangeListener(this.onChange, this.state.day.date);
-  }
-
-  componentWillUnmount() {
-    dayStore.removeChangeListener(this.onChange, this.state.day.date);
-  }
-
-  onChange() {
-    this.setState({
-      day: dayStore.getData()
-    });
   }
 
   handleClick() {
-    dispatcher.emit(events.day.UPDATE, this.state.day.date, this.refs.content.value);
+    this.props.dispatch(update(this.props.data.date, this.refs.content.value));
     this.props.onSubmit();
   }
 
   render() {
     var boxClasses = classNames('day', { disabled: this.props.disabled });
-    var statusClasses = classNames('status', _.kebabCase(this.state.day.status));
+    var statusClasses = classNames('status', _.kebabCase(this.props.data.status));
 
     var actions = null;
     var content = null;
 
-    if (!this.props.disabled && this.state.day.status === 'notWritten') {
+    if (!this.props.disabled && this.props.data.status === 'notWritten') {
       actions = <div className="actions">
         <button><i className="fa fa-close"></i></button>
         <button onClick={this.handleClick}><i className="fa fa-check"></i></button>
@@ -70,7 +51,7 @@ class Day extends React.Component {
       <section className={boxClasses}>
         <header>
           <div className={statusClasses}></div>
-          <h1>{_.capitalize(moment(this.state.day.date).format('dddd DD MMMM YYYY'))}</h1>
+          <h1>{_.capitalize(moment(this.props.data.date).format('dddd DD MMMM YYYY'))}</h1>
         </header>
         {actions}
         {content}
