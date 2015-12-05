@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { createStore, compose, combineReducers, applyMiddleware } from 'redux';
 import { routerStateReducer, reduxReactRouter } from 'redux-router';
 import { createHistory, useBasename } from 'history';
+import thunk from 'redux-thunk';
 
 import userReducer from './reducers/user';
 import daysReducer from './reducers/days';
@@ -25,7 +26,7 @@ export default function() {
   });
 
   return compose(
-    applyMiddleware(authMiddleware, apiMiddleware),
+    applyMiddleware(authMiddleware, thunk, apiMiddleware),
     reduxReactRouter({ createHistory: history })
   )(createStore)(reducer);
 }

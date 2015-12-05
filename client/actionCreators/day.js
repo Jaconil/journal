@@ -1,6 +1,6 @@
 'use strict';
 
-function update(date, content) {
+export function update(date, content) {
   return {
     type: 'DAY_UPDATE',
     api: {
@@ -14,5 +14,3 @@ function update(date, content) {
     }
   };
 }
-
-export { update };

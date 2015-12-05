@@ -2,6 +2,8 @@
 
 import request from 'superagent';
 
+import { pushState } from 'redux-router';
+
 /**
  * Middleware to fetch api
  * Actions should match:
@@ -39,10 +41,13 @@ export default function(store) {
     }
 
     req.end(function(err, response) {
+      next({
+        type: action.type + '_RESPONSE',
+        payload: response
+      });
+
       if (response.unauthorized) {
-        return next({
-          type: 'USER_UNAUTHORIZED'
-        });
+        return next(pushState(null, '/login'));
       }
 
       if (!err && response.ok) {

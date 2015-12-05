@@ -15,7 +15,8 @@ var config = {
     loaders: [
       { test: /\.jsx?$/, loader: 'babel?presets[]=es2015&presets[]=react', exclude: /node_modules/ },
       { test: /\.less$/, loader: ExtractTextPlugin.extract('style', 'css!less') },
-      { test: /\.png$/, loader: 'url?limit=1000&name=images/[name].[ext]?[hash:6]' }
+      { test: /\.png$/, loader: 'url?limit=1000&name=images/[name].[ext]?[hash:6]' },
+      { test: /\.svg/, loader: 'file?name=images/[name].[ext]?[hash:6]' }
     ]
   },
   plugins: [

@@ -11,7 +11,7 @@ import { pushState } from 'redux-router';
  * @param {string} password - User password
  * @returns {object} Action
  */
-function login(username, password) {
+export function login(username, password) {
   var hash = crypto.createHash('sha256').update(password).digest('hex');
 
   return {
@@ -29,7 +29,7 @@ function login(username, password) {
  *
  * @returns {object} Action
  */
-function logout() {
+export function logout() {
   return {
     type: 'USER_LOGOUT'
   };
@@ -40,10 +40,8 @@ function logout() {
  *
  * @returns {object} Action
  */
-function checkAuth() {
+export function checkAuth() {
   return {
     type: 'USER_CHECKAUTH'
   };
 }
-
-export { login, logout, checkAuth };

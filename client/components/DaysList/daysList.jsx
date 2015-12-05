@@ -58,8 +58,15 @@ class DaysList extends React.Component {
   }
 
   render() {
+    var loader = null;
+
+    if (!this.props.children.length) {
+      loader = <img className="loader" src={require('./images/loader.svg')} />;
+    }
+
     return (
       <section className="daysList" ref="list">
+        {loader}
         {this.props.children}
       </section>
     );

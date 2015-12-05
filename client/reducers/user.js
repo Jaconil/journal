@@ -7,7 +7,6 @@ var initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case 'USER_UNAUTHORIZED':
     case 'USER_LOGOUT':
       sessionStorage.setItem('user.token', '');
       return _.assign({}, state, { token: '' });

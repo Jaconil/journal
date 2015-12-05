@@ -12,8 +12,8 @@ import './writePage.less';
 
 function setProps(state) {
   return {
-    notWrittenDays: state.days.notWrittenDays,
-    selectedDay: state.days.notWrittenSelectedDay
+    notWrittenDays: state.days.notWrittenDays.list,
+    selectedDay: state.days.notWrittenDays.selected
   };
 }
 
