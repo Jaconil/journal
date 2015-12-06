@@ -12,7 +12,7 @@ var initialNotWrittenDaysState = {
 function notWrittenDays(state = initialNotWrittenDaysState, action) {
   switch (action.type) {
     case 'DAYS_FETCH_NOTWRITTEN':
-      return _.assign({}, state, { isFetching: true });
+      return _.assign({}, state, { list: [], selected: 0, isFetching: true });
 
     case 'DAYS_FETCH_NOTWRITTEN_RESPONSE':
       return _.assign({}, state, { isFetching: false });

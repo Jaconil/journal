@@ -1,12 +1,3 @@
-@-webkit-keyframes loader-anim {
-  0% {
-    opacity: 1
-  }
-  100% {
-    opacity: 0
-  }
-}
-
 @keyframes loader-anim {
   0% {
     opacity: 1
@@ -18,7 +9,6 @@
 
 .generate-items(@n, @i: 1) when (@i =< @n) {
   div:nth-of-type(@{i}) {
-    -webkit-animation-delay: (0.1 * @i) - 0.6s;
     animation-delay: (0.1 * @i) - 0.6s;
   }
 
@@ -39,7 +29,6 @@
     background: #323232;
     border-radius: 10px;
     position: absolute;
-    -webkit-animation: loader-anim 1s linear infinite;
     animation: loader-anim 1s linear infinite;
   }
 

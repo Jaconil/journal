@@ -52,11 +52,15 @@ section.day {
     }
   }
 
-  div.text {
-    padding: 20px;
-    text-align: justify;
+  div.text, textarea {
     font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
     font-size: 18px;
+    min-height: 150px;
+    text-align: justify;
+  }
+
+  div.text {
+    padding: 20px;
   }
 
   textarea {
@@ -66,10 +70,6 @@ section.day {
     margin: 2%;
     background-color: darken(@darkgrey, 1%);
     padding: 5px;
-    text-align: justify;
-    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-    font-size: 18px;
-    min-height: 150px;
     box-sizing: border-box;
     color: @text;
 

@@ -30,7 +30,7 @@ class Day extends React.Component {
   }
 
   render() {
-    var boxClasses = classNames('day animated fadeIn', { disabled: this.props.disabled });
+    var boxClasses = classNames('day', { disabled: this.props.disabled });
     var statusClasses = classNames('status', _.kebabCase(this.props.data.status));
 
     var actions = null;
@@ -45,6 +45,8 @@ class Day extends React.Component {
 
     if (this.props.data.status === 'notWritten') {
       content = <textarea ref="content"></textarea>;
+    } else {
+      content = <div className="text">{this.props.data.content}</div>;
     }
 
     return (

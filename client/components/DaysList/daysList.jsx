@@ -56,16 +56,18 @@ class DaysList extends React.Component {
     var heightDiff = _.parseInt(firstItemStyle.height) / 2 - _.parseInt(selectedItemStyle.height) / 2;
     var topScroll = offsetDiff - heightDiff;
 
-    scroll.top(this.refs.list, topScroll, { duration: 600 });
+    scroll.top(this.refs.container, topScroll, { duration: 600 });
   }
 
   render() {
-    var loader = (!this.props.children.length) ? <Loader /> : null;
+    var loader = (!this.props.children.length) ? <Loader className="dayList-loader" /> : null;
 
     return (
-      <section className="daysList" ref="list">
+      <section className="daysList" ref="container">
         {loader}
-        {this.props.children}
+        <div ref="list" key={this.props.children.length} className="animated fadeIn">
+          {this.props.children}
+        </div>
       </section>
     );
   }
