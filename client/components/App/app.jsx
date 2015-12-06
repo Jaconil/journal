@@ -12,6 +12,7 @@ import './app.less';
 
 function setProps(state) {
   return {
+    route: state.router.location.pathname,
     isLogged: state.user.token !== '',
     notWrittenDays: state.days.notWrittenDays.length
   };
@@ -30,7 +31,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="app-container">
-        {this.props.isLogged ? <Header notWrittenDays={this.props.notWrittenDays} /> : null}
+        {this.props.isLogged ? <Header route={this.props.route} notWrittenDays={this.props.notWrittenDays} /> : null}
         {this.props.children}
       </div>
     );

@@ -4,6 +4,8 @@ import React from 'react';
 import _ from 'lodash';
 import scroll from 'scroll';
 
+import Loader from '../Loader/loader.jsx';
+
 import './daysList.less';
 
 class DaysList extends React.Component {
@@ -58,11 +60,7 @@ class DaysList extends React.Component {
   }
 
   render() {
-    var loader = null;
-
-    if (!this.props.children.length) {
-      loader = <img className="loader" src={require('./images/loader.svg')} />;
-    }
+    var loader = (!this.props.children.length) ? <Loader /> : null;
 
     return (
       <section className="daysList" ref="list">

@@ -14,6 +14,7 @@ import createStore from './store';
 import App from './components/App/app.jsx';
 import LoginBox from './components/LoginBox/loginBox.jsx';
 import WritePage from './components/WritePage/writePage.jsx';
+import ExplorePage from './components/ExplorePage/explorePage.jsx';
 
 const store = createStore();
 
@@ -23,6 +24,7 @@ ReactDOM.render((
       <Route component={App}>
         <Route path="login" component={LoginBox}/>
         <Route path="write" component={WritePage}/>
+        <Route path="explore" component={ExplorePage}/>
         <Redirect from="/" to="/login" />
       </Route>
     </ReduxRouter>

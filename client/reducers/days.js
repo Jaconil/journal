@@ -21,7 +21,7 @@ function notWrittenDays(state = initialNotWrittenDaysState, action) {
       return _.assign({}, state, { list: action.payload, length: action.payload.length });
 
     case 'DAYS_NEXT_NOTWRITTEN':
-      return _.assign({}, state, { selected: state.notWrittenDays.selected + 1 });
+      return _.assign({}, state, { selected: state.selected + 1 });
 
     case 'DAY_UPDATE_SUCCESS':
       let notWrittenDays = [...state.list];
@@ -31,7 +31,7 @@ function notWrittenDays(state = initialNotWrittenDaysState, action) {
         notWrittenDays[index] = action.payload;
       }
 
-      return _.assign({}, state, { list: notWrittenDays, length: state.notWrittenDays.length - 1 });
+      return _.assign({}, state, { list: notWrittenDays, length: state.length - 1 });
 
     default:
       return state;

@@ -42,7 +42,7 @@ class WritePage extends React.Component {
     });
 
     return (
-      <section className="page writePage animated fadeIn">
+      <section className="page writePage">
         <DaysList selected={this.props.selectedDay}>
           {days}
         </DaysList>
