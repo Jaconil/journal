@@ -21,20 +21,20 @@ class Header extends React.Component {
             <li className={writeClass}>
               <Link to="write">
                 <i className="fa fa-pencil"></i>
-                <span>Ecrire</span>
+                <span className="title">Ecrire</span>
                 <span className="notification">{this.props.notWrittenDays}</span>
               </Link>
             </li>
             <li className={exploreClass}>
               <Link to="explore">
                 <i className="fa fa-eye"></i>
-                <span>Explorer</span>
+                <span className="title">Explorer</span>
               </Link>
             </li>
             <li className={searchClass}>
               <Link to="search">
                 <i className="fa fa-search"></i>
-                <span>Rechercher</span>
+                <span className="title">Rechercher</span>
               </Link>
             </li>
           </ul>
