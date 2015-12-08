@@ -20,6 +20,7 @@
 
   "jsinspect": {
     "args": ["client/**/*.js", "client/**/*.jsx", "server/**/*.js"],
-    "diff": true
+    "diff": true,
+    "threshold": 30
   }
 }

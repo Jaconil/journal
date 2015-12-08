@@ -159,7 +159,7 @@ module.exports = (db, logger) => {
         status: req.body.status
       };
 
-      db.collection('day').updateOne({date: req.params.date}, day, {upsert: true}, function(err) {
+      db.collection('day').updateOne({ date: req.params.date }, day, { upsert: true }, function(err) {
         if (err) {
           logger.error(err);
           return res.status(500).json(err.errmsg);
