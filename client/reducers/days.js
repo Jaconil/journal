@@ -21,7 +21,9 @@ function notWrittenDays(state = initialNotWrittenDaysState, action) {
       return _.assign({}, state, { list: action.payload, length: action.payload.length });
 
     case 'DAYS_NEXT_NOTWRITTEN':
-      return _.assign({}, state, { selected: state.selected + 1 });
+      const list = (state.selected === state.list.length - 1) ? [] : state.list;
+
+      return _.assign({}, state, { selected: state.selected + 1, list: list });
 
     case 'DAY_UPDATE_SUCCESS':
       let notWrittenDays = [...state.list];

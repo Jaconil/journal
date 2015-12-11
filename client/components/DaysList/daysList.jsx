@@ -61,7 +61,11 @@ class DaysList extends React.Component {
 
   render() {
     var loader = this.props.loading ? <Loader className="dayList-loader" /> : null;
-    var emptyText = this.props.emptyText && !this.props.loading && !this.props.children.length ? <div className="empty">{this.props.emptyText}</div> : null;
+    var emptyText = null;
+
+    if (this.props.emptyText && !this.props.loading && !this.props.children.length) {
+      emptyText = <div className="empty animated fadeIn">{this.props.emptyText}</div>;
+    }
 
     return (
       <section className="daysList" ref="container">
