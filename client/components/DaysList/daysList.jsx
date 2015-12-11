@@ -60,11 +60,13 @@ class DaysList extends React.Component {
   }
 
   render() {
-    var loader = (!this.props.children.length) ? <Loader className="dayList-loader" /> : null;
+    var loader = this.props.loading ? <Loader className="dayList-loader" /> : null;
+    var emptyText = this.props.emptyText && !this.props.loading && !this.props.children.length ? <div className="empty">{this.props.emptyText}</div> : null;
 
     return (
       <section className="daysList" ref="container">
         {loader}
+        {emptyText}
         <div ref="list" key={this.props.children.length} className="animated fadeIn">
           {this.props.children}
         </div>
@@ -74,7 +76,9 @@ class DaysList extends React.Component {
 }
 
 DaysList.propTypes = {
-  selected: React.PropTypes.number.isRequired
+  selected: React.PropTypes.number.isRequired,
+  loading: React.PropTypes.bool,
+  emptyText: React.PropTypes.string
 };
 
 export default DaysList;

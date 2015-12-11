@@ -13,7 +13,8 @@ import './writePage.less';
 function setProps(state) {
   return {
     notWrittenDays: state.days.notWrittenDays.list,
-    selectedDay: state.days.notWrittenDays.selected
+    selectedDay: state.days.notWrittenDays.selected,
+    isFetching: state.days.notWrittenDays.isFetching
   };
 }
 
@@ -43,7 +44,7 @@ class WritePage extends React.Component {
 
     return (
       <section className="page writePage">
-        <DaysList selected={this.props.selectedDay}>
+        <DaysList selected={this.props.selectedDay} loading={this.props.isFetching} emptyText="Tout est à jour :)">
           {days}
         </DaysList>
       </section>
