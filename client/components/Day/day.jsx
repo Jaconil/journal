@@ -7,6 +7,8 @@ import moment from 'moment';
 import classNames from 'classnames';
 import _ from 'lodash';
 
+import Textarea from 'react-textarea-autosize';
+
 import { update } from '../../actionCreators/day.js';
 
 import './day.less';
@@ -22,11 +24,18 @@ class Day extends React.Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
+    this.handleEnter = this.handleEnter.bind(this);
   }
 
   handleClick() {
     this.props.dispatch(update(this.props.data.date, this.refs.content.value));
     this.props.onSubmit();
+  }
+
+  handleEnter(event) {
+    if (event.keyCode === 13 && !event.shiftKey) {
+      this.handleClick();
+    }
   }
 
   render() {
@@ -44,7 +53,7 @@ class Day extends React.Component {
     }
 
     if (this.props.data.status === 'notWritten') {
-      content = <textarea ref="content"></textarea>;
+      content = <Textarea ref="content" autoFocus onKeyUp={this.handleEnter}></Textarea>;
     } else {
       content = <div className="text">{this.props.data.content}</div>;
     }
