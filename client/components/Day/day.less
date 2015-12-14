@@ -42,6 +42,20 @@ section.day {
       font-size: 1.2rem;
     }
 
+    h1 span.mini {
+      display: none;
+    }
+
+    @media @smartphone {
+      h1 span.mini {
+        display: inherit;
+      }
+
+      h1 span.full {
+        display: none;
+      }
+    }
+
     &::after {
       content: ' ';
       display: block;

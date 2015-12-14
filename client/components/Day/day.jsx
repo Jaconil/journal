@@ -77,7 +77,10 @@ class Day extends React.Component {
       <section className={boxClasses}>
         <header>
           <div className={statusClasses}></div>
-          <h1>{_.capitalize(moment(this.props.data.date).format('dddd DD MMMM YYYY'))}</h1>
+          <h1>
+            <span className="full">{_.capitalize(moment(this.props.data.date).format('dddd DD MMMM YYYY'))}</span>
+            <span className="mini">{_.capitalize(moment(this.props.data.date).format('ddd DD MMM YYYY'))}</span>
+          </h1>
         </header>
         {actions}
         {content}
