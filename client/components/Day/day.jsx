@@ -25,6 +25,7 @@ class Day extends React.Component {
     super(props);
     this.handleClick = this.handleClick.bind(this);
     this.handleEnter = this.handleEnter.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
   }
 
   handleClick() {
@@ -36,6 +37,20 @@ class Day extends React.Component {
     if (event.keyCode === 13 && !event.shiftKey) {
       this.handleClick();
     }
+  }
+
+  handleFocus() {
+    if (!this.props.disabled && this.props.data.status === 'notWritten') {
+      this.refs.content.focus();
+    }
+  }
+
+  componentDidMount() {
+    this.handleFocus();
+  }
+
+  componentDidUpdate() {
+    this.handleFocus();
   }
 
   render() {
@@ -53,7 +68,7 @@ class Day extends React.Component {
     }
 
     if (this.props.data.status === 'notWritten') {
-      content = <Textarea ref="content" autoFocus onKeyUp={this.handleEnter}></Textarea>;
+      content = <Textarea ref="content" onKeyUp={this.handleEnter}></Textarea>;
     } else {
       content = <div className="text">{this.props.data.content}</div>;
     }
