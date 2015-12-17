@@ -62,13 +62,12 @@ class Day extends React.Component {
 
     if (!this.props.disabled && this.props.data.status === 'notWritten') {
       actions = <div className="actions">
-        <button><i className="fa fa-close"></i></button>
         <button onClick={this.handleClick}><i className="fa fa-check"></i></button>
       </div>;
     }
 
     if (this.props.data.status === 'notWritten') {
-      content = <Textarea ref="content" onKeyUp={this.handleEnter}></Textarea>;
+      content = <Textarea ref="content" disabled={this.props.disabled} onKeyUp={this.handleEnter}></Textarea>;
     } else {
       content = <div className="text">{this.props.data.content}</div>;
     }
@@ -77,12 +76,12 @@ class Day extends React.Component {
       <section className={boxClasses}>
         <header>
           <div className={statusClasses}></div>
+          {actions}
           <h1>
             <span className="full">{_.capitalize(moment(this.props.data.date).format('dddd DD MMMM YYYY'))}</span>
             <span className="mini">{_.capitalize(moment(this.props.data.date).format('ddd DD MMM YYYY'))}</span>
           </h1>
         </header>
-        {actions}
         {content}
       </section>
     );
