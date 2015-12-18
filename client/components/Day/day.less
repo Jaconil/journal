@@ -14,6 +14,16 @@ section.day {
     opacity: 0.5;
   }
 
+  &.fullscreen {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    height: ~"calc(100% - 50px)";
+    z-index: 100;
+    border-radius: 0;
+  }
+
   header {
     height: 50px;
     font-family: "Trebuchet MS", Helvetica, sans-serif;
@@ -78,7 +88,7 @@ section.day {
   }
 
   textarea {
-    border: 1px dashed @beige; //darken(@back, 5%);
+    border: 1px dashed @beige;
     width: 96%;
     max-width: 96%;
     margin: 2%;
@@ -90,6 +100,11 @@ section.day {
     &:focus {
       outline: none;
     }
+  }
+
+  &.fullscreen textarea {
+    min-height: ~"calc(96% - 50px)";
+    max-height: ~"calc(96% - 50px)";
   }
 
   div.actions {
@@ -107,6 +122,11 @@ section.day {
       width: 26px;
       border-radius: 13px;
       margin-right: 5px;
+      margin-left: 5px;
     }
+  }
+
+  &:not(.fullscreen) div.actions button.close {
+    display: none;
   }
 }

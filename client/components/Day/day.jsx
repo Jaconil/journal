@@ -23,25 +23,38 @@ class Day extends React.Component {
 
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleEnter = this.handleEnter.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
+    this.onFocus = this.onFocus.bind(this);
   }
 
-  handleClick() {
+  handleClose() {
+    this.refs.container.classList.remove('fullscreen');
+  }
+
+  handleSubmit() {
+    this.handleClose();
     this.props.dispatch(update(this.props.data.date, this.refs.content.value));
     this.props.onSubmit();
   }
 
   handleEnter(event) {
     if (event.keyCode === 13 && !event.shiftKey) {
-      this.handleClick();
+      this.handleSubmit();
     }
   }
 
   handleFocus() {
     if (!this.props.disabled && this.props.data.status === 'notWritten') {
       this.refs.content.focus();
+    }
+  }
+
+  onFocus() {
+    if (window.matchMedia('(max-width: 500px)').matches) {
+      this.refs.container.classList.add('fullscreen');
     }
   }
 
@@ -62,18 +75,19 @@ class Day extends React.Component {
 
     if (!this.props.disabled && this.props.data.status === 'notWritten') {
       actions = <div className="actions">
-        <button onClick={this.handleClick}><i className="fa fa-check"></i></button>
+        <button className="close" onClick={this.handleClose}><i className="fa fa-close"></i></button>
+        <button className="submit" onClick={this.handleSubmit}><i className="fa fa-check"></i></button>
       </div>;
     }
 
     if (this.props.data.status === 'notWritten') {
-      content = <Textarea ref="content" disabled={this.props.disabled} onKeyUp={this.handleEnter}></Textarea>;
+      content = <Textarea ref="content" disabled={this.props.disabled} onKeyUp={this.handleEnter} onFocus={this.onFocus}></Textarea>;
     } else {
       content = <div className="text">{this.props.data.content}</div>;
     }
 
     return (
-      <section className={boxClasses}>
+      <section className={boxClasses} ref="container">
         <header>
           <div className={statusClasses}></div>
           {actions}
