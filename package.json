@@ -43,7 +43,7 @@
     "check-build": "^2.2.1"
   },
   "scripts": {
-    "prepublish": "npm update && npm run webpack",
+    "prepublish": "npm run webpack",
     "start": "node server/app.js",
     "test": "check-build",
     "webpack": "webpack",
