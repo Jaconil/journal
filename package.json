@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "description": "Personal journal",
   "dependencies": {
+    "autoprefixer": "^6.2.3",
     "babel-core": "^6.1.19",
     "babel-loader": "^6.1.0",
     "babel-preset-es2015": "^6.1.18",
@@ -24,13 +25,14 @@
     "moment-range": "^2.0.3",
     "mongodb": "^2.0.0",
     "mongoskin": "^2.0.0",
+    "postcss-loader": "^0.8.0",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
     "react-redux": "^4.0.0",
     "react-router": "^1.0.0-rc1",
+    "react-textarea-autosize": "^3.2.0",
     "redux": "^3.0.4",
     "redux-router": "^1.0.0-beta4",
-    "react-textarea-autosize": "^3.2.0",
     "redux-thunk": "^1.0.0",
     "scroll": "1.0.0",
     "style-loader": "^0.13.0",
@@ -44,7 +46,6 @@
     "check-build": "^2.2.1"
   },
   "scripts": {
-    "prepublish": "npm run webpack",
     "start": "node server/app.js",
     "test": "check-build",
     "webpack": "webpack",

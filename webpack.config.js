@@ -14,11 +14,14 @@ var config = {
   module: {
     loaders: [
       { test: /\.jsx?$/, loader: 'babel?presets[]=es2015&presets[]=react', exclude: /node_modules/ },
-      { test: /\.less$/, loader: ExtractTextPlugin.extract('style', 'css!less') },
+      { test: /\.less$/, loader: ExtractTextPlugin.extract('style', 'css!postcss!less') },
       { test: /\.png$/, loader: 'url?limit=1000&name=images/[name].[ext]?[hash:6]' },
       { test: /\.svg/, loader: 'file?name=images/[name].[ext]?[hash:6]' }
     ]
   },
+  postcss: [
+    require('autoprefixer')({ browsers: ['last 2 versions'] })
+  ],
   plugins: [
     new ExtractTextPlugin('app.min.css'),
     new webpack.DefinePlugin({
