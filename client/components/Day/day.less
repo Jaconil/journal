@@ -14,16 +14,6 @@ section.day {
     opacity: 0.5;
   }
 
-  &.fullscreen {
-    position: fixed;
-    top: 50px;
-    left: 0;
-    width: 100%;
-    height: ~"calc(100% - 50px)";
-    z-index: 100;
-    border-radius: 0;
-  }
-
   header {
     height: 50px;
     font-family: "Trebuchet MS", Helvetica, sans-serif;
@@ -102,11 +92,6 @@ section.day {
     }
   }
 
-  &.fullscreen textarea {
-    min-height: ~"calc(96% - 50px)";
-    max-height: ~"calc(96% - 50px)";
-  }
-
   div.actions {
     font-family: @mainFont;
     font-size: 16px;
@@ -124,9 +109,30 @@ section.day {
       margin-right: 5px;
       margin-left: 5px;
     }
+
+    button.close {
+      display: none;
+    }
   }
 
-  &:not(.fullscreen) div.actions button.close {
-    display: none;
+  @media @smartphone {
+    &.focused {
+      position: fixed;
+      top: 50px;
+      left: 0;
+      width: 100%;
+      height: ~"calc(100% - 50px)";
+      z-index: 100;
+      border-radius: 0;
+
+      div.actions button.close {
+        display: block;
+      }
+
+      textarea {
+        min-height: ~"calc(96% - 50px)";
+        max-height: ~"calc(96% - 50px)";
+      }
+    }
   }
 }

@@ -31,7 +31,7 @@ class Day extends React.Component {
   }
 
   handleClose() {
-    this.refs.container.classList.remove('fullscreen');
+    this.refs.container.classList.remove('focused');
   }
 
   handleSubmit() {
@@ -53,9 +53,7 @@ class Day extends React.Component {
   }
 
   onFocus() {
-    if (window.matchMedia('(max-width: 500px)').matches) {
-      this.refs.container.classList.add('fullscreen');
-    }
+    this.refs.container.classList.add('focused');
   }
 
   componentDidMount() {
