@@ -23,26 +23,32 @@ class Day extends React.Component {
 
   constructor(props) {
     super(props);
-    this.handleClose = this.handleClose.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleEnter = this.handleEnter.bind(this);
+    this.onCloseClick = this.onCloseClick.bind(this);
+    this.onSubmitClick = this.onSubmitClick.bind(this);
+    this.onSubmitEnter = this.onSubmitEnter.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.onFocus = this.onFocus.bind(this);
+
+    this.state = { confirmation: false };
   }
 
-  handleClose() {
+  onCloseClick() {
     this.refs.container.classList.remove('focused');
   }
 
-  handleSubmit() {
-    this.handleClose();
-    this.props.dispatch(update(this.props.data.date, this.refs.content.value));
-    this.props.onSubmit();
+  onSubmitClick() {
+    //if (this.state.confirmation) {
+    //  this.onCloseClick();
+    //  this.props.dispatch(update(this.props.data.date, this.refs.content.value));
+    //  this.props.onSubmit();
+    //}
+
+    this.setState({ confirmation: !this.state.confirmation });
   }
 
-  handleEnter(event) {
+  onSubmitEnter(event) {
     if (event.keyCode === 13 && !event.shiftKey) {
-      this.handleSubmit();
+      this.onSubmitClick();
     }
   }
 
@@ -65,27 +71,36 @@ class Day extends React.Component {
   }
 
   render() {
-    var boxClasses = classNames('day', { disabled: this.props.disabled });
+    var boxClasses = classNames('day', { disabled: this.props.disabled, confirmation: this.state.confirmation });
     var statusClasses = classNames('status', _.kebabCase(this.props.data.status));
 
     var actions = null;
     var content = null;
+    var confirmationOverlay = null;
 
     if (!this.props.disabled && this.props.data.status === 'notWritten') {
       actions = <div className="actions">
-        <button className="close" onClick={this.handleClose}><i className="fa fa-close"></i></button>
-        <button className="submit" onClick={this.handleSubmit}><i className="fa fa-check"></i></button>
+        <button className="close" onClick={this.onCloseClick}><i className="fa fa-close"></i></button>
+        <button className="submit" onClick={this.onSubmitClick}><i className="fa fa-check"></i></button>
       </div>;
     }
 
     if (this.props.data.status === 'notWritten') {
-      content = <Textarea ref="content" disabled={this.props.disabled} onKeyUp={this.handleEnter} onFocus={this.onFocus}></Textarea>;
+      content = <Textarea ref="content" disabled={this.props.disabled} onKeyUp={this.onSubmitEnter} onFocus={this.onFocus}></Textarea>;
     } else {
       content = <div className="text">{this.props.data.content}</div>;
     }
 
+    if (this.state.confirmation) {
+      confirmationOverlay = <div className="confirmationOverlay">
+        <button className="back" onClick={this.onCloseClick}><i className="fa fa-back"></i></button>
+        <button className="submit" onClick={this.onSubmitClick}><i className="fa fa-check"></i></button>
+      </div>;
+    }
+
     return (
       <section className={boxClasses} ref="container">
+        {confirmationOverlay}
         <header>
           <div className={statusClasses}></div>
           {actions}
