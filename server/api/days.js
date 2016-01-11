@@ -62,6 +62,11 @@ module.exports = (db, logger) => {
 
       if (!count && !req.query.to) {
         toDate = moment().startOf('day');
+
+        // Prevent today to appear before noon
+        if (moment().diff(toDate, 'hours') < 12) {
+          toDate.subtract(1, 'day');
+        }
       }
 
       if (!fromDate.isValid() || !toDate.isValid()) {
