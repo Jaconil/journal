@@ -15,7 +15,7 @@ import './day.less';
 
 import 'moment/locale/fr';
 
-function setProps(state) {
+function setProps() {
   return {};
 }
 
@@ -23,38 +23,62 @@ class Day extends React.Component {
 
   constructor(props) {
     super(props);
-    this.onCloseClick = this.onCloseClick.bind(this);
-    this.onBackClick = this.onBackClick.bind(this);
-    this.onSubmitClick = this.onSubmitClick.bind(this);
-    this.onSubmitEnter = this.onSubmitEnter.bind(this);
+    this.onActionsClose = this.onActionsClose.bind(this);
+    this.onActionsSubmit = this.onActionsSubmit.bind(this);
+    this.onActionsKey = this.onActionsKey.bind(this);
+
+    this.onConfirmationBack = this.onConfirmationBack.bind(this);
+    this.onConfirmationSubmit = this.onConfirmationSubmit.bind(this);
+    this.onConfirmationKey = this.onConfirmationKey.bind(this);
+
+    this.onTextareaFocus = this.onTextareaFocus.bind(this);
+
     this.handleFocus = this.handleFocus.bind(this);
 
     this.state = { confirmation: false };
   }
 
-  onCloseClick() {
+  onActionsClose() {
     this.refs.container.classList.remove('focused');
   }
 
-  onBackClick() {
+  onActionsSubmit() {
+    document.querySelector('body').addEventListener('keydown', this.onConfirmationKey);
+    this.setState({ confirmation: true });
+  }
+
+  onActionsKey(event) {
+    if (event.keyCode === 13 && !event.shiftKey) {
+      event.preventDefault();
+      this.onActionsSubmit();
+    }
+  }
+
+  onConfirmationBack() {
+    document.querySelector('body').removeEventListener('keydown', this.onConfirmationKey);
     this.setState({ confirmation: false });
   }
 
-  onSubmitClick() {
-    if (this.state.confirmation) {
-      this.onCloseClick();
-      this.props.dispatch(update(this.props.data.date, this.refs.content.value));
-      this.props.onSubmit();
-    }
+  onConfirmationSubmit() {
+    this.onConfirmationBack();
+    this.onActionsClose();
 
-    this.setState({ confirmation: !this.state.confirmation });
+    this.props.dispatch(update(this.props.data.date, this.refs.content.value));
+    this.props.onSubmit();
   }
 
-  onSubmitEnter(event) {
-    if (event.keyCode === 13 && !event.shiftKey) {
-      event.preventDefault();
-      this.onSubmitClick();
+  onConfirmationKey(event) {
+    event.preventDefault();
+
+    if (event.keyCode === 27) {
+      this.onConfirmationBack();
+    } else if (event.keyCode === 13) {
+      this.onConfirmationSubmit();
     }
+  }
+
+  onTextareaFocus() {
+    this.refs.container.classList.add('focused');
   }
 
   handleFocus() {
@@ -83,24 +107,28 @@ class Day extends React.Component {
     var content = null;
     var confirmationOverlay = null;
 
+    if (this.state.confirmation) {
+      confirmationOverlay = <div className="confirmationOverlay">
+        <button onClick={this.onConfirmationBack}><i className="fa fa-close fa-2x"></i></button>
+        <button onClick={this.onConfirmationSubmit}><i className="fa fa-check fa-2x"></i></button>
+      </div>;
+    }
+
     if (!this.props.disabled && !this.state.confirmation && this.props.data.status === 'notWritten') {
       actions = <div className="actions">
-        <button className="close" onClick={this.onCloseClick}><i className="fa fa-close"></i></button>
-        <button className="submit" onClick={this.onSubmitClick}><i className="fa fa-check"></i></button>
+        <button onClick={this.onActionsClose}><i className="close fa fa-close"></i></button>
+        <button onClick={this.onActionsSubmit}><i className="submit fa fa-check"></i></button>
       </div>;
     }
 
     if (this.props.data.status === 'notWritten') {
-      content = <Textarea ref="content" disabled={this.props.disabled || this.state.confirmation} onKeyDown={this.onSubmitEnter}></Textarea>;
+      content = <Textarea ref="content"
+        disabled={this.props.disabled || this.state.confirmation}
+        onKeyDown={this.onActionsKey}
+        onFocus={this.onTextareaFocus}>
+      </Textarea>;
     } else {
       content = <div className="text">{this.props.data.content}</div>;
-    }
-
-    if (this.state.confirmation) {
-      confirmationOverlay = <div className="confirmationOverlay">
-        <button onClick={this.onBackClick}><i className="fa fa-thumbs-down fa-2x"></i></button>
-        <button onClick={this.onSubmitClick}><i className="fa fa-thumbs-up fa-2x"></i></button>
-      </div>;
     }
 
     return (

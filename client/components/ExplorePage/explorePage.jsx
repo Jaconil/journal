@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import './explorePage.less';
 
-function setProps(state) {
+function setProps() {
   return {};
 }
 

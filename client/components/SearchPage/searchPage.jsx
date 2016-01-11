@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import './searchPage.less';
 
-function setProps(state) {
+function setProps() {
   return {};
 }
 
