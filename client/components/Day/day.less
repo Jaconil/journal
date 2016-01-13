@@ -1,0 +1,166 @@
+@import "../../variables";
+
+section.day {
+  width: 100%;
+  margin: auto;
+  background: @darkgrey;
+  color: @text;
+  border-radius: 5px 5px;
+  position: relative;
+  margin-bottom: 30px;
+  transition: all 0.4s ease-in-out;
+
+  &.disabled {
+    opacity: 0.5;
+  }
+
+  header {
+    height: 50px;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+
+    div.status {
+      width: 20px;
+      height: 20px;
+      float: left;
+      margin-top: 16px;
+      margin-left: 16px;
+      border-radius: 10px;
+
+      &.written {
+        background-color: @green;
+      }
+
+      &.not-written {
+        background-color: @red;
+      }
+    }
+
+    h1 {
+      line-height: 50px;
+      margin: 0;
+      margin-left: 52px;
+      font-size: 1.2rem;
+    }
+
+    h1 span.mini {
+      display: none;
+    }
+
+    @media @smartphone {
+      h1 span.mini {
+        display: inherit;
+      }
+
+      h1 span.full {
+        display: none;
+      }
+    }
+
+    &::after {
+      content: ' ';
+      display: block;
+      background-color: @beige;
+      width: 96%;
+      height: 2px;
+      margin-left: 2%;
+    }
+  }
+
+  div.text, textarea {
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    font-size: 18px;
+    min-height: 150px;
+    text-align: justify;
+  }
+
+  div.text {
+    padding: 20px;
+  }
+
+  textarea {
+    border: 1px dashed @beige;
+    width: 96%;
+    max-width: 96%;
+    margin: 2%;
+    background-color: darken(@darkgrey, 1%);
+    padding: 5px;
+    box-sizing: border-box;
+    color: @text;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  div.actions {
+    font-family: @mainFont;
+    font-size: 16px;
+    position: absolute;
+    top: 12px;
+    right: 2%;
+
+    button {
+      border: 1px solid @beige;
+      background: @beige;
+      color: @darkgrey;
+      height: 26px;
+      width: 26px;
+      border-radius: 13px;
+      margin-right: 5px;
+      margin-left: 5px;
+    }
+
+    button.close {
+      display: none;
+    }
+  }
+
+  div.confirmationOverlay {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 5px 5px;
+    position: absolute;
+    z-index: 100;
+    text-align: center;
+
+    button {
+      border: 1px solid @beige;
+      background: @beige;
+      color: @darkgrey;
+      height: 52px;
+      width: 52px;
+      border-radius: 26px;
+      margin-right: 20px;
+      margin-left: 20px;
+      position: relative;
+      top: ~"calc(50% - 26px)";
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  @media @smartphone {
+    &.focused {
+      position: fixed;
+      top: 50px;
+      left: 0;
+      width: 100%;
+      height: ~"calc(100% - 50px)";
+      z-index: 100;
+      border-radius: 0;
+
+      div.actions button.close {
+        display: inline-block;
+      }
+
+      textarea {
+        min-height: ~"calc(96% - 50px)";
+        max-height: ~"calc(96% - 50px)";
+      }
+    }
+  }
+}

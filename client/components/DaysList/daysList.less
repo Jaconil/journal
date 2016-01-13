@@ -1,0 +1,40 @@
+@import "../../variables";
+
+section.daysList {
+  width: 100%;
+  margin: auto;
+  overflow: auto;
+  height: 100%;
+  padding-left: 30%;
+  padding-right: 30%;
+
+  @media @tablet {
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+
+  @media @smartphone {
+    padding-left: 2%;
+    padding-right: 2%;
+  }
+
+  .loader {
+    display: block;
+    position: fixed;
+    margin: auto;
+    top: ~"calc(50vh - 100px)";
+    left: ~"calc(49% - 100px)";
+  }
+
+  .empty {
+    margin: auto;
+    position: fixed;
+    top: 50%;
+    text-align: center;
+    width: 96%;
+    font-family: @mainFont;
+    font-size: 16px;
+    font-weight: bold;
+    color: @darkgrey;
+  }
+}

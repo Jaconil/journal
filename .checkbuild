@@ -1,0 +1,26 @@
+{
+  "checkbuild": {
+    "enable": ["david", "eslint", "jsinspect"],
+    "continueOnError": true,
+    "allowFailures": false
+  },
+
+  "david": {
+    "dev": false,
+    "stable": true,
+    "ignore": [],
+    "warn": {
+      "E404": true
+    }
+  },
+
+  "eslint": {
+    "args": ["client/**/*.js", "client/**/*.jsx", "server/**/*.js"]
+  },
+
+  "jsinspect": {
+    "args": ["client/**/*.js", "client/**/*.jsx", "server/**/*.js"],
+    "diff": true,
+    "threshold": 30
+  }
+}

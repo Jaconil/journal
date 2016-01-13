@@ -1,0 +1,36 @@
+@keyframes loader-anim {
+  0% {
+    opacity: 1
+  }
+  100% {
+    opacity: 0
+  }
+}
+
+.generate-items(@n, @i: 1) when (@i =< @n) {
+  div:nth-of-type(@{i}) {
+    animation-delay: (0.1 * @i) - 0.6s;
+  }
+
+  .generate-items(@n, (@i + 1));
+}
+
+.loader {
+  position: relative;
+  background: none;
+  width: 200px;
+  height: 200px;
+
+  div {
+    top: 80px;
+    left: 93px;
+    width: 14px;
+    height: 40px;
+    background: #323232;
+    border-radius: 10px;
+    position: absolute;
+    animation: loader-anim 1s linear infinite;
+  }
+
+  .generate-items(10);
+}
