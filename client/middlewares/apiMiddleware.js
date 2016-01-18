@@ -4,8 +4,6 @@
 
 import request from 'superagent';
 
-import { pushState } from 'redux-router';
-
 /**
  * Middleware to fetch api
  * Actions should match:
@@ -42,35 +40,20 @@ export default function(store) {
       req.send(action.api.body);
     }
 
-    req.end(function(err, response) {
-      next({
-        type: action.type + '_RESPONSE',
-        payload: response
-      });
+    next({ type: action.type });
 
-      if (response.unauthorized) {
-        return next(pushState(null, '/login'));
-      }
+    return new Promise((resolve, reject) => {
+      req.end((err, response) => {
+        next({ type: action.type + '_RESPONSE', payload: response });
 
-      if (!err && response.ok) {
-        next({
-          type: action.type + '_SUCCESS',
-          payload: response.body
-        });
-
-        if (action.api.success) {
-          next(action.api.success);
+        if (err || !response.ok) {
+          next({ type: action.type + '_ERROR', error: err });
+          return reject(err);
         }
-      } else {
-        next({
-          type: action.type + '_ERROR',
-          error: err
-        });
-      }
-    });
 
-    next({
-      type: action.type
+        next({ type: action.type + '_SUCCESS', payload: response.body });
+        return resolve(response);
+      });
     });
   };
 }

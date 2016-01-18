@@ -14,13 +14,16 @@ import { pushState } from 'redux-router';
 export function login(username, password) {
   var hash = crypto.createHash('sha256').update(password).digest('hex');
 
-  return {
-    type: 'USER_LOGIN',
-    api: {
-      endpoint: '/user/login',
-      query: { username: username, password: hash },
-      success: pushState(null, '/write')
-    }
+  return function(dispatch) {
+    return dispatch({
+      type: 'USER_LOGIN',
+      api: {
+        endpoint: '/user/login',
+        query: { username: username, password: hash }
+      }
+    }).then(() => {
+      dispatch(pushState(null, '/write'));
+    }).catch(() => {});
   };
 }
 
