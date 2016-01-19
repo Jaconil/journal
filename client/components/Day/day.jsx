@@ -63,8 +63,8 @@ class Day extends React.Component {
     this.onConfirmationBack();
     this.onActionsClose();
 
-    this.props.dispatch(update(this.props.data.date, this.refs.content.value));
-    this.props.onSubmit();
+    this.props.dispatch(update(this.props.data.date, this.refs.content.value))
+      .then(this.props.onSubmit);
   }
 
   onConfirmationKey(event) {
