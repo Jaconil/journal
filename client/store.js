@@ -9,6 +9,7 @@ import thunk from 'redux-thunk';
 
 import userReducer from './reducers/user';
 import daysReducer from './reducers/days';
+import notificationsReducer from './reducers/notifications';
 
 import authMiddleware from './middlewares/authMiddleware';
 import apiMiddleware from './middlewares/apiMiddleware';
@@ -18,7 +19,8 @@ export default function() {
   const reducer = combineReducers({
     router: routerStateReducer,
     user: userReducer,
-    days: daysReducer
+    days: daysReducer,
+    notifications: notificationsReducer
   });
 
   const history = _.partial(useBasename(createHistory), {

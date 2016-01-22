@@ -1,5 +1,7 @@
 'use strict';
 
+import { sendWarning } from './notifications';
+
 export function update(date, content) {
   return dispatch => {
     return dispatch({
@@ -14,7 +16,7 @@ export function update(date, content) {
         }
       }
     }).catch(() => {
-      // TODO
+      dispatch(sendWarning('Echec de l\'enregistrement'));
     });
   };
 }

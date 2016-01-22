@@ -1,7 +1,6 @@
 'use strict';
 
 /* eslint no-unused-vars: 0 */
-import _ from 'lodash';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
