@@ -1,6 +1,13 @@
 'use strict';
 
-var initialState = [];
+var initialState = [
+  {
+    id: '1',
+    content: 'Vous êtes déconnecté',
+    icon: 'sign-out',
+    level: 'info'
+  }
+];
 
 export default function(state = initialState, action) {
   switch (action.type) {

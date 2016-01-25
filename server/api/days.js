@@ -110,7 +110,7 @@ module.exports = (db, logger) => {
         // hydrate the results
         _.each(days, day => {
           _.chain(listDays)
-            .where({ date: day.date })
+            .filter({ date: day.date })
             .first()
             .assign(day)
             .commit();

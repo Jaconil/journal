@@ -2,27 +2,30 @@
 
 import React from 'react';
 
+import classNames from 'classnames';
+
 import './notifications.less';
 
 class Notifications extends React.Component {
 
   render() {
-    return (
-      <section className="notifications">
-        <div className="notification">
-          <div className="icon">
-            <i className="fa fa-sign-out fa-2x fa-border"></i>
-          </div>
-          Vous êtes déconnecté
+    var list = this.props.list.map(function(notification) {
+      if (!notification.icon) {
+        notification.icon = '';
+      }
+
+      var notifClass = classNames('notification', 'notification-' + notification.level);
+      var iconClass = classNames('fa', 'fa-2x', 'fa-border', 'fa-' + notification.icon);
+
+      return <div key={notification.id} className={notifClass}>
+        <div className="icon">
+          <i className={iconClass}></i>
         </div>
-        <div className="notification notification-error">
-          <div className="icon">
-            <i className="fa fa-exclamation-triangle fa-2x fa-border"></i>
-          </div>
-          Echec de l'enregistrement
-        </div>
-      </section>
-    );
+        {notification.content}
+      </div>;
+    });
+
+    return <section className="notifications">{list}</section>;
   }
 }
 

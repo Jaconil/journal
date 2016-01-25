@@ -1,2 +1,32 @@
 @import "../../variables";
 
+section.notifications {
+  position: fixed;
+  width: 350px;
+  height: 200px;
+  top: 80px;
+  right: 30px;
+  z-index: 100;
+
+  div.notification {
+    background-color: @darkgrey;
+    width: 100%;
+    height: 70px;
+    border-radius: 15px;
+    color: white;
+    text-align: center;
+    font-family: @mainFont;
+    padding: 10px;
+    box-sizing: border-box;
+    line-height: 47px;
+    margin-bottom: 10px;
+
+    div.icon {
+      float: left;
+    }
+
+    &.notification-warning {
+      color: @orange;
+    }
+  }
+}

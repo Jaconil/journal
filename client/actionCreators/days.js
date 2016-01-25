@@ -1,7 +1,7 @@
 'use strict';
 
 export function getNotWrittenDays() {
-  return function(dispatch, getState) {
+  return (dispatch, getState) => {
     const state = getState();
 
     if (!state.days.notWrittenDays.isFetching) {
@@ -11,6 +11,8 @@ export function getNotWrittenDays() {
           endpoint: '/days',
           query: { status: 'notWritten' }
         }
+      }).catch(() => {
+        // todo: rediriger vers le login ?
       });
     }
   };
