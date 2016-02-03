@@ -1,5 +1,7 @@
 'use strict';
 
+import { pushState } from 'redux-router';
+
 export function getNotWrittenDays() {
   return (dispatch, getState) => {
     const state = getState();
@@ -12,7 +14,7 @@ export function getNotWrittenDays() {
           query: { status: 'notWritten' }
         }
       }).catch(() => {
-        // todo: rediriger vers le login ?
+        dispatch(pushState(null, '/login'));
       });
     }
   };

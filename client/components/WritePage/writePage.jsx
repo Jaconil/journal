@@ -35,11 +35,7 @@ class WritePage extends React.Component {
 
   render() {
     var days = this.props.notWrittenDays.map((day, index) => {
-      if (index === this.props.selectedDay) {
-        return (<Day data={day} key={day.date} onSubmit={this.selectNextDay} />);
-      }
-
-      return (<Day data={day} key={day.date} disabled />);
+      return <Day data={day} key={day.date} disabled={index !== this.props.selectedDay} onSubmit={this.selectNextDay} />;
     });
 
     return (

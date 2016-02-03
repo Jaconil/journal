@@ -31,6 +31,8 @@ export function send(level, content, duration = 0, icon = null) {
         });
       }, duration);
     }
+
+    return Promise.resolve();
   };
 }
 
