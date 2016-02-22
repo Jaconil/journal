@@ -11,7 +11,7 @@ export function getNotWrittenDays() {
         type: 'DAYS_FETCH_NOTWRITTEN',
         api: {
           endpoint: '/days',
-          query: { status: 'notWritten' }
+          query: { status: 'notWritten', limit: 30 }
         }
       }).catch(() => {
         dispatch(pushState(null, '/login'));

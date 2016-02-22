@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import TransitionGroup from 'react-addons-css-transition-group';
 
 import classNames from 'classnames';
 
@@ -10,10 +11,6 @@ class Notifications extends React.Component {
 
   render() {
     var list = this.props.list.map(function(notification) {
-      if (!notification.icon) {
-        notification.icon = '';
-      }
-
       var notifClass = classNames('notification', 'notification-' + notification.level);
       var iconClass = classNames('fa', 'fa-2x', 'fa-border', 'fa-' + notification.icon);
 
@@ -25,7 +22,11 @@ class Notifications extends React.Component {
       </div>;
     });
 
-    return <section className="notifications">{list}</section>;
+    return <section className="notifications">
+      <TransitionGroup transitionName="notification">
+        {list}
+      </TransitionGroup>
+    </section>;
   }
 }
 

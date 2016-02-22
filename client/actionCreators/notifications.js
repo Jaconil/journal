@@ -44,7 +44,7 @@ export function send(level, content, duration = 0, icon = null) {
  * @param {string} icon     - Notification icon
  * @returns {object} Action
  */
-export function sendInfo(content, duration = 0, icon = null) {
+export function sendInfo(content, duration = 0, icon = 'info') {
   return send('info', content, duration, icon);
 }
 
@@ -56,6 +56,6 @@ export function sendInfo(content, duration = 0, icon = null) {
  * @param {string} icon     - Notification icon
  * @returns {object} Action
  */
-export function sendWarning(content, duration = 0, icon = null) {
+export function sendWarning(content, duration = 0, icon = 'warning') {
   return send('warning', content, duration, icon);
 }

@@ -28,5 +28,23 @@ section.notifications {
     &.notification-warning {
       color: @orange;
     }
+
+    &.notification-enter {
+      opacity: 0.01;
+      transition: opacity 0.5s ease-in;
+    }
+
+    &.notification-enter.notification-enter-active {
+      opacity: 1;
+    }
+
+    &.notification-leave {
+      opacity: 1;
+      transition: opacity 0.5s ease-in;
+    }
+
+    &.notification-leave.notification-leave-active {
+      opacity: 0.01;
+    }
   }
 }
