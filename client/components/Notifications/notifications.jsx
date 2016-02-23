@@ -18,12 +18,12 @@ class Notifications extends React.Component {
         <div className="icon">
           <i className={iconClass}></i>
         </div>
-        {notification.content}
+        <div className="content">{notification.content}</div>
       </div>;
     });
 
     return <section className="notifications">
-      <TransitionGroup transitionName="notification">
+      <TransitionGroup transitionName="notification" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
         {list}
       </TransitionGroup>
     </section>;

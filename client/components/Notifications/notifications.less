@@ -3,26 +3,44 @@
 section.notifications {
   position: fixed;
   width: 350px;
-  height: 200px;
+  max-width: ~"calc(30% - 60px)";
   top: 80px;
   right: 30px;
   z-index: 100;
 
+  @media @tablet {
+    display: none;
+  }
+
+  @media @smartphone {
+    display: none;
+  }
+
   div.notification {
     background-color: @darkgrey;
     width: 100%;
-    height: 70px;
+    min-height: 70px;
     border-radius: 15px;
     color: white;
-    text-align: center;
     font-family: @mainFont;
     padding: 10px;
     box-sizing: border-box;
-    line-height: 47px;
     margin-bottom: 10px;
+    border: 1px blue solid;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    /* left: calc(100% + 30px); */
+
+    div.content {
+      text-align: center;
+      width: 100%;
+    }
 
     div.icon {
-      float: left;
+      margin-right: 10px;
     }
 
     &.notification-warning {
@@ -30,20 +48,24 @@ section.notifications {
     }
 
     &.notification-enter {
+      left: ~"calc(100% + 30px)";
       opacity: 0.01;
-      transition: opacity 0.5s ease-in;
+      transition: all 0.3s ease-in-out;
     }
 
     &.notification-enter.notification-enter-active {
+      left: 0;
       opacity: 1;
     }
 
     &.notification-leave {
+      left: 0;
       opacity: 1;
-      transition: opacity 0.5s ease-in;
+      transition: all 0.3s ease-in-out;
     }
 
     &.notification-leave.notification-leave-active {
+      left: ~"calc(100% + 30px)";
       opacity: 0.01;
     }
   }
