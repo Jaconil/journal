@@ -16,7 +16,7 @@ export function update(date, content) {
         }
       }
     }).catch(() => {
-      dispatch(sendWarning('Echec de l\'enregistrement', 10000, 'warning'));
+      dispatch(sendWarning('Echec de l\'enregistrement', 5000, 'warning'));
       return Promise.reject();
     });
   };

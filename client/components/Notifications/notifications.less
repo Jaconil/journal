@@ -9,11 +9,13 @@ section.notifications {
   z-index: 100;
 
   @media @tablet {
-    display: none;
-  }
-
-  @media @smartphone {
-    display: none;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    height: 60px;
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 
   div.notification {
@@ -26,13 +28,18 @@ section.notifications {
     padding: 10px;
     box-sizing: border-box;
     margin-bottom: 10px;
-    border: 1px blue solid;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     overflow: hidden;
     position: relative;
-    /* left: calc(100% + 30px); */
+
+    @media @tablet {
+      min-height: 60px;
+      max-height: 60px;
+      border-radius: 0;
+      position: absolute;
+    }
 
     div.content {
       text-align: center;
@@ -50,23 +57,41 @@ section.notifications {
     &.notification-enter {
       left: ~"calc(100% + 30px)";
       opacity: 0.01;
-      transition: all 0.3s ease-in-out;
+      transition: all 0.5s ease-in-out;
+
+      @media @tablet {
+        left: 0;
+        top: -60px;
+      }
     }
 
     &.notification-enter.notification-enter-active {
       left: 0;
       opacity: 1;
+
+      @media @tablet {
+        top: 0;
+      }
     }
 
     &.notification-leave {
       left: 0;
       opacity: 1;
-      transition: all 0.3s ease-in-out;
+      transition: all 0.5s ease-in-out;
+
+      @media @tablet {
+        top: 0;
+      }
     }
 
     &.notification-leave.notification-leave-active {
       left: ~"calc(100% + 30px)";
       opacity: 0.01;
+
+      @media @tablet {
+        left: 0;
+        top: -60px;
+      }
     }
   }
 }
