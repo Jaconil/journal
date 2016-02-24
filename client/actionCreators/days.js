@@ -1,6 +1,6 @@
 'use strict';
 
-import { pushState } from 'redux-router';
+import { push } from 'react-router-redux';
 
 export function getNotWrittenDays() {
   return (dispatch, getState) => {
@@ -14,7 +14,7 @@ export function getNotWrittenDays() {
           query: { status: 'notWritten', limit: 30 }
         }
       }).catch(() => {
-        dispatch(pushState(null, '/login'));
+        dispatch(push(null, '/login'));
       });
     }
   };

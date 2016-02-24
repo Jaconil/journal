@@ -2,7 +2,7 @@
 
 import crypto from 'crypto';
 
-import { pushState } from 'redux-router';
+import { push } from 'react-router-redux';
 
 /**
  * Login a given user
@@ -22,7 +22,7 @@ export function login(username, password) {
         query: { username: username, password: hash }
       }
     }).then(() => {
-      dispatch(pushState(null, '/write'));
+      dispatch(push(null, '/write'));
     }).catch(() => {});
   };
 }

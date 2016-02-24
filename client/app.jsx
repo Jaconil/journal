@@ -5,8 +5,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { Provider } from 'react-redux';
-import { Route, Redirect } from 'react-router';
-import { ReduxRouter } from 'redux-router';
+import { Router, Route, Redirect, useRouterHistory } from 'react-router';
+import { createBrowserHistory } from 'history';
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 
 import createStore from './store';
 
@@ -16,11 +17,16 @@ import WritePage from './components/WritePage/writePage.jsx';
 import ExplorePage from './components/ExplorePage/explorePage.jsx';
 import SearchPage from './components/SearchPage/searchPage.jsx';
 
-const store = createStore();
+const browserHistory = useRouterHistory(createBrowserHistory)({
+  basename: process.env.BASEPATH
+});
+
+const store = createStore(browserHistory);
+const history = syncHistoryWithStore(browserHistory, store);
 
 ReactDOM.render((
   <Provider store={store}>
-    <ReduxRouter>
+    <Router history={history}>
       <Route component={App}>
         <Route path="login" component={LoginBox}/>
         <Route path="write" component={WritePage}/>
@@ -28,6 +34,6 @@ ReactDOM.render((
         <Route path="search" component={SearchPage}/>
         <Redirect from="/" to="/login" />
       </Route>
-    </ReduxRouter>
+    </Router>
   </Provider>
 ), document.querySelector('#app'));

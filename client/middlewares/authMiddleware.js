@@ -1,6 +1,6 @@
 'use strict';
 
-import { pushState } from 'redux-router';
+import { push } from 'react-router-redux';
 
 export default function(store) {
   return next => action => {
@@ -11,7 +11,7 @@ export default function(store) {
     const state = store.getState();
 
     if (state.user.token === '' && state.router.location.pathname !== '/login') {
-      return next(pushState(null, '/login'));
+      return next(push(null, '/login'));
     }
   };
 }

@@ -23,7 +23,11 @@ function setProps(state) {
 class App extends React.Component {
 
   componentWillMount() {
-    this.props.dispatch(checkAuth());
+    //this.props.dispatch(checkAuth());
+
+    //if (state.user.token === '' && state.router.location.pathname !== '/login') {
+    //  return next(push(null, '/login'));
+    //}
 
     if (this.props.isLogged) {
       this.props.dispatch(getNotWrittenDays());
@@ -31,6 +35,7 @@ class App extends React.Component {
   }
 
   render() {
+    console.log('RENDER', this.props);
     return (
       <div className="app-container">
         {this.props.isLogged ? <Header route={this.props.route} notWrittenDays={this.props.notWrittenDays} /> : null}
