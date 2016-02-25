@@ -1,5 +1,6 @@
 'use strict';
 
+import moment from 'moment';
 import { push } from 'react-router-redux';
 
 export function getNotWrittenDays() {
@@ -11,7 +12,11 @@ export function getNotWrittenDays() {
         type: 'DAYS_FETCH_NOTWRITTEN',
         api: {
           endpoint: '/days',
-          query: { status: 'notWritten', limit: 30 }
+          query: {
+            status: 'notWritten',
+            count: 30,
+            to: moment().startOf('day').format('YYYY-MM-DD')
+          }
         }
       }).catch(() => {
         dispatch(push('/login'));
