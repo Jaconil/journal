@@ -22,7 +22,7 @@ export function login(username, password) {
         query: { username: username, password: hash }
       }
     }).then(() => {
-      dispatch(push(null, '/write'));
+      dispatch(push('/write'));
     }).catch(() => {});
   };
 }
@@ -35,16 +35,5 @@ export function login(username, password) {
 export function logout() {
   return {
     type: 'USER_LOGOUT'
-  };
-}
-
-/**
- * Checks the current user auth
- *
- * @returns {object} Action
- */
-export function checkAuth() {
-  return {
-    type: 'USER_CHECKAUTH'
   };
 }

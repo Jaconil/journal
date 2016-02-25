@@ -1,6 +1,6 @@
 'use strict';
 
-import { createStore, compose, combineReducers, applyMiddleware } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk';
 
@@ -8,7 +8,6 @@ import userReducer from './reducers/user';
 import daysReducer from './reducers/days';
 import notificationsReducer from './reducers/notifications';
 
-import authMiddleware from './middlewares/authMiddleware';
 import apiMiddleware from './middlewares/apiMiddleware';
 
 export default function(browserHistory) {
@@ -20,7 +19,7 @@ export default function(browserHistory) {
     notifications: notificationsReducer
   });
 
-  const middleware = routerMiddleware(browserHistory);
+  const routingMiddleware = routerMiddleware(browserHistory);
 
-  return applyMiddleware(middleware, authMiddleware, thunk, apiMiddleware)(createStore)(reducer);
+  return applyMiddleware(routingMiddleware, thunk, apiMiddleware)(createStore)(reducer);
 }

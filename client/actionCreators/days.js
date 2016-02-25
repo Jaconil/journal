@@ -14,7 +14,7 @@ export function getNotWrittenDays() {
           query: { status: 'notWritten', limit: 30 }
         }
       }).catch(() => {
-        dispatch(push(null, '/login'));
+        dispatch(push('/login'));
       });
     }
   };
