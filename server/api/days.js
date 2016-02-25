@@ -56,33 +56,41 @@ module.exports = (db, logger) => {
       var toDate = moment(req.query.to, 'YYYY-MM-DD').startOf('day');
       var status = req.query.status;
 
-      if (!count && !req.query.from) {
-        fromDate = moment(FIRST_DAY, 'YYYY-MM-DD').startOf('day');
+      if (!req.query.from && !req.query.to) {
+        return res.status(400).json('No date given');
       }
 
-      if (!count && !req.query.to) {
-        toDate = moment().startOf('day');
+      if (!fromDate.isValid() && req.query.from) {
+        return res.status(400).json('Invalid start date given');
+      }
 
-        // Prevent today to appear before noon
-        if (moment().diff(toDate, 'hours') < 12) {
-          toDate.subtract(1, 'day');
+      if (!toDate.isValid() && req.query.to) {
+        return res.status(400).json('Invalid end date given');
+      }
+
+      if (!req.query.from) {
+        fromDate = moment(FIRST_DAY, 'YYYY-MM-DD').startOf('day');
+
+        if (count) {
+          fromDate = moment(toDate).subtract(count, 'days');
         }
       }
 
-      if (!fromDate.isValid() || !toDate.isValid()) {
-        return res.status(400).json('Invalid date given');
+      if (!req.query.to) {
+        toDate = moment().startOf('day');
+
+        if (count) {
+          toDate = moment(fromDate).add(count, 'days');
+        }
+      }
+
+      // Prevent today to appear before noon
+      if (moment().diff(toDate, 'hours') < 12) {
+        toDate.subtract(1, 'day');
       }
 
       if (fromDate.isAfter(toDate)) {
         return res.status(400).json('Start date is after ending date');
-      }
-
-      if (count && !toDate.isValid()) {
-        toDate = moment(fromDate).add(count, 'days');
-      }
-
-      if (count && !fromDate.isValid()) {
-        fromDate = moment(toDate).subtract(count, 'days');
       }
 
       // build a empty days list
@@ -110,7 +118,7 @@ module.exports = (db, logger) => {
         // hydrate the results
         _.each(days, day => {
           _.chain(listDays)
-            .where({ date: day.date })
+            .filter({ date: day.date })
             .first()
             .assign(day)
             .commit();

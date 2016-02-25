@@ -2,7 +2,7 @@
 
 import crypto from 'crypto';
 
-import { pushState } from 'redux-router';
+import { push } from 'react-router-redux';
 
 /**
  * Login a given user
@@ -14,13 +14,16 @@ import { pushState } from 'redux-router';
 export function login(username, password) {
   var hash = crypto.createHash('sha256').update(password).digest('hex');
 
-  return {
-    type: 'USER_LOGIN',
-    api: {
-      endpoint: '/user/login',
-      query: { username: username, password: hash },
-      success: pushState(null, '/write')
-    }
+  return dispatch => {
+    return dispatch({
+      type: 'USER_LOGIN',
+      api: {
+        endpoint: '/user/login',
+        query: { username: username, password: hash }
+      }
+    }).then(() => {
+      dispatch(push('/write'));
+    }).catch(() => {});
   };
 }
 
@@ -32,16 +35,5 @@ export function login(username, password) {
 export function logout() {
   return {
     type: 'USER_LOGOUT'
-  };
-}
-
-/**
- * Checks the current user auth
- *
- * @returns {object} Action
- */
-export function checkAuth() {
-  return {
-    type: 'USER_CHECKAUTH'
   };
 }

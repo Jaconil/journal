@@ -1,32 +1,25 @@
 'use strict';
 
-import _ from 'lodash';
-
-import { createStore, compose, combineReducers, applyMiddleware } from 'redux';
-import { routerStateReducer, reduxReactRouter } from 'redux-router';
-import { createHistory, useBasename } from 'history';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { routerReducer, routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk';
 
 import userReducer from './reducers/user';
 import daysReducer from './reducers/days';
+import notificationsReducer from './reducers/notifications';
 
-import authMiddleware from './middlewares/authMiddleware';
 import apiMiddleware from './middlewares/apiMiddleware';
 
-export default function() {
+export default function(browserHistory) {
 
   const reducer = combineReducers({
-    router: routerStateReducer,
+    routing: routerReducer,
     user: userReducer,
-    days: daysReducer
+    days: daysReducer,
+    notifications: notificationsReducer
   });
 
-  const history = _.partial(useBasename(createHistory), {
-    basename: process.env.BASEPATH
-  });
+  const routingMiddleware = routerMiddleware(browserHistory);
 
-  return compose(
-    applyMiddleware(authMiddleware, thunk, apiMiddleware),
-    reduxReactRouter({ createHistory: history })
-  )(createStore)(reducer);
+  return applyMiddleware(routingMiddleware, thunk, apiMiddleware)(createStore)(reducer);
 }
