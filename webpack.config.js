@@ -26,6 +26,7 @@ var config = {
     new ExtractTextPlugin('app.min.css'),
     new webpack.DefinePlugin({
       'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
         BASEPATH: JSON.stringify(process.env.BASEPATH || '')
       }
     })
