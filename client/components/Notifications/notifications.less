@@ -12,7 +12,6 @@ section.notifications {
     box-sizing: border-box;
     width: 100%;
     max-width: 100%;
-    height: 60px;
     position: absolute;
     top: 0;
     right: 0;
@@ -35,10 +34,11 @@ section.notifications {
     position: relative;
 
     @media @tablet {
-      min-height: 60px;
-      max-height: 60px;
+      min-height: 50px;
+      max-height: 50px;
       border-radius: 0;
       position: absolute;
+      margin: 0;
     }
 
     div.content {
@@ -48,6 +48,12 @@ section.notifications {
 
     div.icon {
       margin-right: 10px;
+    }
+
+    @media @tablet {
+      div.icon i {
+        border: 0;
+      }
     }
 
     &.notification-warning {
