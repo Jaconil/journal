@@ -27,7 +27,7 @@ function notWrittenDays(state = initialNotWrittenDaysState, action) {
 
     case 'DAY_UPDATE_SUCCESS':
       let notWrittenDays = [...state.list];
-      const index = _.findIndex(notWrittenDays, 'date', action.payload.date);
+      const index = _.findIndex(notWrittenDays, { date: action.payload.date });
 
       if (index >= 0) {
         notWrittenDays[index] = action.payload;
