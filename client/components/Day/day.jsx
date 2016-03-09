@@ -40,6 +40,7 @@ class Day extends React.Component {
 
   onActionsClose() {
     this.refs.container.classList.remove('focused');
+    this.props.onClose();
   }
 
   onActionsSubmit() {
@@ -155,7 +156,8 @@ Day.propTypes = {
     status: React.PropTypes.string.isRequired
   }).isRequired,
   disabled: React.PropTypes.bool,
-  onSubmit: React.PropTypes.func
+  onSubmit: React.PropTypes.func,
+  onClose: React.PropTypes.func
 };
 
 export default connect(setProps)(Day);
