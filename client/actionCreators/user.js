@@ -5,6 +5,23 @@ import crypto from 'crypto';
 import { push } from 'react-router-redux';
 
 /**
+ * Updates the user token
+ *
+ * @param token - User token
+ * @returns {object} Action
+ */
+function updateToken(token) {
+  sessionStorage.setItem('user.token', token);
+
+  return {
+    type: 'USER_TOKEN_UPDATE',
+    payload: {
+      token: token
+    }
+  };
+}
+
+/**
  * Login a given user
  *
  * @param {string} username - User login
@@ -21,7 +38,8 @@ export function login(username, password) {
         endpoint: '/user/login',
         query: { username: username, password: hash }
       }
-    }).then(() => {
+    }).then(response => {
+      dispatch(updateToken(response.body.token));
       dispatch(push('/write'));
     }).catch(() => {});
   };
@@ -33,7 +51,5 @@ export function login(username, password) {
  * @returns {object} Action
  */
 export function logout() {
-  return {
-    type: 'USER_LOGOUT'
-  };
+  return updateToken('');
 }
