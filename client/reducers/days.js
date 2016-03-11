@@ -25,15 +25,13 @@ function notWrittenDays(state = initialNotWrittenDaysState, action) {
 
       return _.assign({}, state, { selected: state.selected + 1, list: list });
 
-    case 'DAY_UPDATE_SUCCESS':
-      let notWrittenDays = [...state.list];
-      const index = _.findIndex(notWrittenDays, { date: action.payload.date });
+    case 'DAY_UPDATE':
+      const days = _.map(state.list, day => (day.date === action.payload.date) ? action.payload : day);
 
-      if (index >= 0) {
-        notWrittenDays[index] = action.payload;
-      }
+      return _.assign({}, state, { list: days });
 
-      return _.assign({}, state, { list: notWrittenDays, length: state.length - 1 });
+    case 'DAY_SUBMIT_SUCCESS':
+      return _.assign({}, state, { length: state.length - 1 });
 
     default:
       return state;

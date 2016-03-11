@@ -9,7 +9,7 @@ import _ from 'lodash';
 
 import Textarea from 'react-textarea-autosize';
 
-import { update } from '../../actionCreators/day.js';
+import { update, submit } from '../../actionCreators/day.js';
 
 import './day.less';
 
@@ -32,6 +32,7 @@ class Day extends React.Component {
     this.onConfirmationKey = this.onConfirmationKey.bind(this);
 
     this.onTextareaFocus = this.onTextareaFocus.bind(this);
+    this.onTextareaChange = this.onTextareaChange.bind(this);
 
     this.handleFocus = this.handleFocus.bind(this);
 
@@ -64,7 +65,7 @@ class Day extends React.Component {
     this.onConfirmationBack();
     this.onActionsClose();
 
-    this.props.dispatch(update(this.props.data.date, this.refs.content.value))
+    this.props.dispatch(submit(this.props.data.date, this.refs.content.value))
       .then(this.props.onSubmit)
       .catch(_.noop);
   }
@@ -81,6 +82,10 @@ class Day extends React.Component {
 
   onTextareaFocus() {
     this.refs.container.classList.add('focused');
+  }
+
+  onTextareaChange() {
+    this.props.dispatch(update(this.props.data.date, this.refs.content.value));
   }
 
   handleFocus() {
@@ -127,6 +132,7 @@ class Day extends React.Component {
       content = <Textarea ref="content"
         disabled={this.props.disabled || this.state.confirmation}
         onKeyDown={this.onActionsKey}
+        onChange={this.onTextareaChange}
         onFocus={this.onTextareaFocus}>
       </Textarea>;
     } else {
