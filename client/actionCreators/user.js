@@ -38,8 +38,8 @@ export function login(username, password) {
         endpoint: '/user/login',
         query: { username: username, password: hash }
       }
-    }).then(response => {
-      dispatch(updateToken(response.body.token));
+    }).then(body => {
+      dispatch(updateToken(body.token));
       dispatch(push('/write'));
     }).catch(() => {});
   };

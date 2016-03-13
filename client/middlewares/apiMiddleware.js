@@ -52,7 +52,7 @@ export default function(store) {
         }
 
         next({ type: action.type + '_SUCCESS', payload: response.body });
-        return resolve(response);
+        return resolve(response.body);
       });
     });
   };

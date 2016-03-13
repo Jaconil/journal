@@ -18,6 +18,8 @@ export function getNotWrittenDays() {
             to: moment().startOf('day').format('YYYY-MM-DD')
           }
         }
+      }).then(body => {
+        // Todo: get localstorage
       }).catch(() => {
         dispatch(push('/login'));
       });
