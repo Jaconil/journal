@@ -34,7 +34,7 @@
     "react-router-redux": "^4.0.0",
     "react-textarea-autosize": "^3.2.0",
     "redux": "^3.0.4",
-    "redux-thunk": "^1.0.0",
+    "redux-thunk": "^2.0.0",
     "scroll": "1.0.0",
     "style-loader": "^0.13.0",
     "superagent": "^1.2.0",
