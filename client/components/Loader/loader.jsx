@@ -1,8 +1,5 @@
 'use strict';
 
-import React from 'react';
-import _ from 'lodash';
-
 import './loader.less';
 
 class Loader extends React.Component {

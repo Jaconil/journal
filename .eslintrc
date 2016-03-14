@@ -3,7 +3,7 @@
   "rules": {
     // Possible errors
     "no-extra-parens": [2, "functions"],
-    "valid-jsdoc": 1,
+    "valid-jsdoc": [1, {"requireReturn": false}],
     "no-unexpected-multiline": 2,
 
     // Best practices
@@ -139,8 +139,8 @@
     "modules": true
   },
   "globals": {
-    "_": false,
-    "events": false
+    "React": false,
+    "_": false
   },
   "plugins": [
     "react"

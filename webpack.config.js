@@ -29,6 +29,10 @@ var config = {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
         BASEPATH: JSON.stringify(process.env.BASEPATH || '')
       }
+    }),
+    new webpack.ProvidePlugin({
+      React: 'react',
+      _: 'lodash'
     })
   ]
 };

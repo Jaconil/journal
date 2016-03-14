@@ -1,7 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
-
 var initialNotWrittenDaysState = {
   list: [],
   length: 0,

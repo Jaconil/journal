@@ -1,6 +1,5 @@
 'use strict';
 
-import React from 'react';
 import TransitionGroup from 'react-addons-css-transition-group';
 
 import classNames from 'classnames';

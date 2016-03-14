@@ -1,12 +1,10 @@
 'use strict';
 
-/* eslint no-unused-vars: 0 */
-import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { Provider } from 'react-redux';
 import { Router, Route, Redirect, useRouterHistory } from 'react-router';
-import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
+import { syncHistoryWithStore } from 'react-router-redux';
 import { createHistory } from 'history';
 
 import createStore from './store';

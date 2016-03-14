@@ -1,11 +1,9 @@
 'use strict';
 
-import React from 'react';
 import { connect } from 'react-redux';
 
 import moment from 'moment';
 import classNames from 'classnames';
-import _ from 'lodash';
 
 import Textarea from 'react-textarea-autosize';
 

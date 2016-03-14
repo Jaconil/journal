@@ -1,7 +1,5 @@
 'use strict';
 
-import React from 'react';
-import _ from 'lodash';
 import scroll from 'scroll';
 
 import Loader from '../Loader/loader.jsx';
