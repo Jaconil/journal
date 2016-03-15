@@ -24,12 +24,12 @@ export function getNotWrittenDays() {
           }
         }
       }).then(body => {
-        if (body.length && body[0].date === localStorage.getItem('notWrittenDay:date')) {
-          body[0].content = localStorage.getItem('notWrittenDay:content');
+        if (body.length && body[0].date === localStorage.getItem('writtenDay:date')) {
+          body[0].content = localStorage.getItem('writtenDay:content');
         }
 
         return dispatch({
-          type: 'DAYS_FETCH_NOTWRITTEN_SUCCESS',
+          type: 'DAYS_FETCH_NOTWRITTEN_MERGED',
           payload: body
         });
       }).catch(() => {

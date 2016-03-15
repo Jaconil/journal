@@ -15,7 +15,7 @@ function notWrittenDays(state = initialNotWrittenDaysState, action) {
     case 'DAYS_FETCH_NOTWRITTEN_RESPONSE':
       return _.assign({}, state, { isFetching: false });
 
-    case 'DAYS_FETCH_NOTWRITTEN_SUCCESS':
+    case 'DAYS_FETCH_NOTWRITTEN_MERGED':
       return _.assign({}, state, { list: action.payload, length: action.payload.length });
 
     case 'DAYS_NEXT_NOTWRITTEN':

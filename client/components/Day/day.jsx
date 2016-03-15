@@ -127,7 +127,8 @@ class Day extends React.Component {
         disabled={this.props.disabled || this.state.confirmation}
         onKeyDown={this.onActionsKey}
         onChange={this.onTextareaChange}
-        onFocus={this.onTextareaFocus}>
+        onFocus={this.onTextareaFocus}
+        value={this.props.data.content}>
       </Textarea>;
     } else {
       content = <div className="text">{this.props.data.content}</div>;
@@ -153,7 +154,8 @@ class Day extends React.Component {
 Day.propTypes = {
   data: React.PropTypes.shape({
     date: React.PropTypes.string.isRequired,
-    status: React.PropTypes.string.isRequired
+    status: React.PropTypes.string.isRequired,
+    content: React.PropTypes.string
   }).isRequired,
   disabled: React.PropTypes.bool,
   onSubmit: React.PropTypes.func,
