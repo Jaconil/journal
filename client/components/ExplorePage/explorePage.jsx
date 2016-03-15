@@ -4,10 +4,6 @@ import { connect } from 'react-redux';
 
 import './explorePage.less';
 
-function setProps() {
-  return {};
-}
-
 class ExplorePage extends React.Component {
 
   render() {
@@ -18,4 +14,4 @@ class ExplorePage extends React.Component {
   }
 }
 
-export default connect(setProps)(ExplorePage);
+export default connect()(ExplorePage);

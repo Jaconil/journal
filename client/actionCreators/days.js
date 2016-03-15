@@ -3,6 +3,11 @@
 import moment from 'moment';
 import { push } from 'react-router-redux';
 
+/**
+ * Retrieves notWritten days from api and localstorage
+ *
+ * @returns {Promise} Resolves if the fetch was ok, redirects otherwise
+ */
 export function getNotWrittenDays() {
   return (dispatch, getState) => {
     const state = getState();
@@ -19,7 +24,14 @@ export function getNotWrittenDays() {
           }
         }
       }).then(body => {
-        // Todo: get localstorage
+        if (body.length && body[0].date === localStorage.getItem('notWrittenDay:date')) {
+          body[0].content = localStorage.getItem('notWrittenDay:content');
+        }
+
+        return dispatch({
+          type: 'DAYS_FETCH_NOTWRITTEN_SUCCESS',
+          payload: body
+        });
       }).catch(() => {
         dispatch(push('/login'));
       });
@@ -27,6 +39,11 @@ export function getNotWrittenDays() {
   };
 }
 
+/**
+ * Selects next notWritten day
+ *
+ * @returns {object} Action
+ */
 export function selectNextNotWrittenDay() {
   return {
     type: 'DAYS_NEXT_NOTWRITTEN'

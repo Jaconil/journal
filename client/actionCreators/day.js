@@ -2,9 +2,17 @@
 
 import { sendWarning } from './notifications';
 
+/**
+ * Updates a day, updating localstorage
+ *
+ * @param {string} date    - Day date (ISO format)
+ * @param {string} content - Day content
+ * @param {string} status  - Day status, defaults to 'notWritten'
+ * @returns {object} Action
+ */
 export function update(date, content, status = 'notWritten') {
-  // todo: update localstorage if notwritten
-  sessionStorage.setItem(date, content);
+  localStorage.setItem('writtenDay:date', date);
+  localStorage.setItem('writtenDay:content', content);
 
   return {
     type: 'DAY_UPDATE',
@@ -16,6 +24,13 @@ export function update(date, content, status = 'notWritten') {
   };
 }
 
+/**
+ * Submits a day
+ *
+ * @param {string} date    - Day date (ISO format)
+ * @param {string} content - Day content
+ * @returns {Promise} Resolves if the day submitted correctly
+ */
 export function submit(date, content) {
   return dispatch => {
     const action = dispatch(update(date, content, 'written'));

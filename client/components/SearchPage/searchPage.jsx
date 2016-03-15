@@ -4,10 +4,6 @@ import { connect } from 'react-redux';
 
 import './searchPage.less';
 
-function setProps() {
-  return {};
-}
-
 class SearchPage extends React.Component {
 
   render() {
@@ -18,4 +14,4 @@ class SearchPage extends React.Component {
   }
 }
 
-export default connect(setProps)(SearchPage);
+export default connect()(SearchPage);

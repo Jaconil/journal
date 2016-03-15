@@ -13,10 +13,6 @@ import './day.less';
 
 import 'moment/locale/fr';
 
-function setProps() {
-  return {};
-}
-
 class Day extends React.Component {
 
   constructor(props) {
@@ -164,4 +160,4 @@ Day.propTypes = {
   onClose: React.PropTypes.func
 };
 
-export default connect(setProps)(Day);
+export default connect()(Day);

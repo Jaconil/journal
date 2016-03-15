@@ -7,7 +7,7 @@ import { push } from 'react-router-redux';
 /**
  * Updates the user token
  *
- * @param token - User token
+ * @param {string} token - User token
  * @returns {object} Action
  */
 function updateToken(token) {
