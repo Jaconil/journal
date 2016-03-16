@@ -10,6 +10,12 @@ import { getNotWrittenDays } from '../../actionCreators/days.js';
 
 import './app.less';
 
+/**
+ * Maps state to props
+ *
+ * @param {object} state - State
+ * @returns {object} Props
+ */
 function setProps(state) {
   return {
     isLogged: state.user.token !== '',

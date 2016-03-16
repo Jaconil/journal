@@ -5,6 +5,13 @@ var initialState = {
   nbLogin: 0
 };
 
+/**
+ * Updates user state
+ *
+ * @param {object} state  - User state
+ * @param {object} action - Action received
+ * @returns {object} Updated state
+ */
 export default function(state = initialState, action) {
   switch (action.type) {
     case 'USER_TOKEN_UPDATE':

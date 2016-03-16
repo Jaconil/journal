@@ -8,6 +8,12 @@ import { login, logout } from '../../actionCreators/user.js';
 
 import './loginBox.less';
 
+/**
+ * Maps state to props
+ *
+ * @param {object} state - State
+ * @returns {object} Props
+ */
 function setProps(state) {
   return {
     nbLogin: state.user.nbLogin,

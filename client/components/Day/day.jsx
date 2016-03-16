@@ -26,7 +26,7 @@ class Day extends React.Component {
     this.onConfirmationKey = this.onConfirmationKey.bind(this);
 
     this.onTextareaFocus = this.onTextareaFocus.bind(this);
-    this.onTextareaChange = _.debounce(this.onTextareaChange.bind(this), 500);
+    this.onTextareaChange = this.onTextareaChange.bind(this);
 
     this.handleFocus = this.handleFocus.bind(this);
 

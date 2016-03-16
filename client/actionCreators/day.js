@@ -3,7 +3,18 @@
 import { sendWarning } from './notifications';
 
 /**
- * Updates a day, updating localstorage
+ * Updates localStorage
+ *
+ * @param {string} date    - Day date (ISO format)
+ * @param {string} content - Day content
+ */
+const updateLocal = _.debounce((date, content) => {
+  localStorage.setItem('writtenDay:date', date);
+  localStorage.setItem('writtenDay:content', content);
+}, 500);
+
+/**
+ * Updates a day
  *
  * @param {string} date    - Day date (ISO format)
  * @param {string} content - Day content
@@ -11,8 +22,7 @@ import { sendWarning } from './notifications';
  * @returns {object} Action
  */
 export function update(date, content, status = 'notWritten') {
-  localStorage.setItem('writtenDay:date', date);
-  localStorage.setItem('writtenDay:content', content);
+  updateLocal(date, content);
 
   return {
     type: 'DAY_UPDATE',

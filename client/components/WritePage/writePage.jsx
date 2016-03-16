@@ -9,6 +9,12 @@ import { getNotWrittenDays, selectNextNotWrittenDay } from '../../actionCreators
 
 import './writePage.less';
 
+/**
+ * Maps state to props
+ *
+ * @param {object} state - State
+ * @returns {object} Props
+ */
 function setProps(state) {
   return {
     notWrittenDays: state.days.notWrittenDays.list,

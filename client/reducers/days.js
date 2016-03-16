@@ -7,6 +7,13 @@ var initialNotWrittenDaysState = {
   isFetching: false
 };
 
+/**
+ * Updates notWrittenDays state
+ *
+ * @param {object} state  - NotWrittenDays state
+ * @param {object} action - Action received
+ * @returns {object} Updated state
+ */
 function notWrittenDays(state = initialNotWrittenDaysState, action) {
   switch (action.type) {
     case 'DAYS_FETCH_NOTWRITTEN':
@@ -36,6 +43,13 @@ function notWrittenDays(state = initialNotWrittenDaysState, action) {
   }
 }
 
+/**
+ * Updates days state
+ *
+ * @param {object} state  - Days state
+ * @param {object} action - Action received
+ * @returns {object} Updated state
+ */
 export default function(state = {}, action) {
   return {
     notWrittenDays: notWrittenDays(state.notWrittenDays, action)
