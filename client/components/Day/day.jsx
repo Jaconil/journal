@@ -1,5 +1,6 @@
 'use strict';
 
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
 import moment from 'moment';
@@ -84,7 +85,10 @@ class Day extends React.Component {
 
   handleFocus() {
     if (!this.props.disabled && this.props.data.status === 'notWritten') {
+      const contentLength = this.refs.content.value.length;
+
       this.refs.content.focus();
+      ReactDOM.findDOMNode(this.refs.content).setSelectionRange(contentLength, contentLength);
     }
   }
 
