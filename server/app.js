@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 
 app.use('/api', require('./api')(express, db, logger, config));
 
-app.get('*', function(request, response) {
+app.get(/^(?!\/api).*/, function(request, response) {
   response.sendFile(path.resolve('public', 'index.html'));
 });
 
