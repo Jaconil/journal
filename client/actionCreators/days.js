@@ -2,6 +2,7 @@
 
 import moment from 'moment';
 import { push } from 'react-router-redux';
+import { sendWarning } from './notifications';
 
 /**
  * Retrieves notWritten days from api and localstorage
@@ -23,8 +24,16 @@ export function getNotWrittenDays() {
             to: moment().startOf('day').format('YYYY-MM-DD')
           }
         }
+      }).catch(error => {
+        if (error.status && error.status === 401) {
+          dispatch(push('/login'));
+        } else {
+          dispatch(sendWarning('Impossible de récupérer les données', 5000, 'warning'));
+        }
+
+        return Promise.reject(error);
       }).then(body => {
-        if (body.length && body[0].date === localStorage.getItem('writtenDay:date')) {
+        if (body && body.length && body[0].date === localStorage.getItem('writtenDay:date')) {
           body[0].content = localStorage.getItem('writtenDay:content');
         }
 
@@ -32,8 +41,6 @@ export function getNotWrittenDays() {
           type: 'DAYS_FETCH_NOTWRITTEN_MERGED',
           payload: body
         });
-      }).catch(() => {
-        dispatch(push('/login'));
       });
     }
   };
