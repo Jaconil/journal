@@ -30,7 +30,7 @@ ReactDOM.render((
         <Route path="write" component={WritePage}/>
         <Route path="explore" component={ExplorePage}/>
         <Route path="search" component={SearchPage}/>
-        <Redirect from="/" to="/login" />
+        <Redirect from="*" to="/login" />
       </Route>
     </Router>
   </Provider>
