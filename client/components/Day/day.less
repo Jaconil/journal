@@ -30,6 +30,10 @@ section.day {
         background-color: @green;
       }
 
+      &.draft {
+        background-color: @orange;
+      }
+
       &.not-written {
         background-color: @red;
       }
@@ -143,6 +147,10 @@ section.day {
   }
 
   @media @smartphone {
+    &.focused ~ & {
+      display: none;
+    }
+
     &.focused {
       position: fixed;
       top: 50px;
