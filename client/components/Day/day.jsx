@@ -84,12 +84,16 @@ class Day extends React.Component {
   }
 
   handleFocus() {
-    if (!this.props.disabled && this.props.data.status === 'notWritten') {
+    if (!this.props.disabled && this.isEditable()) {
       const contentLength = this.refs.content.value.length;
 
       this.refs.content.focus();
       ReactDOM.findDOMNode(this.refs.content).setSelectionRange(contentLength, contentLength);
     }
+  }
+
+  isEditable() {
+    return this.props.data.status === 'notWritten' || this.props.data.status === 'draft';
   }
 
   componentDidMount() {
@@ -104,7 +108,7 @@ class Day extends React.Component {
     var boxClasses = classNames('day', {
       disabled: this.props.disabled,
       confirmation: this.state.confirmation,
-      focused: !this.props.disabled && this.props.data.status === 'notWritten'
+      focused: !this.props.disabled && this.isEditable()
     });
     var statusClasses = classNames('status', _.kebabCase(this.props.data.status));
 
@@ -119,14 +123,14 @@ class Day extends React.Component {
       </div>;
     }
 
-    if (!this.props.disabled && !this.state.confirmation && this.props.data.status === 'notWritten') {
+    if (!this.props.disabled && !this.state.confirmation && this.isEditable()) {
       actions = <div className="actions">
         <button onClick={this.onActionsClose}><i className="close fa fa-close"></i></button>
         <button onClick={this.onActionsSubmit}><i className="submit fa fa-check"></i></button>
       </div>;
     }
 
-    if (this.props.data.status === 'notWritten') {
+    if (this.isEditable()) {
       content = <Textarea ref="content"
         disabled={this.props.disabled || this.state.confirmation}
         onKeyDown={this.onActionsKey}
