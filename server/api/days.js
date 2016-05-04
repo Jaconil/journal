@@ -4,7 +4,8 @@ var FIRST_DAY = '2002-05-31';
 
 var STATUSES = {
   notWritten: 'notWritten',
-  written: 'written'
+  written: 'written',
+  draft: 'draft'
 };
 
 var moment = require('moment');
@@ -42,7 +43,7 @@ module.exports = (db, logger) => {
      *   - from : YYYY-MM-DD, default to 2002-05-31 if omitted
      *   - to : YYYY-MM-DD, default to current day if omitted
      *   - count : associated to a date, selects only these days
-     *   - status : written, notWritten
+     *   - status : written, notWritten, draft
      *   - limit: limits the number of days to display
      *
      * @param {object} req - Request
@@ -54,7 +55,7 @@ module.exports = (db, logger) => {
       var count = _.parseInt(req.query.count);
       var fromDate = moment(req.query.from, 'YYYY-MM-DD').startOf('day');
       var toDate = moment(req.query.to, 'YYYY-MM-DD').startOf('day');
-      var status = req.query.status;
+      var statuses = req.query.status ? req.query.status.split(',') : null;
 
       if (!req.query.from && !req.query.to) {
         return res.status(400).json('No date given');
@@ -105,8 +106,9 @@ module.exports = (db, logger) => {
         }
       };
 
-      if (status && status !== STATUSES.notWritten) {
-        whereFilter.status = status;
+      // Status filtering
+      if (statuses && !_.includes(statuses, STATUSES.notWritten)) {
+        whereFilter.status = { $in: statuses };
       }
 
       db.collection('day').find(whereFilter).toArray((err, days) => {
@@ -125,9 +127,9 @@ module.exports = (db, logger) => {
         });
 
         // filter the results
-        if (status) {
-          listDays = _.filter(listDays, {
-            status: status
+        if (statuses) {
+          listDays = _.filter(listDays, day => {
+            return statuses.indexOf(day.status) !== -1;
           });
         }
 
@@ -172,7 +174,7 @@ module.exports = (db, logger) => {
         status: req.body.status
       };
 
-      db.collection('day').updateOne({ date: req.params.date }, day, { upsert: true }, function(err) {
+      db.collection('day').updateOne({ date: req.params.date }, day, { upsert: true }, (err) => {
         if (err) {
           logger.error(err);
           return res.status(500).json(err.errmsg);
