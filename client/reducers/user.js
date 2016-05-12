@@ -1,6 +1,6 @@
 'use strict';
 
-var initialState = {
+const initialState = {
   token: sessionStorage.getItem('user.token') || '',
   nbLogin: 0
 };

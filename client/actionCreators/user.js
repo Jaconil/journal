@@ -16,7 +16,7 @@ function updateToken(token) {
   return {
     type: 'USER_TOKEN_UPDATE',
     payload: {
-      token: token
+      token
     }
   };
 }
@@ -29,14 +29,14 @@ function updateToken(token) {
  * @returns {object} Action
  */
 export function login(username, password) {
-  var hash = crypto.createHash('sha256').update(password).digest('hex');
+  const hash = crypto.createHash('sha256').update(password).digest('hex');
 
   return dispatch => {
     return dispatch({
       type: 'USER_LOGIN',
       api: {
         endpoint: '/user/login',
-        query: { username: username, password: hash }
+        query: { username, password: hash }
       }
     }).then(body => {
       dispatch(updateToken(body.token));

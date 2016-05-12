@@ -1,14 +1,19 @@
 'use strict';
 
-var FIRST_DAY = '2002-05-31';
+const FIRST_DAY = '2002-05-31';
+const WRITING_START_HOUR = 12; // Writing allowed only after this hour
 
-var STATUSES = {
+const HTTP_SERVER_ERROR = 500;
+const HTTP_PARAM_ERROR = 400;
+const HTTP_SUCCESS = 200;
+
+const STATUSES = {
   notWritten: 'notWritten',
   written: 'written',
   draft: 'draft'
 };
 
-var moment = require('moment');
+const moment = require('moment');
 
 require('moment-range');
 
@@ -22,10 +27,10 @@ module.exports = (db, logger) => {
    * @returns {Array} Array of days
    */
   function buildListDays(start, end) {
-    var list = [];
-    var range = moment.range(start, end);
+    const list = [];
+    const range = moment.range(start, end);
 
-    range.by('days', (day) => {
+    range.by('days', day => {
       list.push({
         date: day.format('YYYY-MM-DD'),
         status: STATUSES.notWritten
@@ -52,21 +57,21 @@ module.exports = (db, logger) => {
      */
     find: (req, res) => {
 
-      var count = _.parseInt(req.query.count);
-      var fromDate = moment(req.query.from, 'YYYY-MM-DD').startOf('day');
-      var toDate = moment(req.query.to, 'YYYY-MM-DD').startOf('day');
-      var statuses = req.query.status ? req.query.status.split(',') : null;
+      const count = _.parseInt(req.query.count);
+      let fromDate = moment(req.query.from, 'YYYY-MM-DD').startOf('day');
+      let toDate = moment(req.query.to, 'YYYY-MM-DD').startOf('day');
+      const statuses = req.query.status ? req.query.status.split(',') : null;
 
       if (!req.query.from && !req.query.to) {
-        return res.status(400).json('No date given');
+        return res.status(HTTP_PARAM_ERROR).json('No date given');
       }
 
       if (!fromDate.isValid() && req.query.from) {
-        return res.status(400).json('Invalid start date given');
+        return res.status(HTTP_PARAM_ERROR).json('Invalid start date given');
       }
 
       if (!toDate.isValid() && req.query.to) {
-        return res.status(400).json('Invalid end date given');
+        return res.status(HTTP_PARAM_ERROR).json('Invalid end date given');
       }
 
       if (!req.query.from) {
@@ -86,20 +91,20 @@ module.exports = (db, logger) => {
       }
 
       // Prevent today to appear before noon
-      if (moment().diff(toDate, 'hours') < 12) {
+      if (moment().diff(toDate, 'hours') < WRITING_START_HOUR) {
         toDate.subtract(1, 'day');
       }
 
       if (fromDate.isAfter(toDate)) {
-        return res.status(400).json('Start date is after ending date');
+        return res.status(HTTP_PARAM_ERROR).json('Start date is after ending date');
       }
 
       // build a empty days list
-      var listDays = buildListDays(fromDate, toDate);
-      var limit = req.query.limit || listDays.length;
+      let listDays = buildListDays(fromDate, toDate);
+      const limit = req.query.limit || listDays.length;
 
       // build the db query
-      var whereFilter = {
+      const whereFilter = {
         date: {
           $gte: fromDate.format('YYYY-MM-DD'),
           $lte: toDate.format('YYYY-MM-DD')
@@ -114,7 +119,7 @@ module.exports = (db, logger) => {
       db.collection('day').find(whereFilter).toArray((err, days) => {
         if (err) {
           logger.error(err);
-          return res.status(500).json(err.errmsg);
+          return res.status(HTTP_SERVER_ERROR).json(err.errmsg);
         }
 
         // hydrate the results
@@ -137,12 +142,12 @@ module.exports = (db, logger) => {
         listDays = _.take(listDays, limit);
 
         if (req.query.summary && req.query.summary === '1') {
-          return res.status(200).json({
+          return res.status(HTTP_SUCCESS).json({
             count: listDays.length
           });
         }
 
-        return res.status(200).json(listDays);
+        return res.status(HTTP_SUCCESS).json(listDays);
       });
     },
 
@@ -158,29 +163,29 @@ module.exports = (db, logger) => {
      * @returns {json} Updated day
      */
     update: (req, res) => {
-      var date = moment(req.params.date, 'YYYY-MM-DD').startOf('day');
+      const date = moment(req.params.date, 'YYYY-MM-DD').startOf('day');
 
       if (!date.isValid()) {
-        return res.status(400).json('Invalid date given');
+        return res.status(HTTP_PARAM_ERROR).json('Invalid date given');
       }
 
       if (!req.body || !req.body.content || !req.body.status) {
-        return res.status(400).json('Invalid payload');
+        return res.status(HTTP_PARAM_ERROR).json('Invalid payload');
       }
 
-      var day = {
+      const day = {
         date: req.params.date,
         content: req.body.content,
         status: req.body.status
       };
 
-      db.collection('day').updateOne({ date: req.params.date }, day, { upsert: true }, (err) => {
+      db.collection('day').updateOne({ date: req.params.date }, day, { upsert: true }, err => {
         if (err) {
           logger.error(err);
-          return res.status(500).json(err.errmsg);
+          return res.status(HTTP_SERVER_ERROR).json(err.errmsg);
         }
 
-        return res.status(200).json(day);
+        return res.status(HTTP_SUCCESS).json(day);
       });
     }
   };

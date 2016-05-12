@@ -1,6 +1,6 @@
 'use strict';
 
-var initialState = [];
+const initialState = [];
 
 /**
  * Updates notifications state

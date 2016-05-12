@@ -2,6 +2,9 @@
 
 import { sendWarning } from './notifications';
 
+const NOTIFICATION_DURATION = 5000; // 5s
+const UPDATE_DEBOUNCE_DELAY = 500; // 500ms
+
 /**
  * Updates asynchronously
  *
@@ -20,16 +23,16 @@ const updateAsync = _.debounce((date, content, status, dispatch) => {
       method: 'PUT',
       endpoint: '/days/' + date,
       body: {
-        date: date,
-        content: content,
-        status: status
+        date,
+        content,
+        status
       }
     }
   }).catch(() => {
-    dispatch(sendWarning('Echec de l\'enregistrement serveur', 5000, 'warning'));
+    dispatch(sendWarning('Echec de l\'enregistrement serveur', NOTIFICATION_DURATION, 'warning'));
     return Promise.reject();
   });
-}, 500);
+}, UPDATE_DEBOUNCE_DELAY);
 
 /**
  * Updates a day
@@ -46,9 +49,9 @@ export function update(date, content, status = 'draft') {
     return dispatch({
       type: 'DAY_UPDATE',
       payload: {
-        date: date,
-        content: content,
-        status: status
+        date,
+        content,
+        status
       }
     });
   };
@@ -73,7 +76,7 @@ export function submit(date, content) {
         body: action.payload
       }
     }).catch(() => {
-      dispatch(sendWarning('Echec de l\'enregistrement', 5000, 'warning'));
+      dispatch(sendWarning('Echec de l\'enregistrement', NOTIFICATION_DURATION, 'warning'));
       return Promise.reject();
     });
   };

@@ -25,10 +25,10 @@ export default function(store) {
       return next(action);
     }
 
-    var method = action.api.method || 'GET';
-    var path = 'api' + action.api.endpoint || '';
+    const method = action.api.method || 'GET';
+    const path = 'api' + action.api.endpoint || '';
 
-    var req = request(method, path).query({
+    const req = request(method, path).query({
       token: store.getState().user.token
     });
 

@@ -1,6 +1,6 @@
 'use strict';
 
-var initialNotWrittenDaysState = {
+const initialNotWrittenDaysState = {
   list: [],
   length: 0,
   selected: 0,
@@ -15,6 +15,8 @@ var initialNotWrittenDaysState = {
  * @returns {object} Updated state
  */
 function notWrittenDays(state = initialNotWrittenDaysState, action) {
+  let list = null;
+
   switch (action.type) {
     case 'DAYS_FETCH_NOTWRITTEN':
       return _.assign({}, state, { list: [], selected: 0, isFetching: true });
@@ -26,14 +28,14 @@ function notWrittenDays(state = initialNotWrittenDaysState, action) {
       return _.assign({}, state, { list: action.payload, length: action.payload.length });
 
     case 'DAYS_NEXT_NOTWRITTEN':
-      const list = (state.selected === state.list.length - 1) ? [] : state.list;
+      list = (state.selected === state.list.length - 1) ? [] : state.list;
 
-      return _.assign({}, state, { selected: state.selected + 1, list: list });
+      return _.assign({}, state, { selected: state.selected + 1, list });
 
     case 'DAY_UPDATE':
-      const days = _.map(state.list, day => (day.date === action.payload.date) ? action.payload : day);
+      list = _.map(state.list, day => ((day.date === action.payload.date) ? action.payload : day));
 
-      return _.assign({}, state, { list: days });
+      return _.assign({}, state, { list });
 
     case 'DAY_SUBMIT_SUCCESS':
       return _.assign({}, state, { length: state.length - 1 });

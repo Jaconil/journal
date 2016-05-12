@@ -1,14 +1,14 @@
 'use strict';
 
-var jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 module.exports = (express, db, logger, config) => {
-  var router = new express.Router();
+  const router = new express.Router();
 
-  var checkToken = require('./middlewares/checkToken')(jwt, logger, config);
+  const checkToken = require('./middlewares/checkToken')(jwt, logger, config);
 
-  var user = require('./user')(db, jwt, logger, config);
-  var days = require('./days')(db, logger);
+  const user = require('./user')(db, jwt, logger, config);
+  const days = require('./days')(db, logger);
 
   router.get('/user/login', user.login);
 

@@ -4,6 +4,9 @@ import moment from 'moment';
 import { push } from 'react-router-redux';
 import { sendWarning } from './notifications';
 
+const NOTIFICATION_DURATION = 5000; // 5s
+const HTTP_NOT_ALLOWED = 401;
+
 /**
  * Retrieves notWritten days from api and localstorage
  *
@@ -25,10 +28,10 @@ export function getNotWrittenDays() {
           }
         }
       }).catch(error => {
-        if (error.status && error.status === 401) {
+        if (error.status && error.status === HTTP_NOT_ALLOWED) {
           dispatch(push('/login'));
         } else {
-          dispatch(sendWarning('Impossible de récupérer les données', 5000, 'warning'));
+          dispatch(sendWarning('Impossible de récupérer les données', NOTIFICATION_DURATION, 'warning'));
         }
 
         return Promise.reject(error);
