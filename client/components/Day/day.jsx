@@ -86,11 +86,8 @@ class Day extends React.Component {
 
   handleFocus() {
     if (!this.props.disabled && this.isEditable()) {
-      const contentLength = this.refs.content.value.length;
-
       this.refs.content.focus();
       this.onTextareaFocus();
-      ReactDOM.findDOMNode(this.refs.content).setSelectionRange(contentLength, contentLength);
     }
   }
 
@@ -100,6 +97,12 @@ class Day extends React.Component {
 
   componentDidMount() {
     this.handleFocus();
+
+    // Manage cursor position to the end of the text
+    if (!this.props.disabled && this.isEditable()) {
+      const contentLength = this.refs.content.value.length;
+      ReactDOM.findDOMNode(this.refs.content).setSelectionRange(contentLength, contentLength);
+    }
   }
 
   componentDidUpdate() {
