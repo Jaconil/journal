@@ -169,7 +169,7 @@ module.exports = (db, logger) => {
         return res.status(HTTP_PARAM_ERROR).json('Invalid date given');
       }
 
-      if (!req.body || !req.body.content || !req.body.status) {
+      if (!req.body || !req.body.status || (!req.body.content && req.body.status !== STATUSES.draft)) {
         return res.status(HTTP_PARAM_ERROR).json('Invalid payload');
       }
 

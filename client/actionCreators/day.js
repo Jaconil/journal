@@ -68,6 +68,7 @@ export function submit(date, content) {
   return dispatch => {
     const action = dispatch(update(date, content, 'written'));
 
+    // FIXME: Unneeded http request
     return dispatch({
       type: 'DAY_SUBMIT',
       api: {
