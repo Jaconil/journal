@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Day from './../Day/day.jsx';
 import DaysList from './../DaysList/daysList.jsx';
 
-import { getNotWrittenDays, selectNextNotWrittenDay } from '../../actionCreators/days.js';
+import { getNotWrittenDays, selectNextNotWrittenDay, changeCurrentDayFocus } from '../../actionCreators/days.js';
 
 import './writePage.less';
 
@@ -19,7 +19,8 @@ function setProps(state) {
   return {
     notWrittenDays: state.days.notWrittenDays.list,
     selectedDay: state.days.notWrittenDays.selected,
-    isFetching: state.days.notWrittenDays.isFetching
+    isFetching: state.days.notWrittenDays.isFetching,
+    isFocused: state.days.notWrittenDays.isFocused
   };
 }
 
@@ -28,7 +29,8 @@ class WritePage extends React.Component {
   constructor(props) {
     super(props);
     this.selectNextDay = this.selectNextDay.bind(this);
-    this.repaint = this.repaint.bind(this);
+    this.focusCurrentDay = this.focusCurrentDay.bind(this);
+    this.closeCurrentDay = this.closeCurrentDay.bind(this);
   }
 
   componentWillMount() {
@@ -39,11 +41,16 @@ class WritePage extends React.Component {
     this.props.dispatch(selectNextNotWrittenDay());
   }
 
+  focusCurrentDay() {
+    this.props.dispatch(changeCurrentDayFocus(true));
+  }
+
   /**
    * Forces to repaint the view, necessary when a
    * focused day is closed to realign days list
    */
-  repaint() {
+  closeCurrentDay() {
+    this.props.dispatch(changeCurrentDayFocus(false));
     this.forceUpdate();
   }
 
@@ -53,15 +60,21 @@ class WritePage extends React.Component {
         <Day data={day}
             key={day.date}
             disabled={index !== this.props.selectedDay}
+            onFocus={this.focusCurrentDay}
             onSubmit={this.selectNextDay}
-            onClose={this.repaint}
+            onClose={this.closeCurrentDay}
         />
       );
     });
 
     return (
       <section className="page writePage">
-        <DaysList selected={this.props.selectedDay} loading={this.props.isFetching} emptyText="Tout est à jour :)">
+        <DaysList
+          selected={this.props.selectedDay}
+          loading={this.props.isFetching}
+          focused={this.props.isFocused}
+          emptyText="Tout est à jour :)"
+        >
           {days}
         </DaysList>
       </section>

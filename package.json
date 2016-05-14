@@ -53,7 +53,7 @@
     "test": "check-build",
     "webpack": "webpack",
     "watch": "webpack --watch",
-    "lint": "eslint --plugin=eslint-plugin-react client/**/*.js* server/**/*.js && david"
+    "lint": "eslint --plugin=eslint-plugin-react client/**/*.js client/**/*.jsx server/**/*.js && david"
   },
   "main": "server/app.js",
   "repository": {

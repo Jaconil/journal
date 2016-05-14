@@ -1,6 +1,7 @@
 'use strict';
 
 import scroll from 'scroll';
+import classNames from 'classnames';
 
 import Loader from '../Loader/loader.jsx';
 
@@ -58,6 +59,10 @@ class DaysList extends React.Component {
   }
 
   render() {
+    var classes = classNames(
+      'daysList',
+      { focused: this.props.focused }
+    );
     var loader = this.props.loading ? <Loader className="dayList-loader" /> : null;
     var emptyText = null;
 
@@ -66,7 +71,7 @@ class DaysList extends React.Component {
     }
 
     return (
-      <section className="daysList" ref="container">
+      <section className={classes} ref="container">
         {loader}
         {emptyText}
         <div ref="list" key={this.props.children.length} className="animated fadeIn">
@@ -80,6 +85,7 @@ class DaysList extends React.Component {
 DaysList.propTypes = {
   selected: React.PropTypes.number.isRequired,
   loading: React.PropTypes.bool,
+  focused: React.PropTypes.bool,
   emptyText: React.PropTypes.string
 };
 

@@ -77,6 +77,7 @@ class Day extends React.Component {
 
   onTextareaFocus() {
     this.refs.container.classList.add('focused');
+    this.props.onFocus();
   }
 
   onTextareaChange() {
@@ -88,6 +89,7 @@ class Day extends React.Component {
       const contentLength = this.refs.content.value.length;
 
       this.refs.content.focus();
+      this.onTextareaFocus();
       ReactDOM.findDOMNode(this.refs.content).setSelectionRange(contentLength, contentLength);
     }
   }
@@ -107,8 +109,7 @@ class Day extends React.Component {
   render() {
     var boxClasses = classNames('day', {
       disabled: this.props.disabled,
-      confirmation: this.state.confirmation,
-      focused: !this.props.disabled && this.isEditable()
+      confirmation: this.state.confirmation
     });
     var statusClasses = classNames('status', _.kebabCase(this.props.data.status));
 
@@ -166,6 +167,7 @@ Day.propTypes = {
     content: React.PropTypes.string
   }).isRequired,
   disabled: React.PropTypes.bool,
+  onFocus: React.PropTypes.func,
   onSubmit: React.PropTypes.func,
   onClose: React.PropTypes.func
 };
