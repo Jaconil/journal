@@ -17,64 +17,64 @@ class DaysList extends React.Component {
     };
   }
 
-  handleResize() {
-    this.setState({
-      windowHeight: window.innerHeight
-    });
-  }
-
   componentDidMount() {
     window.addEventListener('resize', this.handleResize);
+  }
+
+  componentDidUpdate() {
+    const items = this.list.childNodes;
+
+    if (!items.length) {
+      return;
+    }
+
+    const firstItemStyle = window.getComputedStyle(items[0]);
+    const lastItemStyle = window.getComputedStyle(items[items.length - 1]);
+
+    const firstH = _.parseInt(firstItemStyle.marginTop) + _.parseInt(firstItemStyle.height);
+    const lastH = _.parseInt(lastItemStyle.height) + _.parseInt(lastItemStyle.marginBottom);
+    const margin = _.parseInt(lastItemStyle.marginBottom);
+
+    this.list.style.paddingTop = this.state.windowHeight / 2 - firstH / 2 + 'px';
+    this.list.style.paddingBottom = this.state.windowHeight / 2 - lastH / 2 - margin + 'px';
+
+    // Scroll
+    const selectedItem = items[this.props.selected];
+    const selectedItemStyle = window.getComputedStyle(selectedItem);
+    const offsetDiff = selectedItem.offsetTop - items[0].offsetTop;
+    const heightDiff = _.parseInt(firstItemStyle.height) / 2 - _.parseInt(selectedItemStyle.height) / 2;
+    const topScroll = offsetDiff - heightDiff;
+
+    scroll.top(this.container, topScroll, { duration: 600 });
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
   }
 
-  componentDidUpdate() {
-    var items = this.refs.list.childNodes;
-
-    if (!items.length) {
-      return;
-    }
-
-    var firstItemStyle = window.getComputedStyle(items[0]);
-    var lastItemStyle = window.getComputedStyle(items[items.length - 1]);
-
-    var firstH = _.parseInt(firstItemStyle.marginTop) + _.parseInt(firstItemStyle.height);
-    var lastH = _.parseInt(lastItemStyle.height) + _.parseInt(lastItemStyle.marginBottom);
-    var margin = _.parseInt(lastItemStyle.marginBottom);
-
-    this.refs.list.style.paddingTop = this.state.windowHeight / 2 - firstH / 2 + 'px';
-    this.refs.list.style.paddingBottom = this.state.windowHeight / 2 - lastH / 2 - margin + 'px';
-
-    // Scroll
-    var selectedItem = items[this.props.selected];
-    var selectedItemStyle = window.getComputedStyle(selectedItem);
-    var offsetDiff = selectedItem.offsetTop - items[0].offsetTop;
-    var heightDiff = _.parseInt(firstItemStyle.height) / 2 - _.parseInt(selectedItemStyle.height) / 2;
-    var topScroll = offsetDiff - heightDiff;
-
-    scroll.top(this.refs.container, topScroll, { duration: 600 });
+  handleResize() {
+    this.setState({
+      windowHeight: window.innerHeight
+    });
   }
 
   render() {
-    var classes = classNames(
+    const classes = classNames(
       'daysList',
       { focused: this.props.focused }
     );
-    var loader = this.props.loading ? <Loader className="dayList-loader" /> : null;
-    var emptyText = null;
+    const loader = this.props.loading ? <Loader className="dayList-loader" /> : null;
+    let emptyText = null;
 
     if (this.props.emptyText && !this.props.loading && !this.props.children.length) {
       emptyText = <div className="empty animated fadeIn">{this.props.emptyText}</div>;
     }
 
     return (
-      <section className={classes} ref="container">
+      <section className={classes} ref={element => this.container = element}>
         {loader}
         {emptyText}
-        <div ref="list" key={this.props.children.length} className="animated fadeIn">
+        <div ref={element => this.list = element} key={this.props.children.length} className="animated fadeIn">
           {this.props.children}
         </div>
       </section>
@@ -84,9 +84,9 @@ class DaysList extends React.Component {
 
 DaysList.propTypes = {
   selected: React.PropTypes.number.isRequired,
-  loading: React.PropTypes.bool,
+  emptyText: React.PropTypes.string,
   focused: React.PropTypes.bool,
-  emptyText: React.PropTypes.string
+  loading: React.PropTypes.bool
 };
 
 export default DaysList;

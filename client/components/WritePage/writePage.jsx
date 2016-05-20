@@ -55,14 +55,15 @@ class WritePage extends React.Component {
   }
 
   render() {
-    var days = this.props.notWrittenDays.map((day, index) => {
+    const days = this.props.notWrittenDays.map((day, index) => {
       return (
-        <Day data={day}
-            key={day.date}
-            disabled={index !== this.props.selectedDay}
-            onFocus={this.focusCurrentDay}
-            onSubmit={this.selectNextDay}
-            onClose={this.closeCurrentDay}
+        <Day
+          data={day}
+          key={day.date}
+          disabled={index !== this.props.selectedDay}
+          onFocus={this.focusCurrentDay}
+          onSubmit={this.selectNextDay}
+          onClose={this.closeCurrentDay}
         />
       );
     });
@@ -81,5 +82,12 @@ class WritePage extends React.Component {
     );
   }
 }
+
+WritePage.propTypes = {
+  isFetching: React.PropTypes.bool,
+  isFocused: React.PropTypes.bool,
+  notWrittenDays: React.PropTypes.array,
+  selectedDay: React.PropTypes.number
+};
 
 export default connect(setProps)(WritePage);

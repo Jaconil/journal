@@ -44,16 +44,15 @@
     "winston": "^2.1.0"
   },
   "devDependencies": {
-    "eslint": "2.9.*",
+    "eslint": "2.10.*",
     "eslint-plugin-react": "5.1.*",
     "david": "7.*"
   },
   "scripts": {
     "start": "node server/app.js",
-    "test": "check-build",
     "webpack": "webpack",
     "watch": "webpack --watch",
-    "lint": "eslint --plugin=eslint-plugin-react client/**/*.js client/**/*.jsx server/**/*.js && david"
+    "lint": "eslint client/**/*.js client/**/*.jsx server/**/*.js && david"
   },
   "main": "server/app.js",
   "repository": {

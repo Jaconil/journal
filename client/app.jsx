@@ -26,10 +26,10 @@ ReactDOM.render((
   <Provider store={store}>
     <Router history={history}>
       <Route component={App}>
-        <Route path="login" component={LoginBox}/>
-        <Route path="write" component={WritePage}/>
-        <Route path="explore" component={ExplorePage}/>
-        <Route path="search" component={SearchPage}/>
+        <Route path="login" component={LoginBox} />
+        <Route path="write" component={WritePage} />
+        <Route path="explore" component={ExplorePage} />
+        <Route path="search" component={SearchPage} />
         <Redirect from="*" to="/login" />
       </Route>
     </Router>

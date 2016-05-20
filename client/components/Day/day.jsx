@@ -14,6 +14,9 @@ import './day.less';
 
 import 'moment/locale/fr';
 
+const KEY_ENTER = 13;
+const KEY_ESCAPE = 27;
+
 class Day extends React.Component {
 
   constructor(props) {
@@ -34,8 +37,23 @@ class Day extends React.Component {
     this.state = { confirmation: false };
   }
 
+  componentDidMount() {
+    this.handleFocus();
+
+    // Manage cursor position to the end of the text
+    if (!this.props.disabled && this.isEditable()) {
+      const contentLength = this.content.value.length;
+
+      ReactDOM.findDOMNode(this.content).setSelectionRange(contentLength, contentLength);
+    }
+  }
+
+  componentDidUpdate() {
+    this.handleFocus();
+  }
+
   onActionsClose() {
-    this.refs.container.classList.remove('focused');
+    this.container.classList.remove('focused');
     this.props.onClose();
   }
 
@@ -45,7 +63,7 @@ class Day extends React.Component {
   }
 
   onActionsKey(event) {
-    if (event.keyCode === 13 && !event.shiftKey) {
+    if (event.keyCode === KEY_ENTER && !event.shiftKey) {
       event.preventDefault();
       this.onActionsSubmit();
     }
@@ -60,7 +78,7 @@ class Day extends React.Component {
     this.onConfirmationBack();
     this.onActionsClose();
 
-    this.props.dispatch(submit(this.props.data.date, this.refs.content.value))
+    this.props.dispatch(submit(this.props.data.date, this.content.value))
       .then(this.props.onSubmit)
       .catch(_.noop);
   }
@@ -68,25 +86,25 @@ class Day extends React.Component {
   onConfirmationKey(event) {
     event.preventDefault();
 
-    if (event.keyCode === 27) {
+    if (event.keyCode === KEY_ESCAPE) {
       this.onConfirmationBack();
-    } else if (event.keyCode === 13) {
+    } else if (event.keyCode === KEY_ENTER) {
       this.onConfirmationSubmit();
     }
   }
 
   onTextareaFocus() {
-    this.refs.container.classList.add('focused');
+    this.container.classList.add('focused');
     this.props.onFocus();
   }
 
   onTextareaChange() {
-    this.props.dispatch(update(this.props.data.date, this.refs.content.value));
+    this.props.dispatch(update(this.props.data.date, this.content.value));
   }
 
   handleFocus() {
     if (!this.props.disabled && this.isEditable()) {
-      this.refs.content.focus();
+      this.content.focus();
       this.onTextareaFocus();
     }
   }
@@ -95,59 +113,52 @@ class Day extends React.Component {
     return this.props.data.status === 'notWritten' || this.props.data.status === 'draft';
   }
 
-  componentDidMount() {
-    this.handleFocus();
-
-    // Manage cursor position to the end of the text
-    if (!this.props.disabled && this.isEditable()) {
-      const contentLength = this.refs.content.value.length;
-      ReactDOM.findDOMNode(this.refs.content).setSelectionRange(contentLength, contentLength);
-    }
-  }
-
-  componentDidUpdate() {
-    this.handleFocus();
-  }
-
   render() {
-    var boxClasses = classNames('day', {
+    const boxClasses = classNames('day', {
       disabled: this.props.disabled,
       confirmation: this.state.confirmation
     });
-    var statusClasses = classNames('status', _.kebabCase(this.props.data.status));
+    const statusClasses = classNames('status', _.kebabCase(this.props.data.status));
 
-    var actions = null;
-    var content = null;
-    var confirmationOverlay = null;
+    let actions = null;
+    let content = null;
+    let confirmationOverlay = null;
 
     if (this.state.confirmation) {
-      confirmationOverlay = <div className="confirmationOverlay">
-        <button onClick={this.onConfirmationBack}><i className="fa fa-close fa-2x"></i></button>
-        <button onClick={this.onConfirmationSubmit}><i className="fa fa-check fa-2x"></i></button>
-      </div>;
+      confirmationOverlay = (
+        <div className="confirmationOverlay">
+          <button onClick={this.onConfirmationBack}><i className="fa fa-close fa-2x"></i></button>
+          <button onClick={this.onConfirmationSubmit}><i className="fa fa-check fa-2x"></i></button>
+        </div>
+      );
     }
 
     if (!this.props.disabled && !this.state.confirmation && this.isEditable()) {
-      actions = <div className="actions">
-        <button onClick={this.onActionsClose}><i className="close fa fa-close"></i></button>
-        <button onClick={this.onActionsSubmit}><i className="submit fa fa-check"></i></button>
-      </div>;
+      actions = (
+        <div className="actions">
+          <button onClick={this.onActionsClose}><i className="close fa fa-close"></i></button>
+          <button onClick={this.onActionsSubmit}><i className="submit fa fa-check"></i></button>
+        </div>
+      );
     }
 
     if (this.isEditable()) {
-      content = <Textarea ref="content"
-        disabled={this.props.disabled || this.state.confirmation}
-        onKeyDown={this.onActionsKey}
-        onChange={this.onTextareaChange}
-        onFocus={this.onTextareaFocus}
-        value={this.props.data.content}>
-      </Textarea>;
+      content = (
+        <Textarea
+          ref={element => this.content = element}
+          disabled={this.props.disabled || this.state.confirmation}
+          onKeyDown={this.onActionsKey}
+          onChange={this.onTextareaChange}
+          onFocus={this.onTextareaFocus}
+          value={this.props.data.content}
+        />
+      );
     } else {
       content = <div className="text">{this.props.data.content}</div>;
     }
 
     return (
-      <section className={boxClasses} ref="container">
+      <section className={boxClasses} ref={element => this.container = element}>
         {confirmationOverlay}
         <header>
           <div className={statusClasses}></div>
@@ -170,9 +181,9 @@ Day.propTypes = {
     content: React.PropTypes.string
   }).isRequired,
   disabled: React.PropTypes.bool,
+  onClose: React.PropTypes.func,
   onFocus: React.PropTypes.func,
-  onSubmit: React.PropTypes.func,
-  onClose: React.PropTypes.func
+  onSubmit: React.PropTypes.func
 };
 
 export default connect()(Day);

@@ -9,10 +9,10 @@ import './header.less';
 class Header extends React.Component {
 
   render() {
-    var writeClass = classNames({ active: this.props.route.indexOf('write') > -1 });
-    var exploreClass = classNames({ active: this.props.route.indexOf('explore') > -1 });
-    var searchClass = classNames({ active: this.props.route.indexOf('search') > -1 });
-    var writeNotification = null;
+    const writeClass = classNames({ active: this.props.route.indexOf('write') > -1 });
+    const exploreClass = classNames({ active: this.props.route.indexOf('explore') > -1 });
+    const searchClass = classNames({ active: this.props.route.indexOf('search') > -1 });
+    let writeNotification = null;
 
     if (this.props.notWrittenDays > 1) {
       writeNotification = <span className="notification">{this.props.notWrittenDays}</span>;
