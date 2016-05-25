@@ -6,14 +6,15 @@ const NOTIFICATION_DURATION = 5000; // 5s
 const UPDATE_DEBOUNCE_DELAY = 500; // 500ms
 
 /**
- * Updates asynchronously
+ * Updates a day on the server
  *
+ * @param {function} dispatch - Dispatch function
  * @param {string} date       - Day date (ISO format)
  * @param {string} content    - Day content
- * @param {string} status  - Day status, defaults to 'draft'
- * @param {function} dispatch - Dispatch function
+ * @param {string} status     - Day status
+ * @return {Promise} Resolves if the day updated correctly
  */
-const updateAsync = _.debounce((date, content, status, dispatch) => {
+function updateRemote(dispatch, date, content, status) {
   localStorage.setItem('writtenDay:date', date);
   localStorage.setItem('writtenDay:content', content);
 
@@ -29,31 +30,43 @@ const updateAsync = _.debounce((date, content, status, dispatch) => {
       }
     }
   }).catch(() => {
-    dispatch(sendWarning('Echec de l\'enregistrement serveur', NOTIFICATION_DURATION, 'warning'));
+    dispatch(sendWarning('Echec de l\'enregistrement', NOTIFICATION_DURATION, 'warning'));
     return Promise.reject();
   });
-}, UPDATE_DEBOUNCE_DELAY);
+}
+
+const updateRemoteAsync = _.debounce(updateRemote, UPDATE_DEBOUNCE_DELAY);
+
+/**
+ * Creates a day update action
+ *
+ * @param {string} date       - Day date (ISO format)
+ * @param {string} content    - Day content
+ * @param {string} status     - Day status
+ * @return {object} Action
+ */
+export function updateDay(date, content, status) {
+  return {
+    type: 'DAY_UPDATE',
+    payload: {
+      date,
+      content,
+      status
+    }
+  };
+}
 
 /**
  * Updates a day
  *
  * @param {string} date    - Day date (ISO format)
  * @param {string} content - Day content
- * @param {string} status  - Day status, defaults to 'draft'
  * @returns {object} Action
  */
-export function update(date, content, status = 'draft') {
+export function update(date, content) {
   return dispatch => {
-    updateAsync(date, content, status, dispatch);
-
-    return dispatch({
-      type: 'DAY_UPDATE',
-      payload: {
-        date,
-        content,
-        status
-      }
-    });
+    updateRemoteAsync(dispatch, date, content, 'draft');
+    return dispatch(updateDay(date, content, 'draft'));
   };
 }
 
@@ -66,19 +79,8 @@ export function update(date, content, status = 'draft') {
  */
 export function submit(date, content) {
   return dispatch => {
-    const action = dispatch(update(date, content, 'written'));
-
-    // FIXME: Unneeded http request
-    return dispatch({
-      type: 'DAY_SUBMIT',
-      api: {
-        method: 'PUT',
-        endpoint: '/days/' + date,
-        body: action.payload
-      }
-    }).catch(() => {
-      dispatch(sendWarning('Echec de l\'enregistrement', NOTIFICATION_DURATION, 'warning'));
-      return Promise.reject();
+    return updateRemote(dispatch, date, content, 'written').then(() => {
+      return dispatch(updateDay(date, content, 'written'));
     });
   };
 }

@@ -2,7 +2,6 @@
 
 const initialNotWrittenDaysState = {
   list: [],
-  length: 0,
   selected: 0,
   isFetching: false,
   isFocused: false
@@ -26,7 +25,7 @@ function notWrittenDays(state = initialNotWrittenDaysState, action) {
       return _.assign({}, state, { isFetching: false });
 
     case 'DAYS_FETCH_NOTWRITTEN_MERGED':
-      return _.assign({}, state, { list: action.payload, length: action.payload.length });
+      return _.assign({}, state, { list: action.payload });
 
     case 'DAYS_CHANGE_FOCUS':
       return _.assign({}, state, { isFocused: action.payload.focused });
@@ -40,9 +39,6 @@ function notWrittenDays(state = initialNotWrittenDaysState, action) {
       list = _.map(state.list, day => ((day.date === action.payload.date) ? action.payload : day));
 
       return _.assign({}, state, { list });
-
-    case 'DAY_SUBMIT_SUCCESS':
-      return _.assign({}, state, { length: state.length - 1 });
 
     default:
       return state;

@@ -19,7 +19,7 @@ import './app.less';
 function setProps(state) {
   return {
     isLogged: state.user.token !== '',
-    notWrittenDays: state.days.notWrittenDays.length,
+    notWrittenDays: _.reject(state.days.notWrittenDays.list, { status: 'written' }).length,
     notifications: state.notifications
   };
 }
