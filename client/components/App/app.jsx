@@ -1,6 +1,5 @@
 'use strict';
 
-import React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 
@@ -11,10 +10,16 @@ import { getNotWrittenDays } from '../../actionCreators/days.js';
 
 import './app.less';
 
+/**
+ * Maps state to props
+ *
+ * @param {object} state - State
+ * @returns {object} Props
+ */
 function setProps(state) {
   return {
     isLogged: state.user.token !== '',
-    notWrittenDays: state.days.notWrittenDays.length,
+    notWrittenDays: _.reject(state.days.notWrittenDays.list, { status: 'written' }).length,
     notifications: state.notifications
   };
 }
@@ -41,5 +46,11 @@ class App extends React.Component {
     );
   }
 }
+
+App.propTypes = {
+  isLogged: React.PropTypes.bool,
+  notWrittenDays: React.PropTypes.number,
+  notifications: React.PropTypes.array
+};
 
 export default connect(setProps)(App);

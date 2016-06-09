@@ -1,5 +1,11 @@
 'use strict';
 
+const HTTP_SERVER_ERROR = 500;
+const HTTP_NOT_FOUND = 404;
+const HTTP_SUCCESS = 200;
+
+const TOKEN_DURATION = 1800; // 30mn
+
 module.exports = (db, jwt, logger, config) => {
   return {
     login: (req, res) => {
@@ -9,16 +15,16 @@ module.exports = (db, jwt, logger, config) => {
       }, (err, user) => {
         if (err) {
           logger.error(err);
-          return res.status(500).json(err.errmsg);
+          return res.status(HTTP_SERVER_ERROR).json(err.errmsg);
         }
 
         if (!user) {
-          return res.status(404).json('User not found');
+          return res.status(HTTP_NOT_FOUND).json('User not found');
         }
 
-        return res.status(200).json({
+        return res.status(HTTP_SUCCESS).json({
           token: jwt.sign({ id: user.id }, config.jwtSecret, {
-            expiresIn: 30 * 60
+            expiresIn: TOKEN_DURATION
           })
         });
       });

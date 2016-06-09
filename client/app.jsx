@@ -1,12 +1,10 @@
 'use strict';
 
-/* eslint no-unused-vars: 0 */
-import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { Provider } from 'react-redux';
 import { Router, Route, Redirect, useRouterHistory } from 'react-router';
-import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
+import { syncHistoryWithStore } from 'react-router-redux';
 import { createHistory } from 'history';
 
 import createStore from './store';
@@ -28,11 +26,11 @@ ReactDOM.render((
   <Provider store={store}>
     <Router history={history}>
       <Route component={App}>
-        <Route path="login" component={LoginBox}/>
-        <Route path="write" component={WritePage}/>
-        <Route path="explore" component={ExplorePage}/>
-        <Route path="search" component={SearchPage}/>
-        <Redirect from="/" to="/login" />
+        <Route path="login" component={LoginBox} />
+        <Route path="write" component={WritePage} />
+        <Route path="explore" component={ExplorePage} />
+        <Route path="search" component={SearchPage} />
+        <Redirect from="*" to="/login" />
       </Route>
     </Router>
   </Provider>

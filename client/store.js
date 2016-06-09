@@ -10,6 +10,12 @@ import notificationsReducer from './reducers/notifications';
 
 import apiMiddleware from './middlewares/apiMiddleware';
 
+/**
+ * Creates the app state
+ *
+ * @param {object} browserHistory - History type used
+ * @returns {object} Created state
+ */
 export default function(browserHistory) {
 
   const reducer = combineReducers({

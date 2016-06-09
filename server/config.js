@@ -2,7 +2,7 @@
 
 require('dotenv').load();
 
-var defaultConfig = {
+const defaultConfig = {
   port: 1337,
 
   dbHost: null,
@@ -16,11 +16,11 @@ var defaultConfig = {
 
 // Env variables assignment
 module.exports = _.mapValues(defaultConfig, (defaultValue, key) => {
-  var snakeKey = _.snakeCase(key);
-  var value = process.env['npm_config_' + snakeKey] || process.env[snakeKey.toUpperCase()] || defaultValue;
+  const snakeKey = _.snakeCase(key);
+  const value = process.env[`npm_config_${snakeKey}`] || process.env[snakeKey.toUpperCase()] || defaultValue;
 
   if (value === null) {
-    throw new Error('Env variable ' + key.toUpperCase() + ' is required but undefined');
+    throw new Error(`Env variable ${key.toUpperCase()} is required but undefined`);
   }
 
   return value;

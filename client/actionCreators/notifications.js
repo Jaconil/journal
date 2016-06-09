@@ -10,16 +10,16 @@
  * @returns {object} Action
  */
 export function send(level, content, duration = 0, icon = null) {
-  var notificationId = new Date().getTime() + content;
+  const notificationId = new Date().getTime() + content;
 
   return dispatch => {
     dispatch({
       type: 'NOTIFICATION_ADD',
       payload: {
         id: notificationId,
-        content: content,
-        icon: icon,
-        level: level
+        content,
+        icon,
+        level
       }
     });
 

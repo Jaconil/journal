@@ -1,7 +1,14 @@
 'use strict';
 
-var initialState = [];
+const initialState = [];
 
+/**
+ * Updates notifications state
+ *
+ * @param {Array} state   - Notifications state
+ * @param {Object} action - Action received
+ * @returns {Array} Updated state
+ */
 export default function(state = initialState, action) {
   switch (action.type) {
     case 'NOTIFICATION_ADD':

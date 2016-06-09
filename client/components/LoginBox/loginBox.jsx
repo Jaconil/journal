@@ -1,6 +1,5 @@
 'use strict';
 
-import React from 'react';
 import { connect } from 'react-redux';
 
 import classNames from 'classnames';
@@ -9,10 +8,15 @@ import { login, logout } from '../../actionCreators/user.js';
 
 import './loginBox.less';
 
+/**
+ * Maps state to props
+ *
+ * @param {object} state - State
+ * @returns {object} Props
+ */
 function setProps(state) {
   return {
-    nbLogin: state.user.nbLogin,
-    isLogged: state.user.token !== ''
+    nbLogin: state.user.nbLogin
   };
 }
 
@@ -30,15 +34,15 @@ class LoginBox extends React.Component {
   onSubmit(event) {
     event.preventDefault();
 
-    var username = this.refs.username.value;
-    var password = this.refs.password.value;
+    const username = this.username.value;
+    const password = this.password.value;
 
     this.props.dispatch(login(username, password));
   }
 
   render() {
 
-    var classes = classNames(
+    const classes = classNames(
       'login-box',
       'animated',
       {
@@ -49,14 +53,17 @@ class LoginBox extends React.Component {
 
     return (
       <form key={this.props.nbLogin} className={classes} method="post" autoComplete="off" onSubmit={this.onSubmit}>
-        <input type="text" ref="username" autoFocus />
-        <input type="password" ref="password" />
+        <input type="text" ref={element => this.username = element} autoFocus />
+        <input type="password" ref={element => this.password = element} />
         <input type="submit" value="▶" />
         <hr />
       </form>
     );
   }
-
 }
+
+LoginBox.propTypes = {
+  nbLogin: React.PropTypes.number
+};
 
 export default connect(setProps)(LoginBox);
