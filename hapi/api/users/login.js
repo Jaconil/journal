@@ -1,12 +1,8 @@
 'use strict';
 
-const Boom = require('boom');
 const jwt = require('jsonwebtoken');
-//const User = require('../model/User');
 
-const TOKEN_DURATION = 1800; // 30mn
-
-module.exports = (logger, config, db, jwt) => {
+module.exports = (logger, config, db) => {
   return (request, reply) => {
     db.collection('user').findOne({
       username: request.payload.username,
@@ -14,16 +10,16 @@ module.exports = (logger, config, db, jwt) => {
     }, (err, user) => {
       if (err) {
         logger.error(err);
-        return reply(Boom.badImplementation(err.errmsg));
+        return reply.badImplementation(err.errmsg);
       }
 
       if (!user) {
-        return reply(Boom.badRequest('User not found'));
+        return reply.badRequest('User not found');
       }
 
       return reply({
         token: jwt.sign({id: user.id}, config.jwtSecret, {
-          expiresIn: TOKEN_DURATION
+          expiresIn: config.jwtDuration
         })
       }).code(201);
     });

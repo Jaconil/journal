@@ -15,10 +15,5 @@ module.exports = [
         })
       }
     }
-  },
-  {
-    path: '/api/{segments*}',
-    method: 'GET',
-    handler: 'handler.api.default'
   }
 ];

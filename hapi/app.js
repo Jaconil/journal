@@ -24,7 +24,8 @@ server.connection({ port: config.port });
 
 server.register([
   require('inert'),
-  require('hapi-auth-jwt2')
+  require('hapi-auth-jwt2'),
+  require('hapi-boom-decorators')
 ]).then(() => {
 
   server.auth.strategy('jwt', 'jwt', {
@@ -33,11 +34,9 @@ server.register([
     verifyOptions: { algorithms: ['HS256'] }
   });
 
-  const handlers = require('./api/handlers')(logger, config, db);
-  server.method(_.map(handlers, (handler, name) => ({ name: 'handler.' + name, method: handler })));
-
-  const routes = require('./api/routes');
-  server.route(routes);
+  const api = require('./api')(logger, config, db);
+  server.method(_.map(api.handlers, (method, name) => ({ name, method })));
+  server.route(api.routes);
 
   // https://auth0.com/blog/2016/03/07/hapijs-authentication-secure-your-api-with-json-web-tokens/
 

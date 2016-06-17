@@ -19,6 +19,7 @@
     "file-loader": "^0.8.5",
     "hapi": "^13.0.0",
     "hapi-auth-jwt2": "^7.0.0",
+    "hapi-boom-decorators": "^1.1.0",
     "history": "^2.0.0",
     "joi": "^8.4.0",
     "jsonwebtoken": "^6.2.0",
@@ -56,7 +57,7 @@
     "start": "node server/app.js",
     "webpack": "webpack",
     "watch": "webpack --watch",
-    "lint": "eslint client/**/*.js client/**/*.jsx server/**/*.js && david"
+    "lint": "eslint client/**/*.js client/**/*.jsx hapi/**/*.js && david"
   },
   "main": "server/app.js",
   "repository": {

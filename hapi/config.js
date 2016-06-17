@@ -11,7 +11,10 @@ var defaultConfig = {
   dbUser: null,
   dbPassword: null,
 
-  jwtSecret: 'secretKey'
+  jwtSecret: 'secretKey',
+  jwtDuration: 1800, // 30mn
+
+  writingStartHour: 12 // noon
 };
 
 // Env variables assignment
