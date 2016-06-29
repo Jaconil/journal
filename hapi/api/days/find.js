@@ -105,22 +105,13 @@ module.exports = (logger, config, db) => {
         return reply.badImplementation(err.errmsg);
       }
 
-      // hydrate the results
-      _.each(days, day => {
-        _.chain(listDays)
-          .filter({ date: day.date })
-          .first()
-          .assign(day)
-          .commit();
-      });
-
-      // filter the results
-      if (statuses) {
-        listDays = _.filter(listDays, day => statuses.indexOf(day.status) !== -1);
-      }
-
-      // limit the results
-      listDays = _.take(listDays, limit);
+      // hydrate, filter and limit the results
+      listDays = _.chain(days)
+        .unionBy(listDays, 'date')
+        .sortBy('date')
+        .filter(day => (!statuses || statuses.indexOf(day.status) !== -1))
+        .take(limit)
+        .value();
 
       return reply(listDays);
     });

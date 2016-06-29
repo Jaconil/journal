@@ -28,7 +28,7 @@ server.register([
   require('hapi-boom-decorators')
 ]).then(() => {
 
-  server.auth.strategy('jwt', 'jwt', {
+  server.auth.strategy('jwt', 'jwt', 'required', {
     key: config.jwtSecret,
     validateFunc: (decoded, request, callback) => callback(null, true),
     verifyOptions: { algorithms: ['HS256'] }

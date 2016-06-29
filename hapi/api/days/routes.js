@@ -12,7 +12,8 @@ module.exports = [
         query: {
           from: Joi.string().isoDate(),
           to: Joi.string().isoDate(),
-          count: Joi.number().integer().positive()
+          count: Joi.number().integer().positive(),
+          status: Joi.string()
         }
       }
     }

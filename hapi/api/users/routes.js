@@ -13,7 +13,8 @@ module.exports = [
           username: Joi.string().required(),
           password: Joi.string().required()
         })
-      }
+      },
+      auth: false
     }
   }
 ];
