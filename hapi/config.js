@@ -2,7 +2,9 @@
 
 require('dotenv').load();
 
-var defaultConfig = {
+const logger = require('./logger')();
+
+const defaultConfig = {
   port: 1337,
 
   dbHost: null,
@@ -11,6 +13,8 @@ var defaultConfig = {
   dbUser: null,
   dbPassword: null,
 
+  passwordSalt: null,
+
   jwtSecret: 'secretKey',
   jwtDuration: 1800, // 30mn
 
@@ -18,13 +22,22 @@ var defaultConfig = {
 };
 
 // Env variables assignment
-module.exports = _.mapValues(defaultConfig, (defaultValue, key) => {
-  var snakeKey = _.snakeCase(key);
-  var value = process.env['npm_config_' + snakeKey] || process.env[snakeKey.toUpperCase()] || defaultValue;
+module.exports = _.mapValues(defaultConfig, (value, key) => {
+  const envValue = process.env[_.snakeCase(key).toUpperCase()];
+  let origin = 'default';
+
+  value = _.isUndefined(envValue) ? value : envValue;
+  origin = _.isUndefined(envValue) ? origin : 'env';
 
   if (value === null) {
     throw new Error('Env variable ' + key.toUpperCase() + ' is required but undefined');
   }
+
+  logger.info(
+    _.padEnd('config.' + key + ': ', 30),
+    _.padEnd('(' + origin + ')', 10),
+    value
+  );
 
   return value;
 });

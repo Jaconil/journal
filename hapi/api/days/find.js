@@ -20,7 +20,7 @@ module.exports = (logger, config, db) => {
    * @returns {object} Object {error, fromDate, toDate}
    */
   function extractAndCheckDates(request) {
-    const { from, to, count, status } = request.query;
+    const { from, to, count } = request.query;
 
     if (!from && !to) {
       return { error: 'No date given' };
@@ -84,7 +84,7 @@ module.exports = (logger, config, db) => {
     // build a empty days list
     let listDays = buildListDays(fromDate, toDate);
     const limit = request.query.limit || listDays.length;
-    const statuses = status ? status.split(',') : null;
+    const statuses = request.query.status ? request.query.status.split(',') : null;
 
     // build the db query
     const whereFilter = {
