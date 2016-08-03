@@ -63,6 +63,9 @@ function exploredDays(state = initialExploredDaysState, action) {
     case 'EXPLORE_DATE_SUBMITTED':
       return _.assign({}, state, { currentDay: action.payload.date });
 
+    case 'EXPLORE_DATE_CLEARED':
+      return _.assign({}, state, { currentDay: '', list: [] });
+
     case 'EXPLORE_FETCH_SUBMITTED':
       return _.assign({}, state, { isFetching: true });
 

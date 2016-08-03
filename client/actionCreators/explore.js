@@ -8,6 +8,17 @@ const NOTIFICATION_DURATION = 5000; // 5s
 const HTTP_NOT_ALLOWED = 401;
 
 /**
+ * Clears previous explored days
+ *
+ * @returns {{type: string}}
+ */
+export function clearExploredDays() {
+  return {
+    type: 'EXPLORE_DATE_CLEARED'
+  };
+}
+
+/**
  * Logout the current user
  *
  * @param {string} date - Submitted date
@@ -31,8 +42,8 @@ export function submitDate(date) {
           endpoint: '/days',
           query: {
             status: 'written',
-            from: date,
-            to: date
+            from: moment(date).subtract(30, 'days').format('YYYY-MM-DD'),
+            to: moment(date).add(30, 'days').format('YYYY-MM-DD')
           }
         }
       }).catch(error => {

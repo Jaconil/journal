@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Day from './../Day/day.jsx';
 import DaysList from './../DaysList/daysList.jsx';
 
-import { submitDate } from '../../actionCreators/explore';
+import { submitDate, clearExploredDays } from '../../actionCreators/explore';
 
 import './explorePage.less';
 
@@ -32,6 +32,10 @@ class ExplorePage extends React.Component {
     this.onDatePickerSubmit = this.onDatePickerSubmit.bind(this);
   }
 
+  componentWillMount() {
+    this.props.dispatch(clearExploredDays());
+  }
+
   onDatePickerSubmit(event) {
     if (event.keyCode === KEY_ENTER && !event.shiftKey) {
       event.preventDefault();
@@ -53,9 +57,13 @@ class ExplorePage extends React.Component {
         );
       });
 
+      const selected = _.findIndex(this.props.days, day => {
+        return day.date === this.props.currentDay;
+      });
+
       content = (
         <DaysList
-          selected={0}
+          selected={selected}
           loading={this.props.isFetching}
           emptyText="Aucun jour n'a été trouvé"
         >
@@ -88,8 +96,8 @@ class ExplorePage extends React.Component {
 
 ExplorePage.propTypes = {
   currentDay: React.PropTypes.string,
-  isFetching: React.PropTypes.bool,
-  days: React.PropTypes.array
+  days: React.PropTypes.array,
+  isFetching: React.PropTypes.bool
 };
 
 export default connect(setProps)(ExplorePage);
