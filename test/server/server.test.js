@@ -34,7 +34,7 @@ describe('Server', () => {
     }
   };
 
-  const hapi = require('../../hapi/hapi')(logger, config, db);
+  const hapi = require('../../server/hapi')(logger, config, db);
 
   const state = {
     server: null,
