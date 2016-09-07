@@ -219,7 +219,11 @@
   },
   "globals": {
     "React": false,
-    "_": false
+    "_": false,
+    "describe": false,
+    "it": false,
+    "before": false,
+    "after": false
   },
   "plugins": [
     "react"

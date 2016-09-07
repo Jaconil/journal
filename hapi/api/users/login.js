@@ -3,6 +3,8 @@
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
+const HTTP_CREATED = 201;
+
 module.exports = (logger, config, db) => {
   return (request, reply) => {
 
@@ -25,10 +27,10 @@ module.exports = (logger, config, db) => {
       }
 
       return reply({
-        token: jwt.sign({id: user.id}, config.jwtSecret, {
+        token: jwt.sign({ id: user.id }, config.jwtSecret, {
           expiresIn: config.jwtDuration
         })
-      }).code(201);
+      }).code(HTTP_CREATED);
     });
   };
-}
+};

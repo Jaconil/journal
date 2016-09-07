@@ -16,7 +16,7 @@ module.exports = (logger, config, db) => {
    * Extracts and checks from, to and count dates parameters
    * It could be
    *
-   * @param {object} request
+   * @param {object} request - Request
    * @returns {object} Object {error, fromDate, toDate}
    */
   function extractAndCheckDates(request) {
@@ -116,4 +116,4 @@ module.exports = (logger, config, db) => {
       return reply(listDays);
     });
   };
-}
+};

@@ -17,4 +17,4 @@ module.exports = (logger, config, db) => {
       return reply(day);
     });
   };
-}
+};

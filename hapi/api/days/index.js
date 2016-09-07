@@ -7,5 +7,5 @@ module.exports = (logger, config, db) => {
       'handler.api.days.find': require('./find')(logger, config, db),
       'handler.api.days.update': require('./update')(logger, config, db)
     }
-  }
+  };
 };

@@ -3,6 +3,7 @@
 global._ = require('lodash');
 
 const sinon = require('sinon');
+
 require('chai').should();
 
 describe('Server', () => {
@@ -14,24 +15,24 @@ describe('Server', () => {
 
   const config = {
     port: 8000,
-    jwtSecret : 'abc',
+    jwtSecret: 'abc',
     passwordSalt: 'salt'
   };
 
   const collections = {};
 
   const db = {
-    collection: (coll) => {
+    collection: coll => {
       if (!collections[coll]) {
         collections[coll] = {
           findOne: sinon.stub().callsArgAsync(1),
-          find: sinon.stub().returns({ toArray: (cb) => cb(null, []) })
+          find: sinon.stub().returns({ toArray: cb => cb(null, []) })
         };
       }
 
       return collections[coll];
     }
-  }
+  };
 
   const hapi = require('../../hapi/hapi')(logger, config, db);
 

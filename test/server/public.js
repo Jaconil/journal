@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = (state) => {
+module.exports = state => {
 
   describe('GET /{segments*}', () => {
 
@@ -14,7 +14,7 @@ module.exports = (state) => {
         _.each(responses, response => {
           response.statusCode.should.equal(200);
           response.result.should.contain('<title>Journal</title>');
-        })
+        });
       });
     });
 

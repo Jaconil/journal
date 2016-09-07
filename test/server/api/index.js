@@ -2,14 +2,14 @@
 
 const crypto = require('crypto');
 
-module.exports = (state) => {
+module.exports = state => {
 
   /**
    * Creates a fake user
    *
-   * @param {int}    id
-   * @param {string} username
-   * @param {string} password
+   * @param {int}    id       - User id
+   * @param {string} username - User login
+   * @param {string} password - User password
    * @returns {object} New User { id, username, password, hash }
    */
   function createUser(id, username, password) {
@@ -31,8 +31,8 @@ module.exports = (state) => {
   /**
    * Requests /api/users/login
    *
-   * @param {string} username
-   * @param {string} password
+   * @param {string} username - User login
+   * @param {string} password - User password
    * @returns {Promise} Resolves if successful
    */
   function doLoginRequest(username, password) {
@@ -47,8 +47,8 @@ module.exports = (state) => {
   /**
    * Tests request status code
    *
-   * @param {Promise} request
-   * @param {int} expectedStatusCode
+   * @param {Promise} request        - Request
+   * @param {int} expectedStatusCode - Expected status code
    * @returns {Promise} Resolves if successful
    */
   function testRequest(request, expectedStatusCode) {

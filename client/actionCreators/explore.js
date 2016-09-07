@@ -6,11 +6,12 @@ import { sendWarning } from './notifications';
 
 const NOTIFICATION_DURATION = 5000; // 5s
 const HTTP_NOT_ALLOWED = 401;
+const DELTA_DAYS = 30;
 
 /**
  * Clears previous explored days
  *
- * @returns {{type: string}}
+ * @returns {object} Action
  */
 export function clearExploredDays() {
   return {
@@ -42,8 +43,8 @@ export function submitDate(date) {
           endpoint: '/days',
           query: {
             status: 'written',
-            from: moment(date).subtract(30, 'days').format('YYYY-MM-DD'),
-            to: moment(date).add(30, 'days').format('YYYY-MM-DD')
+            from: moment(date).subtract(DELTA_DAYS, 'days').format('YYYY-MM-DD'),
+            to: moment(date).add(DELTA_DAYS, 'days').format('YYYY-MM-DD')
           }
         }
       }).catch(error => {
