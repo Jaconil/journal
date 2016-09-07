@@ -3,8 +3,6 @@
 global._ = require('lodash');
 
 const url = require('url');
-const path = require('path');
-const fs = require('fs');
 
 const config = require('./config');
 const logger = require('./logger')();

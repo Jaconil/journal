@@ -34,11 +34,11 @@ module.exports = (logger, config, db) => {
     let toDate = moment(to, 'YYYY-MM-DD').startOf('day');
 
     if (!from) {
-      fromDate = moment(toDate).subtract(count, 'days');
+      fromDate = moment(toDate).subtract(count - 1, 'days');
     }
 
     if (!to) {
-      toDate = moment(fromDate).add(count, 'days');
+      toDate = moment(fromDate).add(count - 1, 'days');
     }
 
     // Prevent today to appear before noon

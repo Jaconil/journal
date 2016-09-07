@@ -28,9 +28,8 @@ export default function(store) {
     const method = action.api.method || 'GET';
     const path = 'api' + action.api.endpoint || '';
 
-    const req = request(method, path).query({
-      token: store.getState().user.token
-    });
+    const req = request(method, path)
+      .set('Authorization', store.getState().user.token);
 
     if (action.api.query) {
       req.query(action.api.query);

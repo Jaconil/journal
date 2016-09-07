@@ -51,13 +51,17 @@
   "devDependencies": {
     "eslint": "2.10.*",
     "eslint-plugin-react": "5.1.*",
-    "david": "7.*"
+    "david": "7.*",
+    "mocha": "2.*",
+    "chai": "3.*",
+    "sinon": "1.*"
   },
   "scripts": {
     "start": "node server/app.js",
     "webpack": "webpack",
     "watch": "webpack --watch",
-    "lint": "eslint client/**/*.js client/**/*.jsx hapi/**/*.js && david"
+    "lint": "eslint client/**/*.js client/**/*.jsx hapi/**/*.js test/**/*.js && david",
+    "test": "mocha test/**/*.test.js"
   },
   "main": "server/app.js",
   "repository": {
@@ -65,6 +69,6 @@
     "url": "git@github.com:Jaconil/journal.git"
   },
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=6.0.0"
   }
 }

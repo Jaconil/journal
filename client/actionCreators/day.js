@@ -24,7 +24,6 @@ function updateRemote(dispatch, date, content, status) {
       method: 'PUT',
       endpoint: '/days/' + date,
       body: {
-        date,
         content,
         status
       }

@@ -1,6 +1,8 @@
 'use strict';
 
 const Hapi = require('hapi');
+const fs = require('fs');
+const path = require('path');
 
 module.exports = (logger, config, db) => {
   const server = new Hapi.Server();
@@ -22,8 +24,6 @@ module.exports = (logger, config, db) => {
     server.method(_.map(api.handlers, (method, name) => ({ name, method })));
     server.route(api.routes);
 
-    // https://auth0.com/blog/2016/03/07/hapijs-authentication-secure-your-api-with-json-web-tokens/
-
     server.route({
       method: 'GET',
       path: '/{segments*}',
@@ -34,6 +34,9 @@ module.exports = (logger, config, db) => {
           const file = (result && staticPath) ? staticPath : 'index.html';
           return reply.file(path.resolve('public', file));
         });
+      },
+      config: {
+        auth: false
       }
     });
 
