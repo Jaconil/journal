@@ -36,8 +36,9 @@ module.exports = _.mapValues(defaultConfig, (value, key) => {
   logger.info(
     _.padEnd('config.' + key + ': ', 30),
     _.padEnd('(' + origin + ')', 10),
-    value
+    JSON.stringify(value)
   );
 
-  return value;
+  // Converts string-encapsuled int env variables into int
+  return (value && !isNaN(value)) ? _.parseInt(value) : value;
 });
