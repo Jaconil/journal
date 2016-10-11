@@ -3,16 +3,14 @@
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
-import moment from 'moment';
 import classNames from 'classnames';
 
 import Textarea from 'react-textarea-autosize';
+import DayHeader from './dayHeader.jsx';
 
 import { update, submit } from '../../actionCreators/day.js';
 
 import './day.less';
-
-import 'moment/locale/fr';
 
 const KEY_ENTER = 13;
 const KEY_ESCAPE = 27;
@@ -118,9 +116,8 @@ class Day extends React.Component {
       disabled: this.props.disabled,
       confirmation: this.state.confirmation
     });
-    const statusClasses = classNames('status', _.kebabCase(this.props.data.status));
 
-    let actions = null;
+    const actions = [];
     let content = null;
     let confirmationOverlay = null;
 
@@ -134,12 +131,8 @@ class Day extends React.Component {
     }
 
     if (!this.props.disabled && !this.state.confirmation && this.isEditable()) {
-      actions = (
-        <div className="actions">
-          <button onClick={this.onActionsClose}><i className="close fa fa-close"></i></button>
-          <button onClick={this.onActionsSubmit}><i className="submit fa fa-check"></i></button>
-        </div>
-      );
+      actions.push({ key: 'close', callback: this.onActionsClose });
+      actions.push({ key: 'submit', callback: this.onActionsSubmit });
     }
 
     if (this.isEditable()) {
@@ -160,14 +153,7 @@ class Day extends React.Component {
     return (
       <section className={boxClasses} ref={element => this.container = element}>
         {confirmationOverlay}
-        <header>
-          <div className={statusClasses}></div>
-          {actions}
-          <h1>
-            <span className="full">{_.capitalize(moment(this.props.data.date).format('dddd DD MMMM YYYY'))}</span>
-            <span className="mini">{_.capitalize(moment(this.props.data.date).format('ddd DD MMM YYYY'))}</span>
-          </h1>
-        </header>
+        <DayHeader date={this.props.data.date} status={this.props.data.status} actions={actions} />
         {content}
       </section>
     );
