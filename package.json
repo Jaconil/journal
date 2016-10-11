@@ -1,7 +1,7 @@
 {
   "name": "journal",
   "private": true,
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Personal journal",
   "dependencies": {
     "autoprefixer": "^6.2.3",
@@ -10,14 +10,19 @@
     "babel-preset-es2015": "^6.1.18",
     "babel-preset-react": "^6.1.18",
     "body-parser": "^1.14.1",
+    "boom": "4.0.0",
     "classnames": "^2.1.3",
-    "css-loader": "^0.23.0",
+    "css-loader": "^0.25.0",
     "dotenv": "^2.0.0",
-    "express": "^4.12.4",
     "extract-text-webpack-plugin": "^1.0.0",
-    "file-loader": "^0.8.5",
+    "file-loader": "^0.9.0",
+    "hapi": "^15.0.0",
+    "hapi-auth-jwt2": "^7.0.0",
+    "hapi-boom-decorators": "^2.0.0",
     "history": "^2.0.0",
-    "jsonwebtoken": "^6.2.0",
+    "inert": "4.0.0",
+    "joi": "^9.0.0",
+    "jsonwebtoken": "^7.0.0",
     "less": "^2.5.3",
     "less-loader": "^2.2.1",
     "lodash": "^4.0.0",
@@ -25,7 +30,7 @@
     "moment-range": "^2.0.3",
     "mongodb": "^2.0.0",
     "mongoskin": "^2.0.0",
-    "postcss-loader": "^0.9.0",
+    "postcss-loader": "^0.11.0",
     "react": "^15.0.0",
     "react-addons-css-transition-group": "^15.0.0",
     "react-dom": "^15.0.0",
@@ -35,24 +40,27 @@
     "react-textarea-autosize": "^4.0.0",
     "redux": "^3.0.4",
     "redux-thunk": "^2.0.0",
-    "scroll": "1.0.0",
+    "scroll": "2.0.0",
     "style-loader": "^0.13.0",
-    "superagent": "^1.2.0",
+    "superagent": "^2.0.0",
     "url-loader": "^0.5.6",
     "webpack": "^1.12.4",
-    "when": "^3.7.3",
     "winston": "^2.1.0"
   },
   "devDependencies": {
-    "eslint": "2.10.*",
-    "eslint-plugin-react": "5.1.*",
-    "david": "7.*"
+    "eslint": "^2.10.0",
+    "eslint-plugin-react": "^5.1.0",
+    "david": "^9.0.0",
+    "mocha": "^3.0.0",
+    "chai": "^3.0.0",
+    "sinon": "^1.0.0"
   },
   "scripts": {
     "start": "node server/app.js",
     "webpack": "webpack",
     "watch": "webpack --watch",
-    "lint": "eslint client/**/*.js client/**/*.jsx server/**/*.js && david"
+    "lint": "eslint client/**/**/*.js client/**/**/*.jsx hapi/**/**/*.js test/**/**/*.js && david",
+    "test": "mocha test/**/*.test.js"
   },
   "main": "server/app.js",
   "repository": {
@@ -60,6 +68,6 @@
     "url": "git@github.com:Jaconil/journal.git"
   },
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=6.0.0"
   }
 }

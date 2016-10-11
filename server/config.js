@@ -2,6 +2,8 @@
 
 require('dotenv').load();
 
+const logger = require('./logger')();
+
 const defaultConfig = {
   port: 1337,
 
@@ -11,17 +13,32 @@ const defaultConfig = {
   dbUser: null,
   dbPassword: null,
 
-  jwtSecret: 'secretKey'
+  passwordSalt: null,
+
+  jwtSecret: 'secretKey',
+  jwtDuration: 1800, // 30mn
+
+  writingStartHour: 12 // noon
 };
 
 // Env variables assignment
-module.exports = _.mapValues(defaultConfig, (defaultValue, key) => {
-  const snakeKey = _.snakeCase(key);
-  const value = process.env[`npm_config_${snakeKey}`] || process.env[snakeKey.toUpperCase()] || defaultValue;
+module.exports = _.mapValues(defaultConfig, (value, key) => {
+  const envValue = process.env[_.snakeCase(key).toUpperCase()];
+  let origin = 'default';
+
+  value = _.isUndefined(envValue) ? value : envValue;
+  origin = _.isUndefined(envValue) ? origin : 'env';
 
   if (value === null) {
-    throw new Error(`Env variable ${key.toUpperCase()} is required but undefined`);
+    throw new Error('Env variable ' + key.toUpperCase() + ' is required but undefined');
   }
 
-  return value;
+  logger.info(
+    _.padEnd('config.' + key + ': ', 30),
+    _.padEnd('(' + origin + ')', 10),
+    JSON.stringify(value)
+  );
+
+  // Converts string-encapsuled int env variables into int
+  return (value && !isNaN(value)) ? _.parseInt(value) : value;
 });

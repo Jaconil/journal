@@ -1,20 +1,32 @@
 'use strict';
 
-const jwt = require('jsonwebtoken');
+module.exports = (logger, config, db) => {
+  const users = require('./users')(logger, config, db);
+  const days = require('./days')(logger, config, db);
 
-module.exports = (express, db, logger, config) => {
-  const router = new express.Router();
+  const apiDefault = {
+    routes: [
+      {
+        path: '/api/{segments*}',
+        method: 'GET',
+        handler: 'handler.api.default'
+      }
+    ],
+    handlers: {
+      'handler.api.default': (request, reply) => reply.notFound()
+    }
+  };
 
-  const checkToken = require('./middlewares/checkToken')(jwt, logger, config);
-
-  const user = require('./user')(db, jwt, logger, config);
-  const days = require('./days')(db, logger);
-
-  router.get('/user/login', user.login);
-
-  router.use(checkToken);
-  router.get('/days', days.find);
-  router.put('/days/:date', days.update);
-
-  return router;
+  return {
+    routes: [
+      ...users.routes,
+      ...days.routes,
+      ...apiDefault.routes
+    ],
+    handlers: _.assign(
+      users.handlers,
+      days.handlers,
+      apiDefault.handlers
+    )
+  };
 };

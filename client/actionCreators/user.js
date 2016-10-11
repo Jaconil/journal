@@ -1,7 +1,5 @@
 'use strict';
 
-import crypto from 'crypto';
-
 import { push } from 'react-router-redux';
 
 /**
@@ -15,9 +13,7 @@ function updateToken(token) {
 
   return {
     type: 'USER_TOKEN_UPDATE',
-    payload: {
-      token
-    }
+    payload: { token }
   };
 }
 
@@ -29,14 +25,13 @@ function updateToken(token) {
  * @returns {object} Action
  */
 export function login(username, password) {
-  const hash = crypto.createHash('sha256').update(password).digest('hex');
-
   return dispatch => {
     return dispatch({
       type: 'USER_LOGIN',
       api: {
-        endpoint: '/user/login',
-        query: { username, password: hash }
+        method: 'POST',
+        endpoint: '/users/login',
+        body: { username, password }
       }
     }).then(body => {
       dispatch(updateToken(body.token));

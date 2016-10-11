@@ -1,6 +1,43 @@
 @import "../../variables";
 
-section.page {
-  height: 100%;
-  overflow: hidden;
+section.explorePage {
+  display: block;
+  height: 100px;
+  margin: auto;
+
+  .datepickerContainer {
+    position: relative;
+    top: 40%;
+  }
+
+  .datepicker {
+    margin: auto;
+    box-sizing: border-box;
+    width: 20%;
+
+    @media @tablet {
+      width: 50%;
+    }
+
+    @media @smartphone {
+      width: 90%;
+    }
+
+    input {
+      width: 100%;
+      border: 0;
+      padding: 20px;
+      box-sizing: border-box;
+      color: @beige;
+      background-color: @darkgrey;
+      border-radius: 15px;
+      text-align: center;
+      font-size: 1.7em;
+      font-family: "Trebuchet MS", Helvetica, sans-serif;
+    }
+
+    input:focus {
+      outline: none;
+    }
+  }
 }

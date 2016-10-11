@@ -3,9 +3,6 @@
 global._ = require('lodash');
 
 const url = require('url');
-const path = require('path');
-const express = require('express');
-const bodyParser = require('body-parser');
 
 const config = require('./config');
 const logger = require('./logger')();
@@ -15,18 +12,15 @@ const db = require('mongoskin').db(decodeURI(url.format({
   hostname: config.dbHost,
   port: config.dbPort,
   pathname: config.dbName,
-  auth: `${config.dbUser}:${config.dbPassword}`
+  auth: config.dbUser + ':' + config.dbPassword
 })));
 
-const app = express();
+const hapi = require('./hapi')(logger, config, db);
 
-app.use(express.static('public'));
-app.use(bodyParser.json());
-
-app.use('/api', require('./api')(express, db, logger, config));
-
-app.get(/^(?!\/api).*/, (request, response) => {
-  response.sendFile(path.resolve('public', 'index.html'));
+hapi.then(server => {
+  server.start();
+  logger.info('Server running at:', server.info.uri);
+}).catch(error => {
+  logger.error('Server error:', error);
+  throw error;
 });
-
-app.listen(config.port, () => logger.info('server launched'));

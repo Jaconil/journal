@@ -7,6 +7,12 @@ const initialNotWrittenDaysState = {
   isFocused: false
 };
 
+const initialExploredDaysState = {
+  currentDay: '',
+  list: [],
+  isFetching: false
+};
+
 /**
  * Updates notWrittenDays state
  *
@@ -46,6 +52,35 @@ function notWrittenDays(state = initialNotWrittenDaysState, action) {
 }
 
 /**
+ * Updates exploredDays state
+ *
+ * @param {object} state  - ExploredDays state
+ * @param {object} action - Action received
+ * @returns {object} Updated state
+ */
+function exploredDays(state = initialExploredDaysState, action) {
+  switch (action.type) {
+    case 'EXPLORE_DATE_SUBMITTED':
+      return _.assign({}, state, { currentDay: action.payload.date });
+
+    case 'EXPLORE_DATE_CLEARED':
+      return _.assign({}, state, { currentDay: '', list: [] });
+
+    case 'EXPLORE_FETCH_SUBMITTED':
+      return _.assign({}, state, { isFetching: true });
+
+    case 'EXPLORE_FETCH_SUBMITTED_RESPONSE':
+      return _.assign({}, state, { isFetching: false });
+
+    case 'EXPLORE_FETCH_SUBMITTED_SUCCESS':
+      return _.assign({}, state, { list: action.payload });
+
+    default:
+      return state;
+  }
+}
+
+/**
  * Updates days state
  *
  * @param {object} state  - Days state
@@ -54,6 +89,7 @@ function notWrittenDays(state = initialNotWrittenDaysState, action) {
  */
 export default function(state = {}, action) {
   return {
-    notWrittenDays: notWrittenDays(state.notWrittenDays, action)
+    notWrittenDays: notWrittenDays(state.notWrittenDays, action),
+    exploredDays: exploredDays(state.exploredDays, action)
   };
 }
