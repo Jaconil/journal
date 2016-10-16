@@ -59,6 +59,8 @@ function notWrittenDays(state = initialNotWrittenDaysState, action) {
  * @returns {object} Updated state
  */
 function exploredDays(state = initialExploredDaysState, action) {
+  let list = null;
+
   switch (action.type) {
     case 'EXPLORE_DATE_SUBMITTED':
       return _.assign({}, state, { currentDay: action.payload.date });
@@ -74,6 +76,11 @@ function exploredDays(state = initialExploredDaysState, action) {
 
     case 'EXPLORE_FETCH_SUBMITTED_SUCCESS':
       return _.assign({}, state, { list: action.payload });
+
+    case 'DAY_UPDATE':
+      list = _.map(state.list, day => ((day.date === action.payload.date) ? action.payload : day));
+
+      return _.assign({}, state, { list });
 
     default:
       return state;
