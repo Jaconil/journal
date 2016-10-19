@@ -114,6 +114,39 @@ module.exports = (state, createUser, doLoginRequest, testRequest) => {
           });
       });
     });
+
+    describe('PUT', () => {
+
+      /**
+       * Requests /api/days/{date} with payload
+       *
+       * @param {object} payload - Request payload
+       * @returns {Promise} Resolves if successful
+       */
+      function doDayUpdateRequest(payload) {
+        return state.server.inject({
+          method: 'PUT',
+          url: '/api/days/2016-01-01',
+          payload,
+          headers: {
+            Authorization: token
+          }
+        });
+      }
+
+      it('should fail if status is invalid', () => {
+        return testRequest(doDayUpdateRequest({ status: 'invcalid', content: 'valid' }), HTTP_BAD_PARAMS);
+      });
+
+      it('should save day if status is valid');
+
+      it('should fail if content is empty and status is written', () => {
+        return testRequest(doDayUpdateRequest({ status: 'written', content: '' }), HTTP_BAD_PARAMS);
+      });
+
+      it('should save day if content is empty and status if draft');
+
+    });
   });
 
 };
