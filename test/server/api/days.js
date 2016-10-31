@@ -135,16 +135,32 @@ module.exports = (state, createUser, doLoginRequest, testRequest) => {
       }
 
       it('should fail if status is invalid', () => {
-        return testRequest(doDayUpdateRequest({ status: 'invcalid', content: 'valid' }), HTTP_BAD_PARAMS);
+        return testRequest(doDayUpdateRequest({ status: 'invalid', content: 'valid' }), HTTP_BAD_PARAMS);
       });
 
-      it('should save day if status is valid');
+      it('should save day if status is valid', () => {
+        const day = { date: '2016-01-01', status: 'written', content: 'any content' };
+
+        state.db.collection('day').updateOne.withArgs(_.pick(day, 'date'), _.omit(day, 'date'), { upsert: true }).callsArgWithAsync(3, null);
+
+        return testRequest(doDayUpdateRequest(_.omit(day, 'date')), HTTP_SUCCESS)
+          .then(payload => payload.should.be.deep.equal(day));
+      });
 
       it('should fail if content is empty and status is written', () => {
         return testRequest(doDayUpdateRequest({ status: 'written', content: '' }), HTTP_BAD_PARAMS);
       });
 
-      it('should save day if content is empty and status if draft');
+      it('should save day if content is empty and status if draft', () => {
+        const day = { date: '2016-01-01', status: 'draft', content: '' };
+
+        state.db.collection('day').updateOne.withArgs(_.pick(day, 'date'), _.omit(day, 'date'), { upsert: true }).callsArgWithAsync(3, null);
+
+        return testRequest(doDayUpdateRequest(_.omit(day, 'date')), HTTP_SUCCESS)
+          .then(payload => {
+            payload.should.be.deep.equal(day)
+          });
+      });
 
     });
   });
