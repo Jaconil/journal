@@ -31,7 +31,7 @@ module.exports = [
           status: Joi.string().valid('draft', 'written').required(),
           content: Joi.when('status', {
             is: 'draft',
-            then: Joi.string().required(),
+            then: Joi.string().allow('').required(),
             otherwise: Joi.string().min(1).required()
           })
         })

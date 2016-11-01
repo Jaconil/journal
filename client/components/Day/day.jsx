@@ -3,16 +3,14 @@
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
-import moment from 'moment';
 import classNames from 'classnames';
 
 import Textarea from 'react-textarea-autosize';
+import DayHeader from './dayHeader.jsx';
 
 import { update, submit } from '../../actionCreators/day.js';
 
 import './day.less';
-
-import 'moment/locale/fr';
 
 const KEY_ENTER = 13;
 const KEY_ESCAPE = 27;
@@ -23,6 +21,7 @@ class Day extends React.Component {
     super(props);
     this.onActionsClose = this.onActionsClose.bind(this);
     this.onActionsSubmit = this.onActionsSubmit.bind(this);
+    this.onActionsEdit = this.onActionsEdit.bind(this);
     this.onActionsKey = this.onActionsKey.bind(this);
 
     this.onConfirmationBack = this.onConfirmationBack.bind(this);
@@ -34,7 +33,11 @@ class Day extends React.Component {
 
     this.handleFocus = this.handleFocus.bind(this);
 
-    this.state = { confirmation: false };
+    this.state = {
+      confirmation: false,
+      editing: false,
+      content: this.props.data.content
+    };
   }
 
   componentDidMount() {
@@ -54,12 +57,20 @@ class Day extends React.Component {
 
   onActionsClose() {
     this.container.classList.remove('focused');
+    this.setState({ editing: false });
     this.props.onClose();
   }
 
   onActionsSubmit() {
     document.querySelector('body').addEventListener('keydown', this.onConfirmationKey);
     this.setState({ confirmation: true });
+  }
+
+  onActionsEdit() {
+    this.setState({
+      editing: true,
+      content: this.props.data.content
+    });
   }
 
   onActionsKey(event) {
@@ -75,10 +86,12 @@ class Day extends React.Component {
   }
 
   onConfirmationSubmit() {
+    const content = this.content.value;
+
     this.onConfirmationBack();
     this.onActionsClose();
 
-    this.props.dispatch(submit(this.props.data.date, this.content.value))
+    this.props.dispatch(submit(this.props.data.date, content))
       .then(this.props.onSubmit)
       .catch(_.noop);
   }
@@ -99,7 +112,11 @@ class Day extends React.Component {
   }
 
   onTextareaChange() {
-    this.props.dispatch(update(this.props.data.date, this.content.value));
+    this.setState({ content: this.content.value });
+
+    if (!this.state.editing) {
+      this.props.dispatch(update(this.props.data.date, this.content.value));
+    }
   }
 
   handleFocus() {
@@ -110,7 +127,7 @@ class Day extends React.Component {
   }
 
   isEditable() {
-    return this.props.data.status === 'notWritten' || this.props.data.status === 'draft';
+    return this.props.data.status === 'notWritten' || this.props.data.status === 'draft' || this.state.editing;
   }
 
   render() {
@@ -118,9 +135,8 @@ class Day extends React.Component {
       disabled: this.props.disabled,
       confirmation: this.state.confirmation
     });
-    const statusClasses = classNames('status', _.kebabCase(this.props.data.status));
 
-    let actions = null;
+    let actions = [];
     let content = null;
     let confirmationOverlay = null;
 
@@ -133,16 +149,12 @@ class Day extends React.Component {
       );
     }
 
-    if (!this.props.disabled && !this.state.confirmation && this.isEditable()) {
-      actions = (
-        <div className="actions">
-          <button onClick={this.onActionsClose}><i className="close fa fa-close"></i></button>
-          <button onClick={this.onActionsSubmit}><i className="submit fa fa-check"></i></button>
-        </div>
-      );
-    }
-
     if (this.isEditable()) {
+      if (!this.props.disabled && !this.state.confirmation) {
+        actions.push({ key: 'close', callback: this.onActionsClose });
+        actions.push({ key: 'submit', callback: this.onActionsSubmit });
+      }
+
       content = (
         <Textarea
           ref={element => this.content = element}
@@ -150,24 +162,19 @@ class Day extends React.Component {
           onKeyDown={this.onActionsKey}
           onChange={this.onTextareaChange}
           onFocus={this.onTextareaFocus}
-          value={this.props.data.content}
+          value={this.state.content}
         />
       );
     } else {
+      actions.push({ key: 'edit', callback: this.onActionsEdit });
+
       content = <div className="text">{this.props.data.content}</div>;
     }
 
     return (
       <section className={boxClasses} ref={element => this.container = element}>
         {confirmationOverlay}
-        <header>
-          <div className={statusClasses}></div>
-          {actions}
-          <h1>
-            <span className="full">{_.capitalize(moment(this.props.data.date).format('dddd DD MMMM YYYY'))}</span>
-            <span className="mini">{_.capitalize(moment(this.props.data.date).format('ddd DD MMM YYYY'))}</span>
-          </h1>
-        </header>
+        <DayHeader date={this.props.data.date} status={this.props.data.status} actions={actions} />
         {content}
       </section>
     );
@@ -184,6 +191,12 @@ Day.propTypes = {
   onClose: React.PropTypes.func,
   onFocus: React.PropTypes.func,
   onSubmit: React.PropTypes.func
+};
+
+Day.defaultProps = {
+  onClose: _.noop,
+  onFocus: _.noop,
+  onSubmit: _.noop
 };
 
 export default connect()(Day);

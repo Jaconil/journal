@@ -26,7 +26,8 @@ describe('Server', () => {
       if (!collections[coll]) {
         collections[coll] = {
           findOne: sinon.stub().callsArgAsync(1),
-          find: sinon.stub().returns({ toArray: cb => cb(null, []) })
+          find: sinon.stub().returns({ toArray: cb => cb(null, []) }),
+          updateOne: sinon.stub().callsArgAsync(3),
         };
       }
 
