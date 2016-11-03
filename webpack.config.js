@@ -27,7 +27,8 @@ var config = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
-        BASEPATH: JSON.stringify(process.env.BASEPATH || '')
+        BASEPATH: JSON.stringify(process.env.BASEPATH || ''),
+        FIRST_DAY: JSON.stringify(process.env.FIRST_DAY || '1970-01-01')
       }
     }),
     new webpack.ProvidePlugin({

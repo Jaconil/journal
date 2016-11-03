@@ -14,6 +14,7 @@ section.explorePage {
     margin: auto;
     box-sizing: border-box;
     width: 20%;
+    min-width: 300px;
 
     @media @tablet {
       width: 50%;
@@ -33,7 +34,19 @@ section.explorePage {
       border-radius: 15px;
       text-align: center;
       font-size: 1.7em;
-      font-family: "Trebuchet MS", Helvetica, sans-serif;
+      font-family: @mainFont;
+
+      @media @smartphone {
+        &:before {
+          content: attr(placeholder) !important;
+          color: @beige;
+          margin-right: 0.5em;
+        }
+      }
+    }
+
+    ::-webkit-inner-spin-button, ::-webkit-calendar-picker-indicator {
+      display: none;
     }
 
     input:focus {

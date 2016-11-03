@@ -1,6 +1,7 @@
 'use strict';
 
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import Day from './../Day/day.jsx';
 import DaysList from './../DaysList/daysList.jsx';
@@ -29,14 +30,23 @@ class ExplorePage extends React.Component {
 
   constructor(props) {
     super(props);
-    this.onDatePickerSubmit = this.onDatePickerSubmit.bind(this);
+    this.onDatePickerChange = this.onDatePickerChange.bind(this);
+    this.onDatePickerKeyDown = this.onDatePickerKeyDown.bind(this);
   }
 
   componentWillMount() {
     this.props.dispatch(clearExploredDays());
   }
 
-  onDatePickerSubmit(event) {
+  onDatePickerChange(event) {
+    // Only if the date is complete (default to 0000-00-00)
+    if (this.datePicker.value[0] !== '0') {
+      event.preventDefault();
+      this.props.dispatch(submitDate(this.datePicker.value));
+    }
+  }
+
+  onDatePickerKeyDown(event) {
     if (event.keyCode === KEY_ENTER && !event.shiftKey) {
       event.preventDefault();
       this.props.dispatch(submitDate(this.datePicker.value));
@@ -75,11 +85,14 @@ class ExplorePage extends React.Component {
         <div className="datepickerContainer">
           <div className="datepicker animated fadeIn">
             <input
-              type="text"
-              placeholder="YYYY-MM-DD"
+              type="date"
+              placeholder="jj/mm/aaaa"
+              min={process.env.FIRST_DAY}
+              max={moment().format('YYYY-MM-DD')}
               autoFocus
               ref={element => this.datePicker = element}
-              onKeyDown={this.onDatePickerSubmit}
+              onChange={this.onDatePickerChange}
+              onKeyDown={this.onDatePickerKeyDown}
             />
           </div>
         </div>
