@@ -24,15 +24,19 @@ module.exports = (logger, config, db) => {
     server.method(_.map(api.handlers, (method, name) => ({ name, method })));
     server.route(api.routes);
 
+    const defaultView = _.template(fs.readFileSync('public/index.html', 'utf8'))({
+      baseUrl: config.baseUrl
+    });
+
     server.route({
       method: 'GET',
       path: '/{segments*}',
       handler: (request, reply) => {
         const staticPath = request.params.segments || '';
+        const staticFile = path.resolve('public', staticPath);
 
-        fs.exists(path.resolve('public', staticPath), result => {
-          const file = (result && staticPath) ? staticPath : 'index.html';
-          return reply.file(path.resolve('public', file));
+        fs.exists(staticFile, result => {
+          return (result && staticPath) ? reply.file(staticFile) : reply(defaultView);
         });
       },
       config: {

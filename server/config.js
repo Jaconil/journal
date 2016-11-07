@@ -5,6 +5,7 @@ require('dotenv').load();
 const logger = require('./logger')();
 
 const defaultConfig = {
+  baseUrl: '',
   port: 1337,
 
   dbHost: null,
