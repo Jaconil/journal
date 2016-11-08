@@ -8,7 +8,6 @@ const initialNotWrittenDaysState = {
 };
 
 const initialExploredDaysState = {
-  currentDay: '',
   list: [],
   isFetching: false
 };
@@ -62,19 +61,13 @@ function exploredDays(state = initialExploredDaysState, action) {
   let list = null;
 
   switch (action.type) {
-    case 'EXPLORE_DATE_SUBMITTED':
-      return _.assign({}, state, { currentDay: action.payload.date });
+    case 'DAYS_FETCH_EXPLORE':
+      return _.assign({}, state, { list: [], isFetching: true });
 
-    case 'EXPLORE_DATE_CLEARED':
-      return _.assign({}, state, { currentDay: '', list: [] });
-
-    case 'EXPLORE_FETCH_SUBMITTED':
-      return _.assign({}, state, { isFetching: true });
-
-    case 'EXPLORE_FETCH_SUBMITTED_RESPONSE':
+    case 'DAYS_FETCH_EXPLORE_RESPONSE':
       return _.assign({}, state, { isFetching: false });
 
-    case 'EXPLORE_FETCH_SUBMITTED_SUCCESS':
+    case 'DAYS_FETCH_EXPLORE_SUCCESS':
       return _.assign({}, state, { list: action.payload });
 
     case 'DAY_UPDATE':

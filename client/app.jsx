@@ -13,10 +13,11 @@ import App from './components/App/app.jsx';
 import LoginBox from './components/LoginBox/loginBox.jsx';
 import WritePage from './components/WritePage/writePage.jsx';
 import ExplorePage from './components/ExplorePage/explorePage.jsx';
+import ExploreListPage from './components/ExploreListPage/exploreListPage.jsx';
 import SearchPage from './components/SearchPage/searchPage.jsx';
 
 const browserHistory = useRouterHistory(createHistory)({
-  basename: process.env.BASEPATH
+  basename: window.Journal.baseUrl
 });
 
 const store = createStore(browserHistory);
@@ -29,6 +30,7 @@ ReactDOM.render((
         <Route path="login" component={LoginBox} />
         <Route path="write" component={WritePage} />
         <Route path="explore" component={ExplorePage} />
+        <Route path="explore/:date" component={ExploreListPage} />
         <Route path="search" component={SearchPage} />
         <Redirect from="*" to="/login" />
       </Route>

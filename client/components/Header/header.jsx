@@ -23,20 +23,20 @@ class Header extends React.Component {
         <nav className="nav-header">
           <ul>
             <li className={writeClass}>
-              <Link to="write">
+              <Link to="/write">
                 <i className="fa fa-pencil"></i>
                 <span className="title">Ecrire</span>
                 {writeNotification}
               </Link>
             </li>
             <li className={exploreClass}>
-              <Link to="explore">
+              <Link to="/explore">
                 <i className="fa fa-eye"></i>
                 <span className="title">Explorer</span>
               </Link>
             </li>
             <li className={searchClass}>
-              <Link to="search">
+              <Link to="/search">
                 <i className="fa fa-search"></i>
                 <span className="title">Rechercher</span>
               </Link>

@@ -25,7 +25,8 @@ module.exports = (logger, config, db) => {
     server.route(api.routes);
 
     const defaultView = _.template(fs.readFileSync('public/index.html', 'utf8'))({
-      baseUrl: config.baseUrl
+      baseUrl: config.baseUrl,
+      firstDay: config.firstDay
     });
 
     server.route({

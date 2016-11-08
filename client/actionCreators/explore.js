@@ -9,36 +9,33 @@ const HTTP_NOT_ALLOWED = 401;
 const DELTA_DAYS = 30;
 
 /**
- * Clears previous explored days
+ * Submit a date
  *
  * @returns {object} Action
  */
-export function clearExploredDays() {
-  return {
-    type: 'EXPLORE_DATE_CLEARED'
+export function submitDate(date) {
+  return dispatch => {
+    if (moment(date, 'YYYY-MM-DD', true).isValid()) {
+      return dispatch(push('/explore/' + date));
+    }
+
+    dispatch(sendWarning('La date est invalide', NOTIFICATION_DURATION, 'warning'));
   };
 }
 
 /**
- * Logout the current user
+ * Fetch days around a given date
  *
- * @param {string} date - Submitted date
+ * @param {string} date - Date
  * @returns {object} Action
  */
-export function submitDate(date) {
+export function fetchDate(date) {
   return (dispatch, getState) => {
     const state = getState();
 
-    dispatch({
-      type: 'EXPLORE_DATE_SUBMITTED',
-      payload: {
-        date
-      }
-    });
-
     if (!state.days.exploredDays.isFetching) {
       return dispatch({
-        type: 'EXPLORE_FETCH_SUBMITTED',
+        type: 'DAYS_FETCH_EXPLORE',
         api: {
           endpoint: '/days',
           query: {
