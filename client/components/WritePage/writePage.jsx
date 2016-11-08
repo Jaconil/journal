@@ -51,6 +51,7 @@ class WritePage extends React.Component {
    */
   closeCurrentDay() {
     this.props.dispatch(changeCurrentDayFocus(false));
+    console.log('closeCurrentDay');
     this.forceUpdate();
   }
 
@@ -64,10 +65,11 @@ class WritePage extends React.Component {
           onFocus={this.focusCurrentDay}
           onSubmit={this.selectNextDay}
           onClose={this.closeCurrentDay}
+          canFocus={this.props.isFocused}
         />
       );
     });
-
+console.log('render writePage', this.props.isFocused);
     return (
       <section className="page writePage">
         <DaysList

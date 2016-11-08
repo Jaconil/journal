@@ -52,7 +52,9 @@ class Day extends React.Component {
   }
 
   componentDidUpdate() {
-    this.handleFocus();
+    if (this.props.canFocus) {
+      this.handleFocus();
+    }
   }
 
   onActionsClose() {
@@ -182,6 +184,7 @@ class Day extends React.Component {
 }
 
 Day.propTypes = {
+  canFocus: React.PropTypes.bool,
   data: React.PropTypes.shape({
     date: React.PropTypes.string.isRequired,
     status: React.PropTypes.string.isRequired,

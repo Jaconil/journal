@@ -8,8 +8,6 @@ import DaysList from './../DaysList/daysList.jsx';
 
 import { fetchDate } from '../../actionCreators/explore';
 
-import './exploreListPage.less';
-
 /**
  * Maps state to props
  *
@@ -40,6 +38,7 @@ class ExploreListPage extends React.Component {
           data={day}
           key={day.date}
           disabled={false}
+          canFocus={true}
         />
       );
     });
