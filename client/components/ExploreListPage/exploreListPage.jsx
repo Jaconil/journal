@@ -7,6 +7,7 @@ import Day from './../Day/day.jsx';
 import DaysList from './../DaysList/daysList.jsx';
 
 import { fetchDate } from '../../actionCreators/explore';
+import { changeCurrentDayFocus } from '../../actionCreators/days.js';
 
 /**
  * Maps state to props
@@ -17,7 +18,8 @@ import { fetchDate } from '../../actionCreators/explore';
 function setProps(state) {
   return {
     isFetching: state.days.exploredDays.isFetching,
-    days: state.days.exploredDays.list
+    days: state.days.exploredDays.list,
+    isFocused: state.days.exploredDays.isFocused
   };
 }
 
@@ -25,10 +27,20 @@ class ExploreListPage extends React.Component {
 
   constructor(props) {
     super(props);
+    this.focusCurrentDay = this.focusCurrentDay.bind(this);
+    this.closeCurrentDay = this.closeCurrentDay.bind(this);
   }
 
   componentWillMount() {
     this.props.dispatch(fetchDate(this.props.params.date));
+  }
+
+  focusCurrentDay() {
+    this.props.dispatch(changeCurrentDayFocus(true));
+  }
+
+  closeCurrentDay() {
+    this.props.dispatch(changeCurrentDayFocus(false));
   }
 
   render() {
@@ -38,6 +50,8 @@ class ExploreListPage extends React.Component {
           data={day}
           key={day.date}
           disabled={false}
+          onFocus={this.focusCurrentDay}
+          onClose={this.closeCurrentDay}
           canFocus={true}
         />
       );
@@ -52,6 +66,7 @@ class ExploreListPage extends React.Component {
         <DaysList
           selected={selected}
           loading={this.props.isFetching}
+          focused={this.props.isFocused}
           emptyText="Aucun jour n'a été trouvé"
         >
           {days}

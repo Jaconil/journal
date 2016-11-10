@@ -9,7 +9,8 @@ const initialNotWrittenDaysState = {
 
 const initialExploredDaysState = {
   list: [],
-  isFetching: false
+  isFetching: false,
+  isFocused: false
 };
 
 /**
@@ -69,6 +70,9 @@ function exploredDays(state = initialExploredDaysState, action) {
 
     case 'DAYS_FETCH_EXPLORE_SUCCESS':
       return _.assign({}, state, { list: action.payload });
+
+    case 'DAYS_CHANGE_FOCUS':
+      return _.assign({}, state, { isFocused: action.payload.focused });
 
     case 'DAY_UPDATE':
       list = _.map(state.list, day => ((day.date === action.payload.date) ? action.payload : day));

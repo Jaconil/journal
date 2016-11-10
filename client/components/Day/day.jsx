@@ -135,7 +135,8 @@ class Day extends React.Component {
   render() {
     const boxClasses = classNames('day', {
       disabled: this.props.disabled,
-      confirmation: this.state.confirmation
+      confirmation: this.state.confirmation,
+      editable: isEditable()
     });
 
     let actions = [];
