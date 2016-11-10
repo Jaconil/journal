@@ -46,7 +46,6 @@ class WritePage extends React.Component {
           key={day.date}
           disabled={index !== this.props.selectedDay}
           onSubmit={this.selectNextDay}
-          canFocus={false}
         />
       );
     });

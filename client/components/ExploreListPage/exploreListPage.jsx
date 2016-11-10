@@ -35,7 +35,6 @@ class ExploreListPage extends React.Component {
           data={day}
           key={day.date}
           disabled={false}
-          canFocus={false}
         />
       );
     });

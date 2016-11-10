@@ -36,7 +36,8 @@ class Day extends React.Component {
     this.state = {
       confirmation: false,
       editing: false,
-      content: this.props.data.content
+      content: this.props.data.content,
+      isFocused: false
     };
   }
 
@@ -51,15 +52,9 @@ class Day extends React.Component {
     }
   }
 
-  componentDidUpdate() {
-    if (this.props.canFocus) {
-      this.handleFocus();
-    }
-  }
-
   onActionsClose() {
-    this.container.classList.remove('focused');
-    this.setState({ editing: false });
+    //this.container.classList.remove('focused');
+    this.setState({ editing: false, isFocused: false });
     this.props.onClose();
   }
 
@@ -109,7 +104,8 @@ class Day extends React.Component {
   }
 
   onTextareaFocus() {
-    this.container.classList.add('focused');
+    //this.container.classList.add('focused');
+    this.setState({ isFocused: true });
     this.props.onFocus();
   }
 
@@ -136,7 +132,8 @@ class Day extends React.Component {
     const boxClasses = classNames('day', {
       disabled: this.props.disabled,
       confirmation: this.state.confirmation,
-      editable: this.isEditable()
+      editable: this.isEditable(),
+      focused: this.state.isFocused
     });
 
     let actions = [];
@@ -185,7 +182,6 @@ class Day extends React.Component {
 }
 
 Day.propTypes = {
-  canFocus: React.PropTypes.bool,
   data: React.PropTypes.shape({
     date: React.PropTypes.string.isRequired,
     status: React.PropTypes.string.isRequired,
