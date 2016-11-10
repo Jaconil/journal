@@ -51,7 +51,6 @@ class WritePage extends React.Component {
    */
   closeCurrentDay() {
     this.props.dispatch(changeCurrentDayFocus(false));
-    console.log('closeCurrentDay');
     this.forceUpdate();
   }
 

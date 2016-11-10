@@ -18,8 +18,7 @@ import { changeCurrentDayFocus } from '../../actionCreators/days.js';
 function setProps(state) {
   return {
     isFetching: state.days.exploredDays.isFetching,
-    days: state.days.exploredDays.list,
-    isFocused: state.days.exploredDays.isFocused
+    days: state.days.exploredDays.list
   };
 }
 
@@ -29,6 +28,10 @@ class ExploreListPage extends React.Component {
     super(props);
     this.focusCurrentDay = this.focusCurrentDay.bind(this);
     this.closeCurrentDay = this.closeCurrentDay.bind(this);
+
+    this.state = {
+      isFocused: false
+    };
   }
 
   componentWillMount() {
@@ -36,11 +39,15 @@ class ExploreListPage extends React.Component {
   }
 
   focusCurrentDay() {
-    this.props.dispatch(changeCurrentDayFocus(true));
+    this.setState({
+      isFocused: true
+    });
   }
 
   closeCurrentDay() {
-    this.props.dispatch(changeCurrentDayFocus(false));
+    this.setState({
+      isFocused: false
+    });
   }
 
   render() {
@@ -66,7 +73,7 @@ class ExploreListPage extends React.Component {
         <DaysList
           selected={selected}
           loading={this.props.isFetching}
-          focused={this.props.isFocused}
+          focused={this.state.isFocused}
           emptyText="Aucun jour n'a été trouvé"
         >
           {days}
