@@ -24,30 +24,8 @@ function setProps(state) {
 
 class ExploreListPage extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.focusCurrentDay = this.focusCurrentDay.bind(this);
-    this.closeCurrentDay = this.closeCurrentDay.bind(this);
-
-    this.state = {
-      isFocused: false
-    };
-  }
-
   componentWillMount() {
     this.props.dispatch(fetchDate(this.props.params.date));
-  }
-
-  focusCurrentDay() {
-    this.setState({
-      isFocused: true
-    });
-  }
-
-  closeCurrentDay() {
-    this.setState({
-      isFocused: false
-    });
   }
 
   render() {
@@ -57,9 +35,7 @@ class ExploreListPage extends React.Component {
           data={day}
           key={day.date}
           disabled={false}
-          onFocus={this.focusCurrentDay}
-          onClose={this.closeCurrentDay}
-          canFocus={true}
+          canFocus={false}
         />
       );
     });
@@ -73,7 +49,6 @@ class ExploreListPage extends React.Component {
         <DaysList
           selected={selected}
           loading={this.props.isFetching}
-          focused={this.state.isFocused}
           emptyText="Aucun jour n'a été trouvé"
         >
           {days}

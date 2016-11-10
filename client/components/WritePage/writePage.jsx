@@ -19,8 +19,7 @@ function setProps(state) {
   return {
     notWrittenDays: state.days.notWrittenDays.list,
     selectedDay: state.days.notWrittenDays.selected,
-    isFetching: state.days.notWrittenDays.isFetching,
-    isFocused: state.days.notWrittenDays.isFocused
+    isFetching: state.days.notWrittenDays.isFetching
   };
 }
 
@@ -29,8 +28,6 @@ class WritePage extends React.Component {
   constructor(props) {
     super(props);
     this.selectNextDay = this.selectNextDay.bind(this);
-    this.focusCurrentDay = this.focusCurrentDay.bind(this);
-    this.closeCurrentDay = this.closeCurrentDay.bind(this);
   }
 
   componentWillMount() {
@@ -41,19 +38,6 @@ class WritePage extends React.Component {
     this.props.dispatch(selectNextNotWrittenDay());
   }
 
-  focusCurrentDay() {
-    this.props.dispatch(changeCurrentDayFocus(true));
-  }
-
-  /**
-   * Forces to repaint the view, necessary when a
-   * focused day is closed to realign days list
-   */
-  closeCurrentDay() {
-    this.props.dispatch(changeCurrentDayFocus(false));
-    this.forceUpdate();
-  }
-
   render() {
     const days = this.props.notWrittenDays.map((day, index) => {
       return (
@@ -61,20 +45,17 @@ class WritePage extends React.Component {
           data={day}
           key={day.date}
           disabled={index !== this.props.selectedDay}
-          onFocus={this.focusCurrentDay}
           onSubmit={this.selectNextDay}
-          onClose={this.closeCurrentDay}
-          canFocus={this.props.isFocused}
+          canFocus={false}
         />
       );
     });
-console.log('render writePage', this.props.isFocused);
+
     return (
       <section className="page writePage">
         <DaysList
           selected={this.props.selectedDay}
           loading={this.props.isFetching}
-          focused={this.props.isFocused}
           emptyText="Tout est à jour :)"
         >
           {days}

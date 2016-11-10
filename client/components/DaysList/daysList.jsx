@@ -11,9 +11,14 @@ class DaysList extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.handleResize = this.handleResize.bind(this);
+    this.focusCurrentDay = this.focusCurrentDay.bind(this);
+    this.closeCurrentDay = this.closeCurrentDay.bind(this);
+
     this.state = {
-      windowHeight: window.innerHeight
+      windowHeight: window.innerHeight,
+      isFocused: false
     };
   }
 
@@ -58,10 +63,22 @@ class DaysList extends React.Component {
     });
   }
 
+  focusCurrentDay() {
+    this.setState({
+      isFocused: true
+    });
+  }
+
+  closeCurrentDay() {
+    this.setState({
+      isFocused: false
+    });
+  }
+
   render() {
     const classes = classNames(
       'daysList',
-      { focused: this.props.focused }
+      { focused: this.state.isFocused }
     );
     const loader = this.props.loading ? <Loader className="dayList-loader" /> : null;
     let emptyText = null;
@@ -70,12 +87,19 @@ class DaysList extends React.Component {
       emptyText = <div className="empty animated fadeIn">{this.props.emptyText}</div>;
     }
 
+    const days = _.map(this.props.children, day => {
+      return React.cloneElement(day, {
+        onFocus: this.focusCurrentDay,
+        onClose: this.closeCurrentDay
+      });
+    });
+
     return (
       <section className={classes} ref={element => this.container = element}>
         {loader}
         {emptyText}
         <div ref={element => this.list = element} key={this.props.children.length} className="animated fadeIn">
-          {this.props.children}
+          {days}
         </div>
       </section>
     );
@@ -85,7 +109,6 @@ class DaysList extends React.Component {
 DaysList.propTypes = {
   selected: React.PropTypes.number.isRequired,
   emptyText: React.PropTypes.string,
-  focused: React.PropTypes.bool,
   loading: React.PropTypes.bool
 };
 
