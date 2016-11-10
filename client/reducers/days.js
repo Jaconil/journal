@@ -3,12 +3,10 @@
 const initialNotWrittenDaysState = {
   list: [],
   selected: 0,
-  isFetching: false,
-  isFocused: false
+  isFetching: false
 };
 
 const initialExploredDaysState = {
-  currentDay: '',
   list: [],
   isFetching: false
 };
@@ -32,9 +30,6 @@ function notWrittenDays(state = initialNotWrittenDaysState, action) {
 
     case 'DAYS_FETCH_NOTWRITTEN_MERGED':
       return _.assign({}, state, { list: action.payload });
-
-    case 'DAYS_CHANGE_FOCUS':
-      return _.assign({}, state, { isFocused: action.payload.focused });
 
     case 'DAYS_NEXT_NOTWRITTEN':
       list = (state.selected === state.list.length - 1) ? [] : state.list;
@@ -62,19 +57,13 @@ function exploredDays(state = initialExploredDaysState, action) {
   let list = null;
 
   switch (action.type) {
-    case 'EXPLORE_DATE_SUBMITTED':
-      return _.assign({}, state, { currentDay: action.payload.date });
+    case 'DAYS_FETCH_EXPLORE':
+      return _.assign({}, state, { list: [], isFetching: true });
 
-    case 'EXPLORE_DATE_CLEARED':
-      return _.assign({}, state, { currentDay: '', list: [] });
-
-    case 'EXPLORE_FETCH_SUBMITTED':
-      return _.assign({}, state, { isFetching: true });
-
-    case 'EXPLORE_FETCH_SUBMITTED_RESPONSE':
+    case 'DAYS_FETCH_EXPLORE_RESPONSE':
       return _.assign({}, state, { isFetching: false });
 
-    case 'EXPLORE_FETCH_SUBMITTED_SUCCESS':
+    case 'DAYS_FETCH_EXPLORE_SUCCESS':
       return _.assign({}, state, { list: action.payload });
 
     case 'DAY_UPDATE':

@@ -5,6 +5,7 @@ require('dotenv').load();
 const logger = require('./logger')();
 
 const defaultConfig = {
+  baseUrl: '',
   port: 1337,
 
   dbHost: null,
@@ -18,7 +19,8 @@ const defaultConfig = {
   jwtSecret: 'secretKey',
   jwtDuration: 1800, // 30mn
 
-  writingStartHour: 12 // noon
+  writingStartHour: 12, // noon
+  firstDay: null
 };
 
 // Env variables assignment

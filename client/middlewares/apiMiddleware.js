@@ -26,7 +26,7 @@ export default function(store) {
     }
 
     const method = action.api.method || 'GET';
-    const path = 'api' + action.api.endpoint || '';
+    const path = window.Journal.baseUrl + '/api' + action.api.endpoint || '';
 
     const req = request(method, path)
       .set('Authorization', store.getState().user.token);

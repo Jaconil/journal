@@ -1,10 +1,10 @@
-var path = require('path');
-var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
+const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-var production = process.env.NODE_ENV === 'production';
+const production = process.env.NODE_ENV === 'production';
 
-var config = {
+let config = {
   context: path.join(__dirname, 'public'),
   entry: path.join('..', 'client', 'app.jsx'),
   output: {
@@ -26,9 +26,7 @@ var config = {
     new ExtractTextPlugin('app.min.css'),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
-        BASEPATH: JSON.stringify(process.env.BASEPATH || ''),
-        FIRST_DAY: JSON.stringify(process.env.FIRST_DAY || '1970-01-01')
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
       }
     }),
     new webpack.ProvidePlugin({
