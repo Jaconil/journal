@@ -52,8 +52,13 @@ class Day extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    if (!this.state.isFocused) {
+      this.handleFocus();
+    }
+  }
+
   onActionsClose() {
-    //this.container.classList.remove('focused');
     this.setState({ editing: false, isFocused: false });
     this.props.onClose();
   }
@@ -104,7 +109,6 @@ class Day extends React.Component {
   }
 
   onTextareaFocus() {
-    //this.container.classList.add('focused');
     this.setState({ isFocused: true });
     this.props.onFocus();
   }
