@@ -6,7 +6,7 @@ import moment from 'moment';
 import Day from './../Day/day.jsx';
 import DaysList from './../DaysList/daysList.jsx';
 
-import { fetchDate } from '../../actionCreators/explore';
+import { searchDates } from '../../actionCreators/search';
 
 /**
  * Maps state to props
@@ -16,15 +16,15 @@ import { fetchDate } from '../../actionCreators/explore';
  */
 function setProps(state) {
   return {
-    isFetching: state.days.exploredDays.isFetching,
-    days: state.days.exploredDays.list
+    isFetching: state.days.searchResults.isFetching,
+    days: state.days.searchResults.list
   };
 }
 
-class ExploreListPage extends React.Component {
+class SearchResultsPage extends React.Component {
 
   componentWillMount() {
-    this.props.dispatch(fetchDate(this.props.params.date));
+    this.props.dispatch(searchDates(this.props.params.term));
   }
 
   render() {
@@ -43,7 +43,7 @@ class ExploreListPage extends React.Component {
     });
 
     return (
-      <section className="page explorePage">
+      <section className="page searchPage">
         <DaysList
           selected={selected}
           loading={this.props.isFetching}
@@ -56,9 +56,9 @@ class ExploreListPage extends React.Component {
   }
 }
 
-ExploreListPage.propTypes = {
+SearchResultsPage.propTypes = {
   days: React.PropTypes.array,
   isFetching: React.PropTypes.bool
 };
 
-export default connect(setProps)(ExploreListPage);
+export default connect(setProps)(SearchResultsPage);

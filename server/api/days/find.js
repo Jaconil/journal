@@ -14,7 +14,6 @@ module.exports = (logger, config, db) => {
 
   /**
    * Extracts and checks from, to and count dates parameters
-   * It could be
    *
    * @param {object} request - Request
    * @returns {object} Object {error, fromDate, toDate}
@@ -83,7 +82,6 @@ module.exports = (logger, config, db) => {
 
     // build a empty days list
     let listDays = buildListDays(fromDate, toDate);
-    const limit = request.query.limit || listDays.length;
     const statuses = request.query.status ? request.query.status.split(',') : null;
 
     // build the db query
@@ -110,7 +108,6 @@ module.exports = (logger, config, db) => {
         .unionBy(listDays, 'date')
         .sortBy('date')
         .filter(day => (!statuses || statuses.indexOf(day.status) !== -1))
-        .take(limit)
         .value();
 
       return reply(listDays);

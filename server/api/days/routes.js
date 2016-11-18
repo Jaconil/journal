@@ -37,5 +37,19 @@ module.exports = [
         })
       }
     }
-  }
+  },
+  {
+    path: '/api/days/search',
+    method: 'GET',
+    handler: 'handler.api.days.search',
+    config: {
+      validate: {
+        query: {
+          from: Joi.string().isoDate(),
+          to: Joi.string().isoDate(),
+          filter: Joi.string().required()
+        }
+      }
+    }
+  },
 ];

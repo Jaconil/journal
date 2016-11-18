@@ -11,6 +11,11 @@ const initialExploredDaysState = {
   isFetching: false
 };
 
+const initialSearchResultsState = {
+  list: [],
+  isFetching: false
+};
+
 /**
  * Updates notWrittenDays state
  *
@@ -77,6 +82,36 @@ function exploredDays(state = initialExploredDaysState, action) {
 }
 
 /**
+ * Updates exploredDays state
+ *
+ * @param {object} state  - ExploredDays state
+ * @param {object} action - Action received
+ * @returns {object} Updated state
+ */
+function searchResults(state = initialSearchResultsState, action) {
+  let list = null;
+
+  switch (action.type) {
+    case 'DAYS_FETCH_SEARCH':
+      return _.assign({}, state, { list: [], isFetching: true });
+
+    case 'DAYS_FETCH_SEARCH_RESPONSE':
+      return _.assign({}, state, { isFetching: false });
+
+    case 'DAYS_FETCH_SEARCH_SUCCESS':
+      return _.assign({}, state, { list: action.payload });
+
+    case 'DAY_UPDATE':
+      list = _.map(state.list, day => ((day.date === action.payload.date) ? action.payload : day));
+
+      return _.assign({}, state, { list });
+
+    default:
+      return state;
+  }
+}
+
+/**
  * Updates days state
  *
  * @param {object} state  - Days state
@@ -86,6 +121,7 @@ function exploredDays(state = initialExploredDaysState, action) {
 export default function(state = {}, action) {
   return {
     notWrittenDays: notWrittenDays(state.notWrittenDays, action),
-    exploredDays: exploredDays(state.exploredDays, action)
+    exploredDays: exploredDays(state.exploredDays, action),
+    searchResults: searchResults(state.searchResults, action)
   };
 }
