@@ -15,6 +15,7 @@ import WritePage from './components/WritePage/writePage.jsx';
 import ExplorePage from './components/ExplorePage/explorePage.jsx';
 import ExploreListPage from './components/ExploreListPage/exploreListPage.jsx';
 import SearchPage from './components/SearchPage/searchPage.jsx';
+import SearchResultsPage from './components/SearchResultsPage/searchResultsPage.jsx';
 
 const browserHistory = useRouterHistory(createHistory)({
   basename: window.Journal.baseUrl
@@ -32,6 +33,7 @@ ReactDOM.render((
         <Route path="explore" component={ExplorePage} />
         <Route path="explore/:date" component={ExploreListPage} />
         <Route path="search" component={SearchPage} />
+        <Route path="search/:term" component={SearchResultsPage} />
         <Redirect from="*" to="/login" />
       </Route>
     </Router>
