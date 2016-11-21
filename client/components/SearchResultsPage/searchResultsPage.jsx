@@ -6,7 +6,7 @@ import moment from 'moment';
 import Day from './../Day/day.jsx';
 import DaysList from './../DaysList/daysList.jsx';
 
-import { searchDates } from '../../actionCreators/search';
+import { searchDates } from '../../actionCreators/days';
 
 /**
  * Maps state to props

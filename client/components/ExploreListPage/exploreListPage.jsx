@@ -6,7 +6,7 @@ import moment from 'moment';
 import Day from './../Day/day.jsx';
 import DaysList from './../DaysList/daysList.jsx';
 
-import { fetchDate } from '../../actionCreators/explore';
+import { fetchDate } from '../../actionCreators/days';
 
 /**
  * Maps state to props
