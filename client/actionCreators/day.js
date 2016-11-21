@@ -15,9 +15,6 @@ const UPDATE_DEBOUNCE_DELAY = 500; // 500ms
  * @return {Promise} Resolves if the day updated correctly
  */
 function updateRemote(dispatch, date, content, status) {
-  localStorage.setItem('writtenDay:date', date);
-  localStorage.setItem('writtenDay:content', content);
-
   return dispatch({
     type: 'DAY_UPDATEREMOTE',
     api: {

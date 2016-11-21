@@ -13,14 +13,12 @@ const initialNotWrittenDaysState = _.assign(
 /**
  * Updates notWrittenDays state
  *
- * @param {object} oldState  - NotWrittenDays state
+ * @param {object} state     - NotWrittenDays state
  * @param {object} action    - Action received
  * @returns {object} Updated state
  */
-function notWrittenDays(oldState = initialNotWrittenDaysState, action) {
+function notWrittenDays(state = initialNotWrittenDaysState, action) {
   let list = null;
-
-  const state = dayList('NOTWRITTEN', oldState, action);
 
   switch (action.type) {
     case 'DAYS_FETCH_NOTWRITTEN':
@@ -75,7 +73,7 @@ function dayList(actionSuffix, state = initialDayListState, action) {
  */
 export default function(state = {}, action) {
   return {
-    notWrittenDays: notWrittenDays(state.notWrittenDays, action),
+    notWrittenDays: dayList('NOTWRITTEN', notWrittenDays(state.notWrittenDays, action), action),
     exploredDays: dayList('EXPLORE', state.exploredDays, action),
     searchResults: dayList('SEARCH', state.searchResults, action)
   };

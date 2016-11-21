@@ -35,15 +35,6 @@ export function getNotWrittenDays() {
         }
 
         return Promise.reject(error);
-      }).then(body => {
-        if (body && body.length && !body[0].content && body[0].date === localStorage.getItem('writtenDay:date')) {
-          body[0].content = localStorage.getItem('writtenDay:content');
-        }
-
-        return dispatch({
-          type: 'DAYS_FETCH_NOTWRITTEN_MERGED',
-          payload: body
-        });
       });
     }
   };
