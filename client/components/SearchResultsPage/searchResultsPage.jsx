@@ -33,7 +33,6 @@ class SearchResultsPage extends React.Component {
         <Day
           data={day}
           key={day.date}
-          disabled={false}
         />
       );
     });

@@ -154,10 +154,8 @@ class Day extends React.Component {
     }
 
     if (this.isEditable()) {
-      if (!this.props.disabled && !this.state.confirmation) {
-        actions.push({ key: 'close', callback: this.onActionsClose });
-        actions.push({ key: 'submit', callback: this.onActionsSubmit });
-      }
+      actions.push({ key: 'close', callback: this.onActionsClose });
+      actions.push({ key: 'submit', callback: this.onActionsSubmit });
 
       content = (
         <Textarea
@@ -171,8 +169,12 @@ class Day extends React.Component {
       );
     } else {
       actions.push({ key: 'edit', callback: this.onActionsEdit });
-
       content = <div className="text">{this.props.data.content}</div>;
+    }
+
+    // We disable actions if day is disabled or in confirmation
+    if (this.props.disabled || this.state.confirmation) {
+      actions = [];
     }
 
     return (
@@ -198,6 +200,7 @@ Day.propTypes = {
 };
 
 Day.defaultProps = {
+  disabled: false,
   onClose: _.noop,
   onFocus: _.noop,
   onSubmit: _.noop
