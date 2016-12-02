@@ -12,8 +12,8 @@ const DELTA_DAYS = 30;
 /**
  * Fetch days and handle errors
  *
- * @param {string} isFetching
- * @param {object} action
+ * @param {string} statePath - Path to the state object
+ * @param {object} action    - Action to dispatch
  * @returns {Function} Action
  */
 function getDays(statePath, action) {
@@ -85,7 +85,7 @@ export function searchDates(term) {
     api: {
       endpoint: '/days/search',
       query: {
-        filter: decodeURIComponent(term),
+        filter: decodeURIComponent(term)
       }
     }
   });

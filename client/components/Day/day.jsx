@@ -72,7 +72,6 @@ class Day extends React.Component {
   }
 
   onActionsEdit() {
-    console.log('onActionsEdit');
     this.setState({
       editing: true,
       content: this.props.data.content
@@ -98,8 +97,8 @@ class Day extends React.Component {
     this.onActionsClose();
 
     this.props.dispatch(submit(this.props.data.date, content))
-      .then(this.props.onSubmit)
-      .catch(error => this.props.onSubmit);
+      .catch(_.noop)
+      .then(this.props.onSubmit);
   }
 
   onConfirmationKey(event) {

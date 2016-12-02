@@ -158,7 +158,7 @@ module.exports = (state, createUser, doLoginRequest, testRequest) => {
 
         return testRequest(doDayUpdateRequest(_.omit(day, 'date')), HTTP_SUCCESS)
           .then(payload => {
-            payload.should.be.deep.equal(day)
+            payload.should.be.deep.equal(day);
           });
       });
 

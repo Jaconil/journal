@@ -32,7 +32,7 @@ class SearchPage extends React.Component {
               autoFocus
               ref={element => this.searchInput = element}
               onKeyDown={this.onSearchInputKeyDown}
-              />
+            />
           </div>
         </div>
       </section>

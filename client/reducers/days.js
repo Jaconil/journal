@@ -37,8 +37,9 @@ function notWrittenDays(state = initialNotWrittenDaysState, action) {
 /**
  * Updates dayList state
  *
- * @param {object} state  - DayList state
- * @param {object} action - Action received
+ * @param {string} actionSuffix - Action suffix
+ * @param {object} state        - DayList state
+ * @param {object} action       - Action received
  * @returns {object} Updated state
  */
 function dayList(actionSuffix, state = initialDayListState, action) {
