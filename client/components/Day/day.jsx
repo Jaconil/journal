@@ -31,19 +31,15 @@ class Day extends React.Component {
     this.onTextareaFocus = this.onTextareaFocus.bind(this);
     this.onTextareaChange = this.onTextareaChange.bind(this);
 
-    this.handleFocus = this.handleFocus.bind(this);
-
     this.state = {
       confirmation: false,
       editing: false,
       content: this.props.data.content,
-      isFocused: false
+      isFocused: this.props.isFocused
     };
   }
 
   componentDidMount() {
-    this.handleFocus();
-
     // Manage cursor position to the end of the text
     if (!this.props.disabled && this.isEditable()) {
       const contentLength = this.content.value.length;
@@ -52,9 +48,16 @@ class Day extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isFocused !== this.state.isFocused) {
+      this.setState({ isFocused: nextProps.isFocused });
+    }
+  }
+
   componentDidUpdate() {
-    if (!this.state.isFocused) {
-      this.handleFocus();
+    if (this.state.isFocused && this.content) {
+      this.content.focus();
+      this.props.onFocus();
     }
   }
 
@@ -69,6 +72,7 @@ class Day extends React.Component {
   }
 
   onActionsEdit() {
+    console.log('onActionsEdit');
     this.setState({
       editing: true,
       content: this.props.data.content
@@ -95,7 +99,7 @@ class Day extends React.Component {
 
     this.props.dispatch(submit(this.props.data.date, content))
       .then(this.props.onSubmit)
-      .catch(_.noop);
+      .catch(error => this.props.onSubmit);
   }
 
   onConfirmationKey(event) {
@@ -110,7 +114,6 @@ class Day extends React.Component {
 
   onTextareaFocus() {
     this.setState({ isFocused: true });
-    this.props.onFocus();
   }
 
   onTextareaChange() {
@@ -118,13 +121,6 @@ class Day extends React.Component {
 
     if (!this.state.editing) {
       this.props.dispatch(update(this.props.data.date, this.content.value));
-    }
-  }
-
-  handleFocus() {
-    if (!this.props.disabled && this.isEditable()) {
-      this.content.focus();
-      this.onTextareaFocus();
     }
   }
 
@@ -192,12 +188,15 @@ Day.propTypes = {
     content: React.PropTypes.string
   }).isRequired,
   disabled: React.PropTypes.bool,
+  isFocused: React.PropTypes.bool,
   onClose: React.PropTypes.func,
   onFocus: React.PropTypes.func,
   onSubmit: React.PropTypes.func
 };
 
 Day.defaultProps = {
+  disabled: false,
+  isFocused: false,
   onClose: _.noop,
   onFocus: _.noop,
   onSubmit: _.noop
