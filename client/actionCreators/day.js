@@ -1,5 +1,3 @@
-'use strict';
-
 import { sendWarning } from './notifications';
 
 const NOTIFICATION_DURATION = 5000; // 5s

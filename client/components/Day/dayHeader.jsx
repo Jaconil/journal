@@ -1,5 +1,3 @@
-'use strict';
-
 import moment from 'moment';
 import classNames from 'classnames';
 
@@ -17,7 +15,7 @@ class DayHeader extends React.Component {
     const actions = _.map(this.props.actions, action => {
       return (
         <button key={action.key} onClick={action.callback}>
-          <i className={classNames('fa', actionsIcons[action.key], action.key)}></i>
+          <i className={classNames('fa', actionsIcons[action.key], action.key)} />
         </button>
       );
     });
@@ -25,7 +23,7 @@ class DayHeader extends React.Component {
     return (
       <div className="dayHeader">
         <header>
-          <div className={classNames('status', _.kebabCase(this.props.status))}></div>
+          <div className={classNames('status', _.kebabCase(this.props.status))} />
           <div className="actions">{actions}</div>
           <h1>
             <span className="full">{_.capitalize(moment(this.props.date).format('dddd DD MMMM YYYY'))}</span>
@@ -38,7 +36,7 @@ class DayHeader extends React.Component {
 }
 
 DayHeader.propTypes = {
-  actions: React.PropTypes.array.isRequired,
+  actions: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   date: React.PropTypes.string.isRequired,
   status: React.PropTypes.string.isRequired
 };

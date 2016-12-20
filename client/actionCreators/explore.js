@@ -1,5 +1,3 @@
-'use strict';
-
 import moment from 'moment';
 import { push } from 'react-router-redux';
 import { sendWarning } from './notifications';
@@ -18,6 +16,6 @@ export function submitDate(date) {
       return dispatch(push('/explore/' + date));
     }
 
-    dispatch(sendWarning('La date est invalide', NOTIFICATION_DURATION, 'warning'));
+    return dispatch(sendWarning('La date est invalide', NOTIFICATION_DURATION, 'warning'));
   };
 }

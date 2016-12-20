@@ -1,5 +1,3 @@
-'use strict';
-
 import { connect } from 'react-redux';
 
 import Day from './../Day/day.jsx';
@@ -55,9 +53,8 @@ class ExploreListPage extends React.Component {
 }
 
 ExploreListPage.propTypes = {
-  days: React.PropTypes.array,
-  isFetching: React.PropTypes.bool,
-  params: React.PropTypes.object
+  days: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+  isFetching: React.PropTypes.bool.isRequired
 };
 
 export default connect(setProps)(ExploreListPage);

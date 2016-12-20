@@ -1,5 +1,3 @@
-'use strict';
-
 import moment from 'moment';
 import { push } from 'react-router-redux';
 import { sendWarning } from './notifications';
@@ -20,17 +18,19 @@ function getDays(statePath, action) {
   return (dispatch, getState) => {
     const state = getState();
 
-    if (!_.get(state.days, statePath).isFetching) {
-      return dispatch(action).catch(error => {
-        if (error.status && error.status === HTTP_NOT_ALLOWED) {
-          dispatch(push('/login'));
-        } else {
-          dispatch(sendWarning('Impossible de récupérer les données', NOTIFICATION_DURATION, 'warning'));
-        }
-
-        return Promise.reject(error);
-      });
+    if (_.get(state.days, statePath).isFetching) {
+      return Promise.resolve();
     }
+
+    return dispatch(action).catch(error => {
+      if (error.status && error.status === HTTP_NOT_ALLOWED) {
+        dispatch(push('/login'));
+      } else {
+        dispatch(sendWarning('Impossible de récupérer les données', NOTIFICATION_DURATION, 'warning'));
+      }
+
+      return Promise.reject(error);
+    });
   };
 }
 

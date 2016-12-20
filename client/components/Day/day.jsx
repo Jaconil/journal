@@ -1,5 +1,3 @@
-'use strict';
-
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
@@ -135,15 +133,15 @@ class Day extends React.Component {
       focused: this.state.isFocused
     });
 
-    let actions = [];
+    const actions = [];
     let content = null;
     let confirmationOverlay = null;
 
     if (this.state.confirmation) {
       confirmationOverlay = (
         <div className="confirmationOverlay">
-          <button onClick={this.onConfirmationBack}><i className="fa fa-close fa-2x"></i></button>
-          <button onClick={this.onConfirmationSubmit}><i className="fa fa-check fa-2x"></i></button>
+          <button onClick={this.onConfirmationBack}><i className="fa fa-close fa-2x" /></button>
+          <button onClick={this.onConfirmationSubmit}><i className="fa fa-check fa-2x" /></button>
         </div>
       );
     }

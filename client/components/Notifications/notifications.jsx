@@ -1,5 +1,3 @@
-'use strict';
-
 import TransitionGroup from 'react-addons-css-transition-group';
 
 import classNames from 'classnames';
@@ -16,7 +14,7 @@ class Notifications extends React.Component {
       return (
         <div key={notification.id} className={notifClass}>
           <div className="icon">
-            <i className={iconClass}></i>
+            <i className={iconClass} />
           </div>
           <div className="content">{notification.content}</div>
         </div>
@@ -34,7 +32,7 @@ class Notifications extends React.Component {
 }
 
 Notifications.propTypes = {
-  list: React.PropTypes.array.isRequired
+  list: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
 };
 
 export default Notifications;

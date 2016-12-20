@@ -1,5 +1,3 @@
-'use strict';
-
 const initialState = {
   token: sessionStorage.getItem('user.token') || '',
   nbLogin: 0

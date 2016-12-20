@@ -1,5 +1,3 @@
-'use strict';
-
 import { connect } from 'react-redux';
 
 import classNames from 'classnames';
@@ -63,7 +61,7 @@ class LoginBox extends React.Component {
 }
 
 LoginBox.propTypes = {
-  nbLogin: React.PropTypes.number
+  nbLogin: React.PropTypes.number.isRequired
 };
 
 export default connect(setProps)(LoginBox);

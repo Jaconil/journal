@@ -1,5 +1,3 @@
-'use strict';
-
 /* eslint no-magic-numbers: 0 */
 /* eslint max-nested-callbacks: [2, 4] */
 

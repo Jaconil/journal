@@ -1,5 +1,3 @@
-'use strict';
-
 /* eslint callback-return: 0 */
 
 import request from 'superagent';
