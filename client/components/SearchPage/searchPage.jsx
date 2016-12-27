@@ -1,5 +1,3 @@
-'use strict';
-
 import { connect } from 'react-redux';
 
 import { submit } from '../../actionCreators/search';
@@ -32,7 +30,7 @@ class SearchPage extends React.Component {
               autoFocus
               ref={element => this.searchInput = element}
               onKeyDown={this.onSearchInputKeyDown}
-              />
+            />
           </div>
         </div>
       </section>

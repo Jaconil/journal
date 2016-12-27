@@ -1,7 +1,6 @@
-'use strict';
-
 /* eslint no-magic-numbers: 0 */
 /* eslint max-nested-callbacks: [2, 4] */
+/* eslint max-len: [2, {code: 150}] */
 
 const HTTP_SUCCESS = 200;
 const HTTP_CREATED = 201;
@@ -30,11 +29,11 @@ module.exports = (state, createUser, doLoginRequest, testRequest) => {
        * @returns {Promise} Resolves if successful
        */
       function doDaysListRequest(query) {
-        query = _.map(query, (value, key) => key + '=' + value).join('&');
+        const queryString = _.map(query, (value, key) => key + '=' + value).join('&');
 
         return state.server.inject({
           method: 'GET',
-          url: '/api/days?' + query,
+          url: '/api/days?' + queryString,
           headers: {
             Authorization: token
           }
@@ -158,7 +157,7 @@ module.exports = (state, createUser, doLoginRequest, testRequest) => {
 
         return testRequest(doDayUpdateRequest(_.omit(day, 'date')), HTTP_SUCCESS)
           .then(payload => {
-            payload.should.be.deep.equal(day)
+            payload.should.be.deep.equal(day);
           });
       });
 

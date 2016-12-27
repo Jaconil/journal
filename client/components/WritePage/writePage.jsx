@@ -1,11 +1,9 @@
-'use strict';
-
 import { connect } from 'react-redux';
 
 import Day from './../Day/day.jsx';
 import DaysList from './../DaysList/daysList.jsx';
 
-import { getNotWrittenDays, selectNextNotWrittenDay, changeCurrentDayFocus } from '../../actionCreators/days.js';
+import { getNotWrittenDays, selectNextNotWrittenDay } from '../../actionCreators/days.js';
 
 import './writePage.less';
 
@@ -45,6 +43,7 @@ class WritePage extends React.Component {
           data={day}
           key={day.date}
           disabled={index !== this.props.selectedDay}
+          isFocused={index === this.props.selectedDay}
           onSubmit={this.selectNextDay}
         />
       );
@@ -65,10 +64,9 @@ class WritePage extends React.Component {
 }
 
 WritePage.propTypes = {
-  isFetching: React.PropTypes.bool,
-  isFocused: React.PropTypes.bool,
-  notWrittenDays: React.PropTypes.array,
-  selectedDay: React.PropTypes.number
+  isFetching: React.PropTypes.bool.isRequired,
+  notWrittenDays: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+  selectedDay: React.PropTypes.number.isRequired
 };
 
 export default connect(setProps)(WritePage);

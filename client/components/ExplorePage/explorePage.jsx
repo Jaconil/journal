@@ -1,5 +1,3 @@
-'use strict';
-
 import { connect } from 'react-redux';
 import moment from 'moment';
 
@@ -8,7 +6,7 @@ import { submitDate } from '../../actionCreators/explore';
 import './explorePage.less';
 
 const KEY_ENTER = 13;
-const FIRST_DAY = window.Journal.firstDay
+const FIRST_DAY = window.Journal.firstDay;
 
 class ExplorePage extends React.Component {
 
@@ -48,7 +46,7 @@ class ExplorePage extends React.Component {
               ref={element => this.datePicker = element}
               onChange={this.onDatePickerChange}
               onKeyDown={this.onDatePickerKeyDown}
-              />
+            />
           </div>
         </div>
       </section>

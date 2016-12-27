@@ -1,5 +1,3 @@
-'use strict';
-
 import { Link } from 'react-router';
 
 import classNames from 'classnames';
@@ -24,20 +22,20 @@ class Header extends React.Component {
           <ul>
             <li className={writeClass}>
               <Link to="/write">
-                <i className="fa fa-pencil"></i>
+                <i className="fa fa-pencil" />
                 <span className="title">Ecrire</span>
                 {writeNotification}
               </Link>
             </li>
             <li className={exploreClass}>
               <Link to="/explore">
-                <i className="fa fa-eye"></i>
+                <i className="fa fa-eye" />
                 <span className="title">Explorer</span>
               </Link>
             </li>
             <li className={searchClass}>
               <Link to="/search">
-                <i className="fa fa-search"></i>
+                <i className="fa fa-search" />
                 <span className="title">Rechercher</span>
               </Link>
             </li>

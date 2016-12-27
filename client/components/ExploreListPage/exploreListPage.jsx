@@ -1,12 +1,9 @@
-'use strict';
-
 import { connect } from 'react-redux';
-import moment from 'moment';
 
 import Day from './../Day/day.jsx';
 import DaysList from './../DaysList/daysList.jsx';
 
-import { fetchDate } from '../../actionCreators/explore';
+import { fetchDate } from '../../actionCreators/days';
 
 /**
  * Maps state to props
@@ -56,8 +53,8 @@ class ExploreListPage extends React.Component {
 }
 
 ExploreListPage.propTypes = {
-  days: React.PropTypes.array,
-  isFetching: React.PropTypes.bool
+  days: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+  isFetching: React.PropTypes.bool.isRequired
 };
 
 export default connect(setProps)(ExploreListPage);

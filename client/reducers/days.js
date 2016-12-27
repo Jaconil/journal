@@ -1,26 +1,18 @@
-'use strict';
-
-const initialNotWrittenDaysState = {
-  list: [],
-  selected: 0,
-  isFetching: false
-};
-
-const initialExploredDaysState = {
+const initialDayListState = {
   list: [],
   isFetching: false
 };
 
-const initialSearchResultsState = {
-  list: [],
-  isFetching: false
-};
+const initialNotWrittenDaysState = _.assign(
+  { selected: 0 },
+  initialDayListState
+);
 
 /**
  * Updates notWrittenDays state
  *
- * @param {object} state  - NotWrittenDays state
- * @param {object} action - Action received
+ * @param {object} state     - NotWrittenDays state
+ * @param {object} action    - Action received
  * @returns {object} Updated state
  */
 function notWrittenDays(state = initialNotWrittenDaysState, action) {
@@ -28,77 +20,37 @@ function notWrittenDays(state = initialNotWrittenDaysState, action) {
 
   switch (action.type) {
     case 'DAYS_FETCH_NOTWRITTEN':
-      return _.assign({}, state, { list: [], selected: 0, isFetching: true });
-
-    case 'DAYS_FETCH_NOTWRITTEN_RESPONSE':
-      return _.assign({}, state, { isFetching: false });
-
-    case 'DAYS_FETCH_NOTWRITTEN_MERGED':
-      return _.assign({}, state, { list: action.payload });
+      return _.assign({}, state, { selected: 0 });
 
     case 'DAYS_NEXT_NOTWRITTEN':
       list = (state.selected === state.list.length - 1) ? [] : state.list;
 
       return _.assign({}, state, { selected: state.selected + 1, list });
 
-    case 'DAY_UPDATE':
-      list = _.map(state.list, day => ((day.date === action.payload.date) ? action.payload : day));
-
-      return _.assign({}, state, { list });
-
     default:
       return state;
   }
 }
 
 /**
- * Updates exploredDays state
+ * Updates dayList state
  *
- * @param {object} state  - ExploredDays state
- * @param {object} action - Action received
+ * @param {string} actionSuffix - Action suffix
+ * @param {object} state        - DayList state
+ * @param {object} action       - Action received
  * @returns {object} Updated state
  */
-function exploredDays(state = initialExploredDaysState, action) {
+function dayList(actionSuffix, state = initialDayListState, action) {
   let list = null;
 
   switch (action.type) {
-    case 'DAYS_FETCH_EXPLORE':
+    case 'DAYS_FETCH_' + actionSuffix:
       return _.assign({}, state, { list: [], isFetching: true });
 
-    case 'DAYS_FETCH_EXPLORE_RESPONSE':
+    case 'DAYS_FETCH_' + actionSuffix + '_RESPONSE':
       return _.assign({}, state, { isFetching: false });
 
-    case 'DAYS_FETCH_EXPLORE_SUCCESS':
-      return _.assign({}, state, { list: action.payload });
-
-    case 'DAY_UPDATE':
-      list = _.map(state.list, day => ((day.date === action.payload.date) ? action.payload : day));
-
-      return _.assign({}, state, { list });
-
-    default:
-      return state;
-  }
-}
-
-/**
- * Updates exploredDays state
- *
- * @param {object} state  - ExploredDays state
- * @param {object} action - Action received
- * @returns {object} Updated state
- */
-function searchResults(state = initialSearchResultsState, action) {
-  let list = null;
-
-  switch (action.type) {
-    case 'DAYS_FETCH_SEARCH':
-      return _.assign({}, state, { list: [], isFetching: true });
-
-    case 'DAYS_FETCH_SEARCH_RESPONSE':
-      return _.assign({}, state, { isFetching: false });
-
-    case 'DAYS_FETCH_SEARCH_SUCCESS':
+    case 'DAYS_FETCH_' + actionSuffix + '_SUCCESS':
       return _.assign({}, state, { list: action.payload });
 
     case 'DAY_UPDATE':
@@ -120,8 +72,8 @@ function searchResults(state = initialSearchResultsState, action) {
  */
 export default function(state = {}, action) {
   return {
-    notWrittenDays: notWrittenDays(state.notWrittenDays, action),
-    exploredDays: exploredDays(state.exploredDays, action),
-    searchResults: searchResults(state.searchResults, action)
+    notWrittenDays: dayList('NOTWRITTEN', notWrittenDays(state.notWrittenDays, action), action),
+    exploredDays: dayList('EXPLORE', state.exploredDays, action),
+    searchResults: dayList('SEARCH', state.searchResults, action)
   };
 }

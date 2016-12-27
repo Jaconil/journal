@@ -1,4 +1,4 @@
-'use strict';
+/* eslint global-require: 0 */
 
 const crypto = require('crypto');
 

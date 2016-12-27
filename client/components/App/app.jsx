@@ -1,5 +1,3 @@
-'use strict';
-
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 
@@ -48,9 +46,9 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  isLogged: React.PropTypes.bool,
-  notWrittenDays: React.PropTypes.number,
-  notifications: React.PropTypes.array
+  isLogged: React.PropTypes.bool.isRequired,
+  notWrittenDays: React.PropTypes.number.isRequired,
+  notifications: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
 };
 
 export default connect(setProps)(App);

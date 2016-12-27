@@ -1,5 +1,3 @@
-'use strict';
-
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
@@ -31,19 +29,15 @@ class Day extends React.Component {
     this.onTextareaFocus = this.onTextareaFocus.bind(this);
     this.onTextareaChange = this.onTextareaChange.bind(this);
 
-    this.handleFocus = this.handleFocus.bind(this);
-
     this.state = {
       confirmation: false,
       editing: false,
       content: this.props.data.content,
-      isFocused: false
+      isFocused: this.props.isFocused
     };
   }
 
   componentDidMount() {
-    this.handleFocus();
-
     // Manage cursor position to the end of the text
     if (!this.props.disabled && this.isEditable()) {
       const contentLength = this.content.value.length;
@@ -52,9 +46,16 @@ class Day extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isFocused !== this.state.isFocused) {
+      this.setState({ isFocused: nextProps.isFocused });
+    }
+  }
+
   componentDidUpdate() {
-    if (!this.state.isFocused) {
-      this.handleFocus();
+    if (this.state.isFocused && this.content) {
+      this.content.focus();
+      this.props.onFocus();
     }
   }
 
@@ -94,8 +95,8 @@ class Day extends React.Component {
     this.onActionsClose();
 
     this.props.dispatch(submit(this.props.data.date, content))
-      .then(this.props.onSubmit)
-      .catch(_.noop);
+      .catch(_.noop)
+      .then(this.props.onSubmit);
   }
 
   onConfirmationKey(event) {
@@ -110,7 +111,6 @@ class Day extends React.Component {
 
   onTextareaFocus() {
     this.setState({ isFocused: true });
-    this.props.onFocus();
   }
 
   onTextareaChange() {
@@ -118,13 +118,6 @@ class Day extends React.Component {
 
     if (!this.state.editing) {
       this.props.dispatch(update(this.props.data.date, this.content.value));
-    }
-  }
-
-  handleFocus() {
-    if (!this.props.disabled && this.isEditable()) {
-      this.content.focus();
-      this.onTextareaFocus();
     }
   }
 
@@ -147,8 +140,8 @@ class Day extends React.Component {
     if (this.state.confirmation) {
       confirmationOverlay = (
         <div className="confirmationOverlay">
-          <button onClick={this.onConfirmationBack}><i className="fa fa-close fa-2x"></i></button>
-          <button onClick={this.onConfirmationSubmit}><i className="fa fa-check fa-2x"></i></button>
+          <button onClick={this.onConfirmationBack}><i className="fa fa-close fa-2x" /></button>
+          <button onClick={this.onConfirmationSubmit}><i className="fa fa-check fa-2x" /></button>
         </div>
       );
     }
@@ -169,6 +162,7 @@ class Day extends React.Component {
       );
     } else {
       actions.push({ key: 'edit', callback: this.onActionsEdit });
+
       content = <div className="text">{this.props.data.content}</div>;
     }
 
@@ -194,6 +188,7 @@ Day.propTypes = {
     content: React.PropTypes.string
   }).isRequired,
   disabled: React.PropTypes.bool,
+  isFocused: React.PropTypes.bool,
   onClose: React.PropTypes.func,
   onFocus: React.PropTypes.func,
   onSubmit: React.PropTypes.func
@@ -201,6 +196,7 @@ Day.propTypes = {
 
 Day.defaultProps = {
   disabled: false,
+  isFocused: false,
   onClose: _.noop,
   onFocus: _.noop,
   onSubmit: _.noop

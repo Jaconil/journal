@@ -1,5 +1,3 @@
-'use strict';
-
 import { push } from 'react-router-redux';
 
 /**
@@ -33,10 +31,12 @@ export function login(username, password) {
         endpoint: '/users/login',
         body: { username, password }
       }
-    }).then(body => {
+    })
+    .then(body => {
       dispatch(updateToken(body.token));
       dispatch(push('/write'));
-    }).catch(() => {});
+    })
+    .catch(_.noop);
   };
 }
 
