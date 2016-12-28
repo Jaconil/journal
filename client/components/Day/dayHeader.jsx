@@ -9,7 +9,8 @@ class DayHeader extends React.Component {
     const actionsIcons = {
       close: 'fa-close',
       submit: 'fa-check',
-      edit: 'fa-pencil'
+      edit: 'fa-pencil',
+      explore: 'fa-eye'
     };
 
     const actions = _.map(this.props.actions, action => {

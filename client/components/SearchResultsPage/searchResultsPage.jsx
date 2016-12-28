@@ -30,18 +30,15 @@ class SearchResultsPage extends React.Component {
         <Day
           data={day}
           key={day.date}
+          isExplorable
         />
       );
-    });
-
-    const selected = _.findIndex(this.props.days, day => {
-      return day.date === this.props.params.date;
     });
 
     return (
       <section className="page searchPage">
         <DaysList
-          selected={selected}
+          selected={0}
           loading={this.props.isFetching}
           emptyText="Aucun jour n'a été trouvé"
         >

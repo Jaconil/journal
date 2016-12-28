@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import Textarea from 'react-textarea-autosize';
 import DayHeader from './dayHeader.jsx';
 
-import { update, submit } from '../../actionCreators/day.js';
+import { update, submit, explore } from '../../actionCreators/day.js';
 
 import './day.less';
 
@@ -20,6 +20,7 @@ class Day extends React.Component {
     this.onActionsClose = this.onActionsClose.bind(this);
     this.onActionsSubmit = this.onActionsSubmit.bind(this);
     this.onActionsEdit = this.onActionsEdit.bind(this);
+    this.onActionsExplore = this.onActionsExplore.bind(this);
     this.onActionsKey = this.onActionsKey.bind(this);
 
     this.onConfirmationBack = this.onConfirmationBack.bind(this);
@@ -74,6 +75,10 @@ class Day extends React.Component {
       editing: true,
       content: this.props.data.content
     });
+  }
+
+  onActionsExplore() {
+    this.props.dispatch(explore(this.props.data.date));
   }
 
   onActionsKey(event) {
@@ -163,6 +168,10 @@ class Day extends React.Component {
     } else {
       actions.push({ key: 'edit', callback: this.onActionsEdit });
 
+      if (this.props.isExplorable) {
+        actions.push({ key: 'explore', callback: this.onActionsExplore });
+      }
+
       content = <div className="text">{this.props.data.content}</div>;
     }
 
@@ -188,6 +197,7 @@ Day.propTypes = {
     content: React.PropTypes.string
   }).isRequired,
   disabled: React.PropTypes.bool,
+  isExplorable: React.PropTypes.bool,
   isFocused: React.PropTypes.bool,
   onClose: React.PropTypes.func,
   onFocus: React.PropTypes.func,
@@ -196,6 +206,7 @@ Day.propTypes = {
 
 Day.defaultProps = {
   disabled: false,
+  isExplorable: false,
   isFocused: false,
   onClose: _.noop,
   onFocus: _.noop,
