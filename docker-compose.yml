@@ -1,0 +1,10 @@
+version: "3"
+services:
+  journal:
+    container_name: journal
+    image: registry.gitlab.com/jaconil/journal
+    restart: always
+    ports:
+      - 1337:1337
+    env_file:
+      - .env

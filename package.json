@@ -53,6 +53,7 @@
     "eslint": "3.12.x",
     "eslint-plugin-react": "6.8.x",
     "mocha": "^3.0.0",
+    "nodemon": "^1.11.0",
     "sinon": "^1.0.0"
   },
   "scripts": {
@@ -60,7 +61,8 @@
     "webpack": "webpack",
     "watch": "webpack --watch",
     "lint": "eslint client/**/**/*.js client/**/**/*.jsx hapi/**/**/*.js test/**/**/*.js && david",
-    "test": "mocha test/**/*.test.js"
+    "test": "mocha test/**/*.test.js",
+    "dev": "webpack --watch --watch-poll & nodemon --watch server --delay 10 -L -x \"npm start\""
   },
   "main": "server/app.js",
   "repository": {
