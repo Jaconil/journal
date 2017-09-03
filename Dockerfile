@@ -1,18 +1,16 @@
-FROM node:6
+FROM node:8
 
 # Create app directory
 WORKDIR /usr/src/app
 
 # Install app dependencies
 COPY package.json .
-# For npm@5 or later, copy package-lock.json as well
-# COPY package.json package-lock.json ./
+COPY yarn.lock .
 
-RUN npm install
+RUN yarn
 
 COPY . .
 
 RUN npm run webpack
 
-EXPOSE 8080
 CMD [ "npm", "start" ]
