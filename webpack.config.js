@@ -2,9 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const production = process.env.NODE_ENV === 'production';
-
-let config = {
+module.exports = {
   context: path.join(__dirname, 'public'),
   entry: path.join('..', 'client', 'app.jsx'),
   output: {
@@ -12,18 +10,44 @@ let config = {
     filename: 'app.min.js'
   },
   module: {
-    loaders: [
-      { test: /\.jsx?$/, loader: 'babel?presets[]=es2015&presets[]=react', exclude: /node_modules/ },
-      { test: /\.less$/, loader: ExtractTextPlugin.extract('style', 'css!postcss!less') },
-      { test: /\.png$/, loader: 'url?limit=1000&name=images/[name].[ext]?[hash:6]' },
-      { test: /\.svg/, loader: 'file?name=images/[name].[ext]?[hash:6]' }
+    rules: [
+      {
+        test: /\.jsx?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        options: {
+          presets: ['env', 'react']
+        }
+      },
+      {
+        test: /\.less$/,
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: ['css-loader', 'less-loader']
+        })
+      },
+      {
+        test: /\.png$/,
+        loader: 'url-loader',
+        options: {
+          limit: 1000,
+          name: 'images/[name].[ext]?[hash:6]'
+        }
+      },
+      {
+        test: /\.svg/,
+        loader: 'file-loader',
+        options: {
+          name: 'images/[name].[ext]?[hash:6]'
+        }
+      }
     ]
   },
-  postcss: [
-    require('autoprefixer')({ browsers: ['last 2 versions'] })
-  ],
   plugins: [
-    new ExtractTextPlugin('app.min.css'),
+    new ExtractTextPlugin({ filename: 'app.min.css' }),
+    new webpack.optimize.UglifyJsPlugin({
+      uglifyOptions: process.env.NODE_ENV === 'production'
+    }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
@@ -35,14 +59,3 @@ let config = {
     })
   ]
 };
-
-if (production) {
-  config.plugins.push(new webpack.optimize.UglifyJsPlugin({
-    minimize: true,
-    compress: {
-      warnings: false
-    }
-  }));
-}
-
-module.exports = config;
