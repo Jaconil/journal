@@ -37,8 +37,9 @@ class DaysList extends React.Component {
     const firstH = _.parseInt(firstItemStyle.marginTop) + _.parseInt(firstItemStyle.height);
     const lastH = _.parseInt(lastItemStyle.height) + _.parseInt(lastItemStyle.marginBottom);
     const margin = _.parseInt(lastItemStyle.marginBottom);
+    const headerHeight = 50;
 
-    this.list.style.paddingTop = (this.state.windowHeight / 2) - (firstH / 2) - 50 + 'px';
+    this.list.style.paddingTop = (this.state.windowHeight / 2) - (firstH / 2) - headerHeight + 'px';
     this.list.style.paddingBottom = (this.state.windowHeight / 2) - (lastH / 2) - margin + 'px';
 
     // Scroll
