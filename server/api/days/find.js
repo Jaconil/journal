@@ -25,7 +25,7 @@ module.exports = (logger, config, db) => {
       return { error: 'No date given' };
     }
 
-    if (!from && !count || !to && !count || from && to && count) {
+    if ((!from && !count) || (!to && !count) || (from && to && count)) {
       return { error: 'Ambiguous parameters' };
     }
 
@@ -80,11 +80,11 @@ module.exports = (logger, config, db) => {
       return reply.badRequest(error);
     }
 
-    // build a empty days list
+    // Build a empty days list
     let listDays = buildListDays(fromDate, toDate);
     const statuses = request.query.status ? request.query.status.split(',') : null;
 
-    // build the db query
+    // Build the db query
     const whereFilter = {
       date: {
         $gte: fromDate.format('YYYY-MM-DD'),
@@ -97,13 +97,13 @@ module.exports = (logger, config, db) => {
       whereFilter.status = { $in: statuses };
     }
 
-    db.collection('day').find(whereFilter).toArray((err, days) => {
+    return db.collection('day').find(whereFilter).toArray((err, days) => {
       if (err) {
         logger.error(err);
         return reply.badImplementation(err.errmsg);
       }
 
-      // hydrate, filter and limit the results
+      // Hydrate, filter and limit the results
       listDays = _.chain(days)
         .unionBy(listDays, 'date')
         .sortBy('date')

@@ -863,12 +863,6 @@ boom@5.2.0, boom@5.x.x, boom@^5.1.0, boom@^5.2.0:
   dependencies:
     hoek "4.x.x"
 
-boom@^4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/boom/-/boom-4.3.1.tgz#4f8a3005cb4a7e3889f749030fd25b96e01d2e31"
-  dependencies:
-    hoek "4.x.x"
-
 boxen@^1.0.0:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/boxen/-/boxen-1.2.1.tgz#0f11e7fe344edb9397977fc13ede7f64d956481d"
@@ -2398,11 +2392,11 @@ hapi-auth-jwt2@^7.0.0:
     cookie "^0.3.1"
     jsonwebtoken "^7.4.1"
 
-hapi-boom-decorators@^2.0.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/hapi-boom-decorators/-/hapi-boom-decorators-2.3.0.tgz#4990dafddc259ffdd0e245fd6a99974f40bd8e9c"
+hapi-boom-decorators@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/hapi-boom-decorators/-/hapi-boom-decorators-3.0.0.tgz#d8cb0fe64295908f974983726c936a9d4158bfef"
   dependencies:
-    boom "^4.3.1"
+    boom "^5.1.0"
 
 hapi@^16.0.0:
   version "16.5.2"
@@ -5709,9 +5703,9 @@ webpack-sources@^1.0.1:
     source-list-map "^2.0.0"
     source-map "~0.5.3"
 
-webpack@3.5.5:
-  version "3.5.5"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-3.5.5.tgz#3226f09fc8b3e435ff781e7af34f82b68b26996c"
+webpack@3.5.6:
+  version "3.5.6"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-3.5.6.tgz#a492fb6c1ed7f573816f90e00c8fbb5a20cc5c36"
   dependencies:
     acorn "^5.0.0"
     acorn-dynamic-import "^2.0.0"

@@ -21,10 +21,11 @@ module.exports = (logger, config, db) => {
     });
 
     const api = require('./api')(logger, config, db);
+
     server.method(_.map(api.handlers, (method, name) => ({ name, method })));
     server.route(api.routes);
 
-    const defaultView = _.template(fs.readFileSync('public/index.html', 'utf8'))({
+    const defaultView = _.template(fs.readFileSync('public/index.html', 'utf8'))({ // eslint-disable-line no-sync
       baseUrl: config.baseUrl,
       firstDay: config.firstDay
     });

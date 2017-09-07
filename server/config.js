@@ -24,20 +24,19 @@ const defaultConfig = {
 };
 
 // Env variables assignment
-module.exports = _.mapValues(defaultConfig, (value, key) => {
-  const envValue = process.env[_.snakeCase(key).toUpperCase()];
-  let origin = 'default';
+module.exports = _.mapValues(defaultConfig, (defaultValue, key) => {
+  const envValue = process.env[_.snakeCase(key).toUpperCase()]; // eslint-disable-line no-process-env
 
-  value = _.isUndefined(envValue) ? value : envValue;
-  origin = _.isUndefined(envValue) ? origin : 'env';
+  const value = _.isUndefined(envValue) ? defaultValue : envValue;
+  const origin = _.isUndefined(envValue) ? 'default' : 'env';
 
   if (value === null) {
     throw new Error('Env variable ' + key.toUpperCase() + ' is required but undefined');
   }
 
   logger.info(
-    _.padEnd('config.' + key + ': ', 30),
-    _.padEnd('(' + origin + ')', 10),
+    _.padEnd('config.' + key + ': ', 30), // eslint-disable-line no-magic-numbers
+    _.padEnd('(' + origin + ')', 10), // eslint-disable-line no-magic-numbers
     JSON.stringify(value)
   );
 

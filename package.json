@@ -17,7 +17,7 @@
     "file-loader": "0.11.2",
     "hapi": "^16.0.0",
     "hapi-auth-jwt2": "^7.0.0",
-    "hapi-boom-decorators": "^2.0.0",
+    "hapi-boom-decorators": "3.0.0",
     "history": "^3.0.0",
     "inert": "^4.0.0",
     "joi": "^10.0.0",
@@ -42,7 +42,7 @@
     "style-loader": "0.18.2",
     "superagent": "^3.1.0",
     "url-loader": "^0.5.6",
-    "webpack": "3.5.5",
+    "webpack": "3.5.6",
     "winston": "^2.1.0"
   },
   "devDependencies": {
@@ -58,7 +58,7 @@
     "start": "node server/app.js",
     "webpack": "webpack",
     "watch": "webpack --watch",
-    "lint": "eslint client/**/**/*.js client/**/**/*.jsx hapi/**/**/*.js test/**/**/*.js && david",
+    "lint": "eslint 'client/**/**/*.js' 'client/**/**/*.jsx' 'server/**/**/*.js' 'test/**/**/*.js' && david",
     "test": "mocha test/**/*.test.js",
     "dev": "webpack --watch --watch-poll & nodemon --watch server --delay 10 -L -x \"npm start\""
   },

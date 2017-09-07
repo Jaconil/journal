@@ -1,9 +1,9 @@
 'use strict';
 
-var Winston = require('winston');
+const Winston = require('winston');
 
-module.exports = function(options) {
-  var logger = new Winston.Logger({
+module.exports = options => {
+  return new Winston.Logger({
     transports: [
       new Winston.transports.Console(_.assign({
         colorize: true,
@@ -12,6 +12,4 @@ module.exports = function(options) {
       }, options))
     ]
   });
-
-  return logger;
 };

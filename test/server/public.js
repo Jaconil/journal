@@ -1,5 +1,7 @@
 'use strict';
 
+const HTTP_OK = 200;
+
 module.exports = state => {
 
   describe('GET /{segments*}', () => {
@@ -12,7 +14,7 @@ module.exports = state => {
       ])
       .then(responses => {
         _.each(responses, response => {
-          response.statusCode.should.equal(200);
+          response.statusCode.should.equal(HTTP_OK);
           response.result.should.contain('<title>Journal</title>');
         });
       });
