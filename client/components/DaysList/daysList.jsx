@@ -106,9 +106,9 @@ class DaysList extends React.Component {
 }
 
 DaysList.propTypes = {
-  emptyText: React.PropTypes.string.isRequired,
-  loading: React.PropTypes.bool.isRequired,
-  selected: React.PropTypes.number.isRequired
+  emptyText: PropTypes.string.isRequired,
+  loading: PropTypes.bool.isRequired,
+  selected: PropTypes.number.isRequired
 };
 
 export default DaysList;

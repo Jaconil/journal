@@ -32,7 +32,7 @@ class Notifications extends React.Component {
 }
 
 Notifications.propTypes = {
-  list: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
+  list: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 export default Notifications;

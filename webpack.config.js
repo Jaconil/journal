@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-module.exports = {
+let config = {
   context: path.join(__dirname, 'public'),
   entry: path.join('..', 'client', 'app.jsx'),
   output: {
@@ -45,9 +45,6 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin({ filename: 'app.min.css' }),
-    new webpack.optimize.UglifyJsPlugin({
-      uglifyOptions: process.env.NODE_ENV === 'production'
-    }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
@@ -55,7 +52,14 @@ module.exports = {
     }),
     new webpack.ProvidePlugin({
       React: 'react',
-      _: 'lodash'
+      _: 'lodash',
+      PropTypes: 'prop-types'
     })
   ]
 };
+
+if (process.env.NODE_ENV === 'production') {
+  config.plugins.push(new webpack.optimize.UglifyJsPlugin());
+}
+
+module.exports = config;

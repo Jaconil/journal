@@ -47,8 +47,8 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  notWrittenDays: React.PropTypes.number.isRequired,
-  route: React.PropTypes.string.isRequired
+  notWrittenDays: PropTypes.number.isRequired,
+  route: PropTypes.string.isRequired
 };
 
 export default Header;

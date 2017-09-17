@@ -61,7 +61,7 @@ class LoginBox extends React.Component {
 }
 
 LoginBox.propTypes = {
-  nbLogin: React.PropTypes.number.isRequired
+  nbLogin: PropTypes.number.isRequired
 };
 
 export default connect(setProps)(LoginBox);

@@ -46,9 +46,9 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  isLogged: React.PropTypes.bool.isRequired,
-  notWrittenDays: React.PropTypes.number.isRequired,
-  notifications: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
+  isLogged: PropTypes.bool.isRequired,
+  notWrittenDays: PropTypes.number.isRequired,
+  notifications: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 export default connect(setProps)(App);

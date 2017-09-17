@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import classNames from 'classnames';
 
-import Textarea from 'react-textarea-autosize';
+import TextareaAutosize from 'react-textarea-autosize';
 import DayHeader from './dayHeader.jsx';
 
 import { update, submit, explore } from '../../actionCreators/day.js';
@@ -41,7 +41,7 @@ class Day extends React.Component {
   componentDidMount() {
     // Manage cursor position to the end of the text
     if (!this.props.disabled && this.isEditable()) {
-      const contentLength = this.content.value.length;
+      const contentLength = _.get(this.content, 'value.length', 0);
 
       ReactDOM.findDOMNode(this.content).setSelectionRange(contentLength, contentLength);
     }
@@ -156,8 +156,8 @@ class Day extends React.Component {
       actions.push({ key: 'submit', callback: this.onActionsSubmit });
 
       content = (
-        <Textarea
-          ref={element => this.content = element}
+        <TextareaAutosize
+          inputRef={element => this.content = element}
           disabled={this.props.disabled || this.state.confirmation}
           onKeyDown={this.onActionsKey}
           onChange={this.onTextareaChange}
@@ -191,17 +191,17 @@ class Day extends React.Component {
 }
 
 Day.propTypes = {
-  data: React.PropTypes.shape({
-    date: React.PropTypes.string.isRequired,
-    status: React.PropTypes.string.isRequired,
-    content: React.PropTypes.string
+  data: PropTypes.shape({
+    date: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
+    content: PropTypes.string
   }).isRequired,
-  disabled: React.PropTypes.bool,
-  isExplorable: React.PropTypes.bool,
-  isFocused: React.PropTypes.bool,
-  onClose: React.PropTypes.func,
-  onFocus: React.PropTypes.func,
-  onSubmit: React.PropTypes.func
+  disabled: PropTypes.bool,
+  isExplorable: PropTypes.bool,
+  isFocused: PropTypes.bool,
+  onClose: PropTypes.func,
+  onFocus: PropTypes.func,
+  onSubmit: PropTypes.func
 };
 
 Day.defaultProps = {

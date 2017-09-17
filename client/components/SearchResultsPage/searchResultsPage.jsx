@@ -50,8 +50,8 @@ class SearchResultsPage extends React.Component {
 }
 
 SearchResultsPage.propTypes = {
-  days: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  isFetching: React.PropTypes.bool.isRequired
+  days: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isFetching: PropTypes.bool.isRequired
 };
 
 export default connect(setProps)(SearchResultsPage);

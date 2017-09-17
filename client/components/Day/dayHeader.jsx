@@ -37,9 +37,9 @@ class DayHeader extends React.Component {
 }
 
 DayHeader.propTypes = {
-  actions: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  date: React.PropTypes.string.isRequired,
-  status: React.PropTypes.string.isRequired
+  actions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  date: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired
 };
 
 export default DayHeader;

@@ -15,7 +15,7 @@
     "line-comment-position": 0,
     "max-statements": [1, 20],
     "quotes": [2, "single", "avoid-escape"],
-    "indent": [2, 2, {"SwitchCase": 1}],
+    "indent": [2, 2, {"SwitchCase": 1, "MemberExpression": "off"}],
     "arrow-parens": [2, "as-needed"],
     "max-params": [2, 4],
     "one-var": [2, "never"],
@@ -34,6 +34,9 @@
     "id-length": [2, {"exceptions": ["_"]}],
     "capitalized-comments": 0,
     "strict": 0,
+    "array-element-newline": [2, {"minItems": 3}],
+    "function-paren-newline": 0,
+    "prefer-destructuring": [2, {"AssignmentExpression": {"object": false}}],
 
     // React
     "react/no-set-state": 0,
@@ -48,7 +51,7 @@
     "react/jsx-indent-props": [2, 2],
     "react/jsx-indent": [2, 2],
     "react/jsx-max-props-per-line": [2, {"maximum": 5}],
-    "react/jsx-no-bind": [2, {"ignoreRefs": true}]
+    "react/jsx-no-bind": [2, {"ignoreRefs": true, "allowArrowFunctions": true}]
   },
   "env": {
     "es6": true,
@@ -63,6 +66,7 @@
   },
   "globals": {
     "React": false,
+    "PropTypes": false,
     "_": false,
     "describe": false,
     "it": false,
@@ -71,6 +75,5 @@
   },
   "plugins": [
     "react"
-  ],
-  "sourceType": "module"
+  ]
 }

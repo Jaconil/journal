@@ -64,9 +64,9 @@ class WritePage extends React.Component {
 }
 
 WritePage.propTypes = {
-  isFetching: React.PropTypes.bool.isRequired,
-  notWrittenDays: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  selectedDay: React.PropTypes.number.isRequired
+  isFetching: PropTypes.bool.isRequired,
+  notWrittenDays: PropTypes.arrayOf(PropTypes.object).isRequired,
+  selectedDay: PropTypes.number.isRequired
 };
 
 export default connect(setProps)(WritePage);

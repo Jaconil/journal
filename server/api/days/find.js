@@ -1,8 +1,9 @@
 'use strict';
 
-const moment = require('moment');
+const Moment = require('moment');
+const MomentRange = require('moment-range');
 
-require('moment-range');
+const moment = MomentRange.extendMoment(Moment);
 
 const STATUSES = {
   notWritten: 'notWritten',
@@ -63,12 +64,12 @@ module.exports = (logger, config, db) => {
     const list = [];
     const range = moment.range(start, end);
 
-    range.by('days', day => {
+    for (const day of range.by('days')) {
       list.push({
         date: day.format('YYYY-MM-DD'),
         status: STATUSES.notWritten
       });
-    });
+    }
 
     return list;
   }
@@ -105,6 +106,7 @@ module.exports = (logger, config, db) => {
 
       // Hydrate, filter and limit the results
       listDays = _.chain(days)
+        .map(day => _.set(day, 'date', moment(day.date).format('YYYY-MM-DD')))
         .unionBy(listDays, 'date')
         .sortBy('date')
         .filter(day => (!statuses || statuses.indexOf(day.status) !== -1))

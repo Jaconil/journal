@@ -26,7 +26,7 @@ function updateRemote(dispatch, date, content, status) {
     }
   }).catch(() => {
     dispatch(sendWarning('Echec de l\'enregistrement', NOTIFICATION_DURATION, 'warning'));
-    return Promise.reject();
+    return Promise.reject(new Error('Saving error'));
   });
 }
 
