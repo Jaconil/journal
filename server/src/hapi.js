@@ -20,7 +20,7 @@ module.exports = (logger, config, db) => {
       verifyOptions: { algorithms: ['HS256'] }
     });
 
-    const api = require('./api')(logger, config, db);
+    const api = require('./api/index')(logger, config, db);
 
     server.method(_.map(api.handlers, (method, name) => ({ name, method })));
     server.route(api.routes);

@@ -11,6 +11,6 @@ RUN yarn
 
 COPY . .
 
-RUN npm run webpack
+RUN yarn run webpack
 
-CMD [ "npm", "start" ]
+CMD [ "yarn", "start" ]

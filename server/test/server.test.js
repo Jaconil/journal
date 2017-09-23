@@ -16,7 +16,8 @@ describe('Server', () => {
   const config = {
     port: 8000,
     jwtSecret: 'abc',
-    passwordSalt: 'salt'
+    passwordSalt: 'salt',
+    jwtDuration: 1800
   };
 
   const collections = {};
@@ -35,7 +36,7 @@ describe('Server', () => {
     }
   };
 
-  const hapi = require('../../server/hapi')(logger, config, db);
+  const hapi = require('../src/hapi')(logger, config, db);
 
   const state = {
     server: null,
@@ -51,6 +52,6 @@ describe('Server', () => {
   require('./public')(state);
 
   describe('/api', () => {
-    require('./api')(state);
+    require('./api/index')(state);
   });
 });
