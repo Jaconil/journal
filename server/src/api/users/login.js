@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const HTTP_CREATED = 201;
 
-module.exports = (logger, config, db) => {
+module.exports = (logger, config, User) => {
   return (request, reply) => {
 
     const hash = crypto
@@ -13,15 +13,11 @@ module.exports = (logger, config, db) => {
       .update(config.passwordSalt + request.payload.password + config.passwordSalt)
       .digest('hex');
 
-    db.collection('user').findOne({
-      username: request.payload.username,
-      password: hash
-    }, (err, user) => {
-      if (err) {
-        logger.error(err);
-        return reply.badImplementation(err.errmsg);
-      }
-
+    User.findOne({
+      where: { username: request.payload.username, password: hash },
+      attributes: ['id']
+    })
+    .then(user => {
       if (!user) {
         return reply.badRequest('User not found');
       }
@@ -31,6 +27,10 @@ module.exports = (logger, config, db) => {
           expiresIn: config.jwtDuration
         })
       }).code(HTTP_CREATED);
+    })
+    .catch(error => {
+      logger.error(error);
+      return reply.badImplementation(error.errmsg);
     });
   };
 };

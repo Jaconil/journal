@@ -1,14 +1,14 @@
 'use strict';
 
-require('dotenv').load();
-
 const logger = require('./logger')();
 
 const defaultConfig = {
   baseUrl: '',
   port: 1337,
 
+  dbMongoHost: null,
   dbHost: null,
+  dbMongoPort: null,
   dbPort: null,
   dbName: null,
   dbUser: null,

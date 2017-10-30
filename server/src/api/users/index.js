@@ -1,10 +1,10 @@
 'use strict';
 
-module.exports = (logger, config, db) => {
+module.exports = (logger, config, User) => {
   return {
     routes: require('./routes'),
     handlers: {
-      'handler.api.users.login': require('./login')(logger, config, db)
+      'handler.api.users.login': require('./login')(logger, config, User)
     }
   };
 };

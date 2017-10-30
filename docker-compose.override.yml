@@ -3,6 +3,25 @@ services:
   journal:
     build: .
     volumes:
-        - .:/usr/src/app
-        - /usr/src/app/node_modules
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
     command: yarn run dev
+    depends_on:
+      - journal-db
+
+  journal-db:
+    container_name: journal-db
+    image: postgres:10
+    environment:
+      - POSTGRES_DB=journal-dev
+      - POSTGRES_USER=api
+      - POSTGRES_PASSWORD=apiPassword
+    ports:
+      - 5432:5432
+    volumes:
+      - journal-db:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  journal-db:
+    driver: local

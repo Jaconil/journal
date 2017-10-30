@@ -4,7 +4,7 @@ const Hapi = require('hapi');
 const fs = require('fs');
 const path = require('path');
 
-module.exports = (logger, config, db) => {
+module.exports = (logger, config, oldDb, models) => {
   const server = new Hapi.Server();
 
   server.connection({ port: config.port });
@@ -20,7 +20,7 @@ module.exports = (logger, config, db) => {
       verifyOptions: { algorithms: ['HS256'] }
     });
 
-    const api = require('./api/index')(logger, config, db);
+    const api = require('./api/index')(logger, config, oldDb, models);
 
     server.method(_.map(api.handlers, (method, name) => ({ name, method })));
     server.route(api.routes);
