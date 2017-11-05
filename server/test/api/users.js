@@ -2,22 +2,29 @@
 /* eslint max-nested-callbacks: [2, 4] */
 
 const HTTP_CREATED = 201;
-const HTTP_BAD_PARAMS = 400;
+const HTTP_BAD_REQUEST = 400;
 
 module.exports = (state, createUser, doLoginRequest, testRequest) => {
 
   describe('/users', () => {
 
-    const user = createUser(1, 'usertest', 'pwd');
+    const user = {
+      username: 'usertest',
+      password: 'pwd'
+    };
+
+    before(() => createUser(user.username, user.password));
+
+    after(() => state.db.query('DELETE FROM "User"'));
 
     describe('POST /login', () => {
 
       it('should fail if payload is empty', () => {
-        return testRequest(doLoginRequest(), HTTP_BAD_PARAMS);
+        return testRequest(doLoginRequest(), HTTP_BAD_REQUEST);
       });
 
       it('should fail if payload is not in the good format', () => {
-        return testRequest(doLoginRequest('', ''), HTTP_BAD_PARAMS);
+        return testRequest(doLoginRequest('', ''), HTTP_BAD_REQUEST);
       });
 
       it('should succeed if payload is correct', () => {
@@ -29,7 +36,7 @@ module.exports = (state, createUser, doLoginRequest, testRequest) => {
       });
 
       it('should fail if payload is incorrect', () => {
-        return testRequest(doLoginRequest(user.username, 'wrongpassword'), HTTP_BAD_PARAMS)
+        return testRequest(doLoginRequest(user.username, 'wrongpassword'), HTTP_BAD_REQUEST)
           .then(payload => {
             payload.message.should.equal('User not found');
           });

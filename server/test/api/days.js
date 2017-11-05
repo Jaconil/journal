@@ -4,14 +4,20 @@
 
 const HTTP_SUCCESS = 200;
 const HTTP_CREATED = 201;
-const HTTP_BAD_PARAMS = 400;
+const HTTP_BAD_REQUEST = 400;
 
 module.exports = (state, createUser, doLoginRequest, testRequest) => {
 
   describe('/days', () => {
 
-    const user = createUser(1, 'usertest', 'pwd');
+    const user = {
+      username: 'usertest',
+      password: 'pwd'
+    };
+
     let token = null;
+
+    before(() => createUser('usertest', 'pwd'));
 
     before(() => {
       return testRequest(doLoginRequest(user.username, user.password), HTTP_CREATED)
@@ -41,23 +47,23 @@ module.exports = (state, createUser, doLoginRequest, testRequest) => {
       }
 
       it('should fail if no dates are given', () => {
-        return testRequest(doDaysListRequest(), HTTP_BAD_PARAMS);
+        return testRequest(doDaysListRequest(), HTTP_BAD_REQUEST);
       });
 
       it('should fail if only a start date is given', () => {
-        return testRequest(doDaysListRequest({ from: '2016-01-01' }), HTTP_BAD_PARAMS);
+        return testRequest(doDaysListRequest({ from: '2016-01-01' }), HTTP_BAD_REQUEST);
       });
 
       it('should fail if only an ending date is given', () => {
-        return testRequest(doDaysListRequest({ to: '2016-01-01' }), HTTP_BAD_PARAMS);
+        return testRequest(doDaysListRequest({ to: '2016-01-01' }), HTTP_BAD_REQUEST);
       });
 
       it('should fail if start, ending and count parameters are given', () => {
-        return testRequest(doDaysListRequest({ from: '2016-01-01', to: '2016-02-01', count: 10 }), HTTP_BAD_PARAMS);
+        return testRequest(doDaysListRequest({ from: '2016-01-01', to: '2016-02-01', count: 10 }), HTTP_BAD_REQUEST);
       });
 
       it('should fail if the ending date is before the start date', () => {
-        return testRequest(doDaysListRequest({ from: '2016-02-01', to: '2016-01-01' }), HTTP_BAD_PARAMS);
+        return testRequest(doDaysListRequest({ from: '2016-02-01', to: '2016-01-01' }), HTTP_BAD_REQUEST);
       });
 
       it('should list all days from start date to ending date', () => {
@@ -134,7 +140,7 @@ module.exports = (state, createUser, doLoginRequest, testRequest) => {
       }
 
       it('should fail if status is invalid', () => {
-        return testRequest(doDayUpdateRequest({ status: 'invalid', content: 'valid' }), HTTP_BAD_PARAMS);
+        return testRequest(doDayUpdateRequest({ status: 'invalid', content: 'valid' }), HTTP_BAD_REQUEST);
       });
 
       it('should save day if status is valid', () => {
@@ -147,7 +153,7 @@ module.exports = (state, createUser, doLoginRequest, testRequest) => {
       });
 
       it('should fail if content is empty and status is written', () => {
-        return testRequest(doDayUpdateRequest({ status: 'written', content: '' }), HTTP_BAD_PARAMS);
+        return testRequest(doDayUpdateRequest({ status: 'written', content: '' }), HTTP_BAD_REQUEST);
       });
 
       it('should save day if content is empty and status if draft', () => {

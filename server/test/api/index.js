@@ -1,3 +1,5 @@
+'use strict';
+
 /* eslint global-require: 0 */
 
 const crypto = require('crypto');
@@ -7,25 +9,18 @@ module.exports = state => {
   /**
    * Creates a fake user
    *
-   * @param {int}    id       - User id
    * @param {string} username - User login
    * @param {string} password - User password
-   * @returns {object} New User { id, username, password, hash }
    */
-  function createUser(id, username, password) {
-    const user = {
-      id,
-      username,
-      password,
-      hash: crypto
-        .createHash('sha256')
-        .update(state.config.passwordSalt + password + state.config.passwordSalt)
-        .digest('hex')
-    };
-
-    state.db.collection('user').findOne.withArgs({ username, password: user.hash }).callsArgWithAsync(1, null, user);
-
-    return user;
+  function createUser(username, password) {
+    return state.db.queryInterface
+      .bulkInsert('User', [{
+        username,
+        password: crypto
+          .createHash('sha256')
+          .update(state.config.passwordSalt + password + state.config.passwordSalt)
+          .digest('hex')
+      }]);
   }
 
   /**

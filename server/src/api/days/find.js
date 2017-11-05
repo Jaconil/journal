@@ -2,6 +2,7 @@
 
 const Moment = require('moment');
 const MomentRange = require('moment-range');
+const Op = require('sequelize').Op;
 
 const moment = MomentRange.extendMoment(Moment);
 
@@ -11,7 +12,7 @@ const STATUSES = {
   draft: 'draft'
 };
 
-module.exports = (logger, config, db) => {
+module.exports = (logger, config, Day) => {
 
   /**
    * Extracts and checks from, to and count dates parameters
@@ -88,31 +89,32 @@ module.exports = (logger, config, db) => {
     // Build the db query
     const whereFilter = {
       date: {
-        $gte: fromDate.format('YYYY-MM-DD'),
-        $lte: toDate.format('YYYY-MM-DD')
+        [Op.gte]: fromDate.format('YYYY-MM-DD'),
+        [Op.lte]: toDate.format('YYYY-MM-DD')
       }
     };
 
     // Status filtering
     if (statuses && !_.includes(statuses, STATUSES.notWritten)) {
-      whereFilter.status = { $in: statuses };
+      whereFilter.status = { [Op.in]: statuses };
     }
 
-    return db.collection('day').find(whereFilter).toArray((err, days) => {
-      if (err) {
-        logger.error(err);
-        return reply.badImplementation(err.errmsg);
-      }
+    return Day.findAll({ where: whereFilter })
+      .then(days => {
+        // Hydrate, filter and limit the results
+        listDays = _.chain(days)
+          .map(day => _.set(day, 'date', moment(day.date).format('YYYY-MM-DD')))
+          .unionBy(listDays, 'date')
+          .sortBy('date')
+          .filter(day => (!statuses || statuses.indexOf(day.status) !== -1))
+          .map(day => _.pick(day, ['date', 'content', 'status']))
+          .value();
 
-      // Hydrate, filter and limit the results
-      listDays = _.chain(days)
-        .map(day => _.set(day, 'date', moment(day.date).format('YYYY-MM-DD')))
-        .unionBy(listDays, 'date')
-        .sortBy('date')
-        .filter(day => (!statuses || statuses.indexOf(day.status) !== -1))
-        .value();
-
-      return reply(listDays);
-    });
+        return reply(listDays);
+      })
+      .catch(error => {
+        logger.error(error);
+        return reply.badImplementation(error.errmsg);
+      });
   };
 };

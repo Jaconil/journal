@@ -1,0 +1,28 @@
+version: "3"
+services:
+  journal-test:
+    container_name: journal-test
+    build: .
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: yarn run test
+    environment:
+      - DB_HOST=journal-db-test
+      - DB_PORT=5432
+      - DB_NAME=journal-test
+      - DB_USER=test
+      - DB_PASSWORD=test
+      - PASSWORD_SALT=
+      - FIRST_DAY=2002-05-31
+    depends_on:
+      - journal-db-test
+
+  journal-db-test:
+    container_name: journal-db-test
+    image: postgres:10
+    environment:
+      - POSTGRES_DB=journal-test
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+    restart: always

@@ -3,8 +3,24 @@
 const Hapi = require('hapi');
 const fs = require('fs');
 const path = require('path');
+const url = require('url');
+const Sequelize = require('sequelize');
 
-module.exports = (logger, config, oldDb, models) => {
+module.exports = (logger, config) => {
+
+  const db = new Sequelize(decodeURI(url.format({
+    protocol: 'postgres',
+    slashes: true,
+    hostname: config.dbHost,
+    port: config.dbPort,
+    pathname: config.dbName,
+    auth: config.dbUser + ':' + config.dbPassword
+  })), {
+    operatorsAliases: false
+  });
+
+  const models = require('./db/models')(db);
+
   const server = new Hapi.Server();
 
   server.connection({ port: config.port });
@@ -20,7 +36,7 @@ module.exports = (logger, config, oldDb, models) => {
       verifyOptions: { algorithms: ['HS256'] }
     });
 
-    const api = require('./api/index')(logger, config, oldDb, models);
+    const api = require('./api/index')(logger, config, models);
 
     server.method(_.map(api.handlers, (method, name) => ({ name, method })));
     server.route(api.routes);
@@ -46,6 +62,6 @@ module.exports = (logger, config, oldDb, models) => {
       }
     });
 
-    return server;
+    return [server, db];
   });
 };

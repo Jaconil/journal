@@ -1,8 +1,8 @@
 'use strict';
 
-module.exports = (logger, config, oldDb, models) => {
+module.exports = (logger, config, models) => {
   const users = require('./users/index')(logger, config, models.User);
-  const days = require('./days/index')(logger, config, oldDb, models);
+  const days = require('./days/index')(logger, config, models.Day);
 
   const apiDefault = {
     routes: [

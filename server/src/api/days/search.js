@@ -1,22 +1,24 @@
 'use strict';
 
-module.exports = (logger, config, db) => {
+const Op = require('sequelize').Op;
+
+module.exports = (logger, config, Day) => {
 
   return (request, reply) => {
     // Build the db query
     const whereFilter = {
-      $text: {
-        $search: request.query.filter
+      content: {
+        [Op.iLike]: '%' + request.query.filter + '%'
       }
     };
 
-    db.collection('day').find(whereFilter).sort({ date: -1 }).toArray((err, days) => {
-      if (err) {
-        logger.error(err);
-        return reply.badImplementation(err.errmsg);
-      }
-
-      return reply(days);
-    });
+    return Day.findAll({ where: whereFilter, order: [['date', 'DESC']] })
+      .then(days => {
+        return reply(_.map(days, day => _.pick(day, ['date', 'content', 'status'])));
+      })
+      .catch(error => {
+        logger.error(error);
+        return reply.badImplementation(error.errmsg);
+      });
   };
 };

@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = (logger, config, db) => {
+module.exports = (logger, config, Day) => {
   return (request, reply) => {
     const day = {
       date: request.params.date,
@@ -8,13 +8,11 @@ module.exports = (logger, config, db) => {
       status: request.payload.status
     };
 
-    db.collection('day').updateOne({ date: request.params.date }, day, { upsert: true }, err => {
-      if (err) {
-        logger.error(err);
-        return reply.badImplementation(err.errmsg);
-      }
-
-      return reply(day);
-    });
+    return Day.upsert(day)
+      .then(() => reply(day))
+      .catch(error => {
+        logger.error(error);
+        return reply.badImplementation(error.errmsg);
+      });
   };
 };

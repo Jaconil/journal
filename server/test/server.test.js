@@ -13,45 +13,24 @@ describe('Server', () => {
     error: _.noop
   };
 
-  const config = {
-    port: 8000,
-    jwtSecret: 'abc',
-    passwordSalt: 'salt',
-    jwtDuration: 1800
-  };
-
-  const collections = {};
-
-  const db = {
-    collection: coll => {
-      if (!collections[coll]) {
-        collections[coll] = {
-          findOne: sinon.stub().callsArgAsync(1),
-          find: sinon.stub().returns({ toArray: cb => cb(null, []) }),
-          updateOne: sinon.stub().callsArgAsync(3) // eslint-disable-line no-magic-numbers
-        };
-      }
-
-      return collections[coll];
-    }
-  };
-
-  const hapi = require('../src/hapi')(logger, config, db);
+  const config = require('../src/config');
+  const hapi = require('../src/hapi')(logger, config);
 
   const state = {
     server: null,
-    db,
+    db: null,
     config,
     logger
   };
 
-  before(() => hapi.then(srv => state.server = srv));
+  before(() => hapi.then(([srv, db]) => {
+    state.server = srv;
+    state.db = db;
+  }));
 
   after(() => state.server.stop());
 
   require('./public')(state);
 
-  describe('/api', () => {
-    require('./api/index')(state);
-  });
+  describe('/api', () => require('./api')(state));
 });
