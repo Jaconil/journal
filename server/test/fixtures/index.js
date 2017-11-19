@@ -1,4 +1,4 @@
-module.exports = (state) => {
+module.exports = state => {
   return {
     database: {
       days: require('./days')(state),

@@ -14,7 +14,11 @@ module.exports = (logger, config, Day) => {
 
     return Day.findAll({ where: whereFilter, order: [['date', 'DESC']] })
       .then(days => {
-        return reply(_.map(days, day => _.pick(day, ['date', 'content', 'status'])));
+        return reply(_.map(days, day => _.pick(day, [
+          'date',
+          'content',
+          'status'
+        ])));
       })
       .catch(error => {
         logger.error(error);

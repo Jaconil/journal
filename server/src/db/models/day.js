@@ -5,8 +5,8 @@ const Op = require('sequelize').Op;
 module.exports = (db, DataTypes) => {
 
   const statusMapping = {
-    'draft': 1,
-    'written': 2
+    draft: 1,
+    written: 2
   };
   const invertedStatusMapping = _.invert(statusMapping);
 
@@ -30,7 +30,7 @@ module.exports = (db, DataTypes) => {
   }, {
     freezeTableName: true,
     hooks: {
-      beforeFind: (options) => {
+      beforeFind: options => {
         if (options.where && options.where.status) {
           options.where.statusId = {};
           options.where.statusId[Op.in] = _.map(options.where.status[Op.in], value => {

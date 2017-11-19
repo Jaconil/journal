@@ -1,3 +1,4 @@
+/* eslint-disable no-process-env */
 module.exports = {
   development: {
     username: process.env.DB_USER,

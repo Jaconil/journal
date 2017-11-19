@@ -1,20 +1,22 @@
 'use strict';
 
 const crypto = require('crypto');
-const passwordSalt = process.env.PASSWORD_SALT;
+const passwordSalt = process.env.PASSWORD_SALT; // eslint-disable-line no-process-env
 
 module.exports = {
-  up: (queryInterface) => {
-    return queryInterface.bulkInsert('User', [{
-      username: 'Jaconil',
-      password: crypto
-        .createHash('sha256')
-        .update(passwordSalt + 'azerty' + passwordSalt)
-        .digest('hex')
-    }], {});
+  up: queryInterface => {
+    return queryInterface.bulkInsert('User', [
+      {
+        username: 'Jaconil',
+        password: crypto
+          .createHash('sha256')
+          .update(passwordSalt + 'azerty' + passwordSalt)
+          .digest('hex')
+      }
+    ]);
   },
 
-  down: (queryInterface) => {
+  down: queryInterface => {
     return queryInterface.bulkDelete('User');
   }
 };

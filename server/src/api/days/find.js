@@ -76,10 +76,10 @@ module.exports = (logger, config, Day) => {
   }
 
   return (request, reply) => {
-    const { error, fromDate, toDate } = extractAndCheckDates(request);
+    const { error: dateError, fromDate, toDate } = extractAndCheckDates(request);
 
-    if (error) {
-      return reply.badRequest(error);
+    if (dateError) {
+      return reply.badRequest(dateError);
     }
 
     // Build a empty days list
@@ -107,7 +107,11 @@ module.exports = (logger, config, Day) => {
           .unionBy(listDays, 'date')
           .sortBy('date')
           .filter(day => (!statuses || statuses.indexOf(day.status) !== -1))
-          .map(day => _.pick(day, ['date', 'content', 'status']))
+          .map(day => _.pick(day, [
+            'date',
+            'content',
+            'status'
+          ]))
           .value();
 
         return reply(listDays);

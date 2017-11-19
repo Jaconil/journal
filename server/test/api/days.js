@@ -139,9 +139,15 @@ module.exports = (state, doLoginRequest, testRequest, fixtures) => {
         });
       }
 
+      /**
+       * Checks if the given day is correctly inserted in databse
+       *
+       * @param {object} day - Day to check { date, content, status }
+       * @returns {Promise} Resolves if successful
+       */
       function checkDatabase(day) {
         return state.db.query('SELECT * FROM "Day" JOIN "DayStatus" ON "DayStatus"."id"="Day"."statusId"')
-          .then(([response,]) => {
+          .then(([response]) => {
             response.should.have.length(1);
             response[0].date.should.be.equal(day.date);
             response[0].content.should.be.equal(day.content);

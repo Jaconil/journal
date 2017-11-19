@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  up: (queryInterface) => {
+  up: queryInterface => {
     return queryInterface.sequelize.query(`
       CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
       
@@ -31,7 +31,7 @@ module.exports = {
     `);
   },
 
-  down: (queryInterface) => {
+  down: queryInterface => {
     return queryInterface.sequelize.query(`
       DROP TABLE "Day";
       DROP TABLE "DayStatus";

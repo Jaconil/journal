@@ -3,6 +3,7 @@
 /* eslint global-require: 0 */
 
 module.exports = (state, fixtures) => {
+
   /**
    * Requests /api/users/login
    *
