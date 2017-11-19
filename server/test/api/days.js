@@ -6,7 +6,7 @@ const HTTP_SUCCESS = 200;
 const HTTP_CREATED = 201;
 const HTTP_BAD_REQUEST = 400;
 
-module.exports = (state, createUser, doLoginRequest, testRequest) => {
+module.exports = (state, doLoginRequest, testRequest, fixtures) => {
 
   describe('/days', () => {
 
@@ -17,7 +17,7 @@ module.exports = (state, createUser, doLoginRequest, testRequest) => {
 
     let token = null;
 
-    before(() => createUser('usertest', 'pwd'));
+    before(() => fixtures.database.users.insert('usertest', 'pwd'));
 
     before(() => {
       return testRequest(doLoginRequest(user.username, user.password), HTTP_CREATED)
@@ -25,6 +25,10 @@ module.exports = (state, createUser, doLoginRequest, testRequest) => {
           token = payload.token;
         });
     });
+
+    afterEach(() => fixtures.database.days.delete());
+
+    after(() => fixtures.database.users.delete());
 
     describe('GET', () => {
 
@@ -34,7 +38,7 @@ module.exports = (state, createUser, doLoginRequest, testRequest) => {
        * @param {object} query - Query parameters
        * @returns {Promise} Resolves if successful
        */
-      function doDaysListRequest(query) {
+      function doDaysListRequest(query = {}) {
         const queryString = _.map(query, (value, key) => key + '=' + value).join('&');
 
         return state.server.inject({
@@ -94,27 +98,23 @@ module.exports = (state, createUser, doLoginRequest, testRequest) => {
       });
 
       it('should list days filtered by a status', () => {
-        const drafts = [{ date: '2016-01-03', status: 'draft' }, { date: '2016-01-04', status: 'draft' }];
-        const filter = { date: { $gte: '2016-01-01', $lte: '2016-01-10' }, status: { $in: ['draft'] } };
+        const days = [{ date: '2016-01-03', status: 'draft', content: '' }, { date: '2016-01-04', status: 'draft', content: '' }];
 
-        state.db.collection('day').find.withArgs(filter).returns({ toArray: cb => cb(null, drafts) });
-
-        return testRequest(doDaysListRequest({ from: '2016-01-01', to: '2016-01-10', status: 'draft' }), HTTP_SUCCESS)
+        return fixtures.database.days.insert(days)
+          .then(() => testRequest(doDaysListRequest({ from: '2016-01-01', to: '2016-01-10', status: 'draft' }), HTTP_SUCCESS))
           .then(payload => {
-            payload.should.be.deep.equal(drafts);
+            payload.should.be.deep.equal(days);
           });
       });
 
       it('should list days filtered by multiple statuses', () => {
-        const writtenDays = [{ date: '2016-01-03', status: 'written' }, { date: '2016-01-04', status: 'draft' }];
-        const filter = { date: { $gte: '2016-01-03', $lte: '2016-01-05' } };
+        const days = [{ date: '2016-01-03', status: 'written', content: '' }, { date: '2016-01-04', status: 'draft', content: '' }];
 
-        state.db.collection('day').find.withArgs(filter).returns({ toArray: cb => cb(null, writtenDays) });
-
-        return testRequest(doDaysListRequest({ from: '2016-01-03', to: '2016-01-05', status: 'draft,notWritten' }), HTTP_SUCCESS)
+        return fixtures.database.days.insert(days)
+          .then(() => testRequest(doDaysListRequest({ from: '2016-01-03', to: '2016-01-05', status: 'draft,notWritten' }), HTTP_SUCCESS))
           .then(payload => {
             payload.should.have.lengthOf(2);
-            _.first(payload).should.be.deep.equal({ date: '2016-01-04', status: 'draft' });
+            _.first(payload).should.be.deep.equal({ date: '2016-01-04', status: 'draft', content: '' });
             _.last(payload).should.be.deep.equal({ date: '2016-01-05', status: 'notWritten' });
           });
       });
@@ -139,6 +139,16 @@ module.exports = (state, createUser, doLoginRequest, testRequest) => {
         });
       }
 
+      function checkDatabase(day) {
+        return state.db.query('SELECT * FROM "Day" JOIN "DayStatus" ON "DayStatus"."id"="Day"."statusId"')
+          .then(([response,]) => {
+            response.should.have.length(1);
+            response[0].date.should.be.equal(day.date);
+            response[0].content.should.be.equal(day.content);
+            response[0].status.should.be.equal(day.status);
+          });
+      }
+
       it('should fail if status is invalid', () => {
         return testRequest(doDayUpdateRequest({ status: 'invalid', content: 'valid' }), HTTP_BAD_REQUEST);
       });
@@ -146,10 +156,9 @@ module.exports = (state, createUser, doLoginRequest, testRequest) => {
       it('should save day if status is valid', () => {
         const day = { date: '2016-01-01', status: 'written', content: 'any content' };
 
-        state.db.collection('day').updateOne.withArgs(_.pick(day, 'date'), _.omit(day, 'date'), { upsert: true }).callsArgWithAsync(3, null);
-
         return testRequest(doDayUpdateRequest(_.omit(day, 'date')), HTTP_SUCCESS)
-          .then(payload => payload.should.be.deep.equal(day));
+          .then(payload => payload.should.be.deep.equal(day))
+          .then(() => checkDatabase(day));
       });
 
       it('should fail if content is empty and status is written', () => {
@@ -159,12 +168,9 @@ module.exports = (state, createUser, doLoginRequest, testRequest) => {
       it('should save day if content is empty and status if draft', () => {
         const day = { date: '2016-01-01', status: 'draft', content: '' };
 
-        state.db.collection('day').updateOne.withArgs(_.pick(day, 'date'), _.omit(day, 'date'), { upsert: true }).callsArgWithAsync(3, null);
-
         return testRequest(doDayUpdateRequest(_.omit(day, 'date')), HTTP_SUCCESS)
-          .then(payload => {
-            payload.should.be.deep.equal(day);
-          });
+          .then(payload => payload.should.be.deep.equal(day))
+          .then(() => checkDatabase(day));
       });
 
     });

@@ -2,27 +2,7 @@
 
 /* eslint global-require: 0 */
 
-const crypto = require('crypto');
-
-module.exports = state => {
-
-  /**
-   * Creates a fake user
-   *
-   * @param {string} username - User login
-   * @param {string} password - User password
-   */
-  function createUser(username, password) {
-    return state.db.queryInterface
-      .bulkInsert('User', [{
-        username,
-        password: crypto
-          .createHash('sha256')
-          .update(state.config.passwordSalt + password + state.config.passwordSalt)
-          .digest('hex')
-      }]);
-  }
-
+module.exports = (state, fixtures) => {
   /**
    * Requests /api/users/login
    *
@@ -54,6 +34,7 @@ module.exports = state => {
       });
   }
 
-  require('./users')(state, createUser, doLoginRequest, testRequest);
-  require('./days')(state, createUser, doLoginRequest, testRequest);
+  require('./users')(state, doLoginRequest, testRequest, fixtures);
+  require('./days')(state, doLoginRequest, testRequest, fixtures);
+  require('./public')(state);
 };

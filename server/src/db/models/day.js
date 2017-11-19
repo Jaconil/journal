@@ -3,6 +3,13 @@
 const Op = require('sequelize').Op;
 
 module.exports = (db, DataTypes) => {
+
+  const statusMapping = {
+    'draft': 1,
+    'written': 2
+  };
+  const invertedStatusMapping = _.invert(statusMapping);
+
   return db.define('Day', {
     date: {
       type: DataTypes.DATEONLY,
@@ -14,10 +21,10 @@ module.exports = (db, DataTypes) => {
       type: DataTypes.VIRTUAL,
       set(value) {
         this.setDataValue('status', value);
-        this.setDataValue('statusId', value === 'draft' ? 1 : 2);
+        this.setDataValue('statusId', _.get(statusMapping, value));
       },
       get() {
-        return this.getDataValue('statusId') === 1 ? 'draft' : 'written'
+        return _.get(invertedStatusMapping, this.getDataValue('statusId'));
       }
     }
   }, {
@@ -27,7 +34,7 @@ module.exports = (db, DataTypes) => {
         if (options.where && options.where.status) {
           options.where.statusId = {};
           options.where.statusId[Op.in] = _.map(options.where.status[Op.in], value => {
-            return value === 'draft' ? 1 : 2;
+            return _.get(statusMapping, value);
           });
 
           delete options.where.status;

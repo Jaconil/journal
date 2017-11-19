@@ -16,7 +16,8 @@ module.exports = (logger, config) => {
     pathname: config.dbName,
     auth: config.dbUser + ':' + config.dbPassword
   })), {
-    operatorsAliases: false
+    operatorsAliases: false,
+    logging: false
   });
 
   const models = require('./db/models')(db);

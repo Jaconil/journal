@@ -2,8 +2,6 @@
 
 global._ = require('lodash');
 
-const sinon = require('sinon');
-
 require('chai').should();
 
 describe('Server', () => {
@@ -23,6 +21,8 @@ describe('Server', () => {
     logger
   };
 
+  const fixtures = require('./fixtures')(state);
+
   before(() => hapi.then(([srv, db]) => {
     state.server = srv;
     state.db = db;
@@ -30,7 +30,5 @@ describe('Server', () => {
 
   after(() => state.server.stop());
 
-  require('./public')(state);
-
-  describe('/api', () => require('./api')(state));
+  describe('/api', () => require('./api')(state, fixtures));
 });

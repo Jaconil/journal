@@ -61,8 +61,8 @@
   "scripts": {
     "start": "sequelize db:migrate && node server/src/app.js",
     "dev": "webpack --watch --watch-poll & nodemon --watch server -L -x \"npm start\"",
-    "test": "sequelize db:migrate && mocha 'server/test/**/*.test.js'",
-    "docker:test": "docker-compose -f docker-compose.test.yml up --abort-on-container-exit",
+    "test": "sequelize db:migrate && mocha --exit -c 'server/test/server.test.js'",
+    "docker:test": "docker-compose -f docker-compose.test.yml up --abort-on-container-exit --force-recreate",
     "seed": "sequelize db:seed:all",
     "webpack": "webpack",
     "watch": "webpack --watch",

@@ -4,7 +4,7 @@
 const HTTP_CREATED = 201;
 const HTTP_BAD_REQUEST = 400;
 
-module.exports = (state, createUser, doLoginRequest, testRequest) => {
+module.exports = (state, doLoginRequest, testRequest, fixtures) => {
 
   describe('/users', () => {
 
@@ -13,9 +13,9 @@ module.exports = (state, createUser, doLoginRequest, testRequest) => {
       password: 'pwd'
     };
 
-    before(() => createUser(user.username, user.password));
+    before(() => fixtures.database.users.insert(user.username, user.password));
 
-    after(() => state.db.query('DELETE FROM "User"'));
+    after(() => fixtures.database.users.delete());
 
     describe('POST /login', () => {
 
