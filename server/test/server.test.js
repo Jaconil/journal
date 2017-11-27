@@ -12,7 +12,7 @@ describe('Server', () => {
   };
 
   const config = require('../src/config');
-  const hapi = require('../src/hapi')(logger, config);
+  const hapi = require('../src/hapi');
 
   const state = {
     server: null,
@@ -23,10 +23,13 @@ describe('Server', () => {
 
   const fixtures = require('./fixtures')(state);
 
-  before(() => hapi.then(([srv, db]) => {
-    state.server = srv;
+  before(async () => {
+    const [server, db] = await hapi(logger, config);
+    await server.start();
+
+    state.server = server;
     state.db = db;
-  }));
+  });
 
   after(() => state.server.stop());
 

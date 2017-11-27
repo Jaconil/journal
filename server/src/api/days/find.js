@@ -1,5 +1,6 @@
 'use strict';
 
+const boom = require('boom');
 const Moment = require('moment');
 const MomentRange = require('moment-range');
 const Op = require('sequelize').Op;
@@ -18,17 +19,17 @@ module.exports = (logger, config, Day) => {
    * Extracts and checks from, to and count dates parameters
    *
    * @param {object} request - Request
-   * @returns {object} Object {error, fromDate, toDate}
+   * @returns {object} Object {fromDate, toDate}
    */
   function extractAndCheckDates(request) {
     const { from, to, count } = request.query;
 
     if (!from && !to) {
-      return { error: 'No date given' };
+      throw boom.badRequest('No date given');
     }
 
     if ((!from && !count) || (!to && !count) || (from && to && count)) {
-      return { error: 'Ambiguous parameters' };
+      throw boom.badRequest('Ambiguous parameters');
     }
 
     let fromDate = moment(from, 'YYYY-MM-DD').startOf('day');
@@ -48,10 +49,10 @@ module.exports = (logger, config, Day) => {
     }
 
     if (fromDate.isAfter(toDate)) {
-      return { error: 'Start date is after ending date' };
+      throw boom.badRequest('Start date is after ending date');
     }
 
-    return { error: null, fromDate, toDate };
+    return { fromDate, toDate };
   }
 
   /**
@@ -75,15 +76,11 @@ module.exports = (logger, config, Day) => {
     return list;
   }
 
-  return (request, reply) => {
-    const { error: dateError, fromDate, toDate } = extractAndCheckDates(request);
-
-    if (dateError) {
-      return reply.badRequest(dateError);
-    }
+  return async request => {
+    const { fromDate, toDate } = extractAndCheckDates(request);
 
     // Build a empty days list
-    let listDays = buildListDays(fromDate, toDate);
+    const listDays = buildListDays(fromDate, toDate);
     const statuses = request.query.status ? request.query.status.split(',') : null;
 
     // Build the db query
@@ -99,26 +96,19 @@ module.exports = (logger, config, Day) => {
       whereFilter.status = { [Op.in]: statuses };
     }
 
-    return Day.findAll({ where: whereFilter })
-      .then(days => {
-        // Hydrate, filter and limit the results
-        listDays = _.chain(days)
-          .map(day => _.set(day, 'date', moment(day.date).format('YYYY-MM-DD')))
-          .unionBy(listDays, 'date')
-          .sortBy('date')
-          .filter(day => (!statuses || statuses.indexOf(day.status) !== -1))
-          .map(day => _.pick(day, [
-            'date',
-            'content',
-            'status'
-          ]))
-          .value();
+    const days = await Day.findAll({ where: whereFilter });
 
-        return reply(listDays);
-      })
-      .catch(error => {
-        logger.error(error);
-        return reply.badImplementation(error.errmsg);
-      });
+    // Hydrate, filter and limit the results
+    return _.chain(days)
+      .map(day => _.set(day, 'date', moment(day.date).format('YYYY-MM-DD')))
+      .unionBy(listDays, 'date')
+      .sortBy('date')
+      .filter(day => (!statuses || statuses.indexOf(day.status) !== -1))
+      .map(day => _.pick(day, [
+        'date',
+        'content',
+        'status'
+      ]))
+      .value();
   };
 };

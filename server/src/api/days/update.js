@@ -1,18 +1,16 @@
 'use strict';
 
+const moment = require('moment');
+
 module.exports = (logger, config, Day) => {
-  return (request, reply) => {
+  return async request => {
     const day = {
-      date: request.params.date,
+      date: moment(request.params.date).format('YYYY-MM-DD'),
       content: request.payload.content,
       status: request.payload.status
     };
 
-    return Day.upsert(day)
-      .then(() => reply(day))
-      .catch(error => {
-        logger.error(error);
-        return reply.badImplementation(error.errmsg);
-      });
+    await Day.upsert(day);
+    return day;
   };
 };

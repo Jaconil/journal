@@ -19,7 +19,7 @@
     "arrow-parens": [2, "as-needed"],
     "max-params": [2, 4],
     "one-var": [2, "never"],
-    "space-before-function-paren": [2, "never"],
+    "space-before-function-paren": [2, {"anonymous": "never", "named": "never", "asyncArrow": "always"}],
     "func-style": [2, "declaration"],
     "quote-props": [2, "as-needed"],
     "object-curly-spacing": [2, "always"],
@@ -59,6 +59,7 @@
     "browser": true
   },
   "parserOptions": {
+    "ecmaVersion": 8,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true

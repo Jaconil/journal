@@ -3,26 +3,20 @@
 const Op = require('sequelize').Op;
 
 module.exports = (logger, config, Day) => {
+  return async request => {
+    const days = await Day.findAll({
+      where: {
+        content: {
+          [Op.iLike]: '%' + request.query.filter + '%'
+        }
+      },
+      order: [['date', 'DESC']]
+    });
 
-  return (request, reply) => {
-    // Build the db query
-    const whereFilter = {
-      content: {
-        [Op.iLike]: '%' + request.query.filter + '%'
-      }
-    };
-
-    return Day.findAll({ where: whereFilter, order: [['date', 'DESC']] })
-      .then(days => {
-        return reply(_.map(days, day => _.pick(day, [
-          'date',
-          'content',
-          'status'
-        ])));
-      })
-      .catch(error => {
-        logger.error(error);
-        return reply.badImplementation(error.errmsg);
-      });
+    return _.map(days, day => _.pick(day, [
+      'date',
+      'content',
+      'status'
+    ]));
   };
 };
