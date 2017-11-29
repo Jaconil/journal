@@ -14,12 +14,12 @@ module.exports = config => {
       options: {
         auth: false
       },
-      handler: async (request, reply) => {
+      handler: (request, reply) => {
         const staticPath = request.params.segments || '';
         const staticFile = path.resolve('public', staticPath);
 
         try {
-          await fs.access(staticFile);
+          fs.accessSync(staticFile); // eslint-disable-line no-sync
           return staticPath ? reply.file(staticFile) : defaultView;
         } catch (error) {
           return defaultView;
