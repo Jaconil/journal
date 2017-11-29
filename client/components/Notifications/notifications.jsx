@@ -1,4 +1,4 @@
-import TransitionGroup from 'react-addons-css-transition-group';
+import {CSSTransitionGroup}  from 'react-transition-group';
 
 import classNames from 'classnames';
 
@@ -23,9 +23,9 @@ class Notifications extends React.Component {
 
     return (
       <section className="notifications">
-        <TransitionGroup transitionName="notification" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
+        <CSSTransitionGroup transitionName="notification" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
           {list}
-        </TransitionGroup>
+        </CSSTransitionGroup>
       </section>
     );
   }
