@@ -42,7 +42,7 @@
     "react/no-set-state": 0,
     "react/prefer-stateless-function": 0,
     "react/require-optimization": 0,
-    "react/prop-types": [2, {"ignore": ["dispatch", "location", "children", "params"]}],
+    "react/prop-types": [2, {"ignore": ["dispatch", "history", "children", "params"]}],
     "react/no-find-dom-node": 0,
 
     "react/jsx-sort-props": 0,

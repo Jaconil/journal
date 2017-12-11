@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-
+import { Redirect } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { login, logout } from '../../actionCreators/user.js';
@@ -14,7 +14,8 @@ import './loginBox.less';
  */
 function setProps(state) {
   return {
-    nbLogin: state.user.nbLogin
+    nbLogin: state.user.nbLogin,
+    isLogged: state.user.token !== ''
   };
 }
 
@@ -39,6 +40,11 @@ class LoginBox extends React.Component {
   }
 
   render() {
+    if (this.props.isLogged) {
+      return (
+        <Redirect to="/write" />
+      );
+    }
 
     const classes = classNames(
       'login-box',

@@ -21,7 +21,7 @@ function setProps(state) {
 class ExploreListPage extends React.Component {
 
   componentWillMount() {
-    this.props.dispatch(fetchDate(this.props.params.date));
+    this.props.dispatch(fetchDate(this.props.match.params.date));
   }
 
   render() {
@@ -35,7 +35,7 @@ class ExploreListPage extends React.Component {
     });
 
     const selected = _.findIndex(this.props.days, day => {
-      return day.date === this.props.params.date;
+      return day.date === this.props.match.params.date;
     });
 
     return (

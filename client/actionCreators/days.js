@@ -1,6 +1,6 @@
 import moment from 'moment';
-import { push } from 'react-router-redux';
 import { sendWarning } from './notifications';
+import { logout } from './user';
 
 const NOTIFICATION_DURATION = 5000; // 5s
 const HTTP_NOT_ALLOWED = 401;
@@ -24,7 +24,7 @@ function getDays(statePath, action) {
 
     return dispatch(action).catch(error => {
       if (error.status && error.status === HTTP_NOT_ALLOWED) {
-        dispatch(push('/login'));
+        dispatch(logout());
       } else {
         dispatch(sendWarning('Impossible de récupérer les données', NOTIFICATION_DURATION, 'warning'));
       }

@@ -1,5 +1,3 @@
-import { push } from 'react-router-redux';
-
 /**
  * Updates the user token
  *
@@ -34,7 +32,6 @@ export function login(username, password) {
     })
     .then(body => {
       dispatch(updateToken(body.token));
-      dispatch(push('/write'));
     })
     .catch(_.noop);
   };

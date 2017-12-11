@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-
 import Day from './../Day/day.jsx';
 import DaysList from './../DaysList/daysList.jsx';
 

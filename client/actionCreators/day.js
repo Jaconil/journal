@@ -1,5 +1,4 @@
 import { sendWarning } from './notifications';
-import { push } from 'react-router-redux';
 
 const NOTIFICATION_DURATION = 5000; // 5s
 const UPDATE_DEBOUNCE_DELAY = 500; // 500ms
@@ -78,14 +77,4 @@ export function submit(date, content) {
       return dispatch(updateDay(date, content, 'written'));
     });
   };
-}
-
-/**
- * Explore days around a date
- *
- * @param {string} date - Day date (ISO format)
- * @returns {object} Action
- */
-export function explore(date) {
-  return push('/explore/' + date);
 }

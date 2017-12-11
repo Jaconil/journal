@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 
 import Header from './../Header/header.jsx';
 import Notifications from './../Notifications/notifications.jsx';
@@ -7,6 +7,37 @@ import Notifications from './../Notifications/notifications.jsx';
 import { getNotWrittenDays } from '../../actionCreators/days.js';
 
 import './app.less';
+
+import LoginBox from './../LoginBox/loginBox.jsx';
+import WritePage from './../WritePage/writePage.jsx';
+import ExplorePage from './../ExplorePage/explorePage.jsx';
+import ExploreListPage from './../ExploreListPage/exploreListPage.jsx';
+import SearchPage from './../SearchPage/searchPage.jsx';
+import SearchResultsPage from './../SearchResultsPage/searchResultsPage.jsx';
+
+function PrivateRouteInt({ path, component: Component, isLogged }) {
+  function conditionalRender(props) {
+    return (
+      isLogged ? (
+        <Component {...props}/>
+      ) : (
+        <Redirect to={{
+          pathname: '/login',
+          state: { from: props.location }
+        }}/>
+      )
+    );
+  }
+
+  return (
+    <Route path={path} render={conditionalRender}/>
+  );
+}
+
+const PrivateRoute = connect((state) => {
+  return { isLogged: state.user.token !== '' }
+})(PrivateRouteInt);
+
 
 /**
  * Maps state to props
@@ -28,19 +59,25 @@ class App extends React.Component {
     if (this.props.isLogged) {
       this.props.dispatch(getNotWrittenDays());
     }
-
-    if (!this.props.isLogged && this.props.location.pathname !== '/login') {
-      this.props.dispatch(push('/login'));
-    }
   }
 
   render() {
     return (
-      <div className="app-container">
-        {this.props.isLogged ? <Header route={this.props.location.pathname} notWrittenDays={this.props.notWrittenDays} /> : null}
-        {this.props.isLogged ? <Notifications list={this.props.notifications} /> : null}
-        {this.props.children}
-      </div>
+      <BrowserRouter basename={window.Journal.baseUrl}>
+        <div className="app-container">
+          {this.props.isLogged ? <Header notWrittenDays={this.props.notWrittenDays} /> : null}
+          {this.props.isLogged ? <Notifications list={this.props.notifications} /> : null}
+          <Switch>
+            <Route path="/login" component={LoginBox} />
+            <PrivateRoute path="/write" component={WritePage} />
+            <PrivateRoute path="/explore/:date" component={ExploreListPage} />
+            <PrivateRoute path="/explore" component={ExplorePage} />
+            <PrivateRoute path="/search/:term" component={SearchResultsPage} />
+            <PrivateRoute path="/search" component={SearchPage} />
+            <Redirect to="/login" />
+          </Switch>
+        </div>
+      </BrowserRouter>
     );
   }
 }

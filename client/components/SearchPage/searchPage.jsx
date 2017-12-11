@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
-
-import { submit } from '../../actionCreators/search';
+import { withRouter } from 'react-router-dom';
 
 import './searchPage.less';
 
@@ -16,7 +15,7 @@ class SearchPage extends React.Component {
   onSearchInputKeyDown(event) {
     if (event.keyCode === KEY_ENTER && !event.shiftKey && this.searchInput.value.length > 0) {
       event.preventDefault();
-      this.props.dispatch(submit(this.searchInput.value));
+      this.props.history.push(`/search/${encodeURIComponent(this.searchInput.value)}`);
     }
   }
 
@@ -38,4 +37,8 @@ class SearchPage extends React.Component {
   }
 }
 
-export default connect()(SearchPage);
+SearchPage.propTypes = {
+  history: PropTypes.object.isRequired
+};
+
+export default withRouter(connect()(SearchPage));

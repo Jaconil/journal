@@ -1,5 +1,6 @@
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import classNames from 'classnames';
 
@@ -78,7 +79,7 @@ class Day extends React.Component {
   }
 
   onActionsExplore() {
-    this.props.dispatch(explore(this.props.data.date));
+    this.props.history.push(`/explore/${this.props.data.date}`);
   }
 
   onActionsKey(event) {
@@ -197,6 +198,7 @@ Day.propTypes = {
     content: PropTypes.string
   }).isRequired,
   disabled: PropTypes.bool,
+  history: PropTypes.object.isRequired,
   isExplorable: PropTypes.bool,
   isFocused: PropTypes.bool,
   onClose: PropTypes.func,
@@ -213,4 +215,4 @@ Day.defaultProps = {
   onSubmit: _.noop
 };
 
-export default connect()(Day);
+export default withRouter(connect()(Day));

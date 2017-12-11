@@ -21,7 +21,7 @@ function setProps(state) {
 class SearchResultsPage extends React.Component {
 
   componentWillMount() {
-    this.props.dispatch(searchDates(this.props.params.term));
+    this.props.dispatch(searchDates(this.props.match.params.term));
   }
 
   render() {

@@ -29,8 +29,7 @@ header.header {
       width: 600px;
     }
 
-    ul {
-      margin: 0;
+    div {
       padding: 0;
       margin: auto;
       width: 100%;
@@ -38,7 +37,7 @@ header.header {
       box-sizing: border-box;
       height: 50px;
 
-      li {
+      a {
         position: relative;
         font-size: 16px;
         display: inline-block;
@@ -54,7 +53,7 @@ header.header {
         display: block;
       }
 
-      li span.title {
+      a span.title {
         margin-left: 15px;
 
         @media @smartphone {
@@ -62,7 +61,7 @@ header.header {
         }
       }
 
-      li span.notification {
+      a span.notification {
         background-color: @red;
         padding-left: 5px;
         padding-right: 5px;
@@ -71,20 +70,20 @@ header.header {
         margin-left: 10px;
       }
 
-      li i {
+      a i {
         font-size: 1.5em;
       }
 
-      li.active {
+      a.active {
         color: white;
       }
 
-      li:hover {
+      a:hover {
         color: white;
         transition: color 0.3s, transform 0.3s;
       }
 
-      li:last-child::before {
+      a:last-child::before {
         position: absolute;
         bottom: 0;
         left: 0;
@@ -95,11 +94,11 @@ header.header {
         transition: transform 0.3s;
       }
 
-      li:first-child.active ~ li:last-child::before {
+      a:first-child.active ~ a:last-child::before {
         transform: translate3d(-200%, 0, 0);
       }
 
-      li:nth-child(2).active ~ li:last-child::before {
+      a:nth-child(2).active ~ a:last-child::before {
         transform: translate3d(-100%,0,0);
       }
     }
