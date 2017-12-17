@@ -42,16 +42,18 @@
     "react/no-set-state": 0,
     "react/prefer-stateless-function": 0,
     "react/require-optimization": 0,
-    "react/prop-types": [2, {"ignore": ["dispatch", "history", "children", "params"]}],
+    "react/prop-types": [2, {"ignore": ["dispatch", "history", "children", "params", "match"]}],
     "react/no-find-dom-node": 0,
-
+    "react/jsx-filename-extension": 0,
     "react/jsx-sort-props": 0,
     "react/jsx-handler-names": 0,
     "react/jsx-no-literals": 0,
     "react/jsx-indent-props": [2, 2],
     "react/jsx-indent": [2, 2],
     "react/jsx-max-props-per-line": [2, {"maximum": 5}],
-    "react/jsx-no-bind": [2, {"ignoreRefs": true, "allowArrowFunctions": true}]
+    "react/jsx-no-bind": [2, {"ignoreRefs": true, "allowArrowFunctions": true}],
+    "react/destructuring-assignment": 0,
+    "react/jsx-one-expression-per-line": 0
   },
   "env": {
     "es6": true,

@@ -15,7 +15,7 @@ class DayHeader extends React.Component {
 
     const actions = _.map(this.props.actions, action => {
       return (
-        <button key={action.key} onClick={action.callback}>
+        <button key={action.key} onClick={action.callback} type="button">
           <i className={classNames('fa', actionsIcons[action.key], action.key)} />
         </button>
       );

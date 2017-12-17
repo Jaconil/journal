@@ -67,6 +67,7 @@ class LoginBox extends React.Component {
 }
 
 LoginBox.propTypes = {
+  isLogged: PropTypes.bool.isRequired,
   nbLogin: PropTypes.number.isRequired
 };
 

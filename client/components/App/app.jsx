@@ -8,36 +8,13 @@ import { getNotWrittenDays } from '../../actionCreators/days.js';
 
 import './app.less';
 
+import PrivateRoute from './../PrivateRoute.js';
 import LoginBox from './../LoginBox/loginBox.jsx';
 import WritePage from './../WritePage/writePage.jsx';
 import ExplorePage from './../ExplorePage/explorePage.jsx';
 import ExploreListPage from './../ExploreListPage/exploreListPage.jsx';
 import SearchPage from './../SearchPage/searchPage.jsx';
 import SearchResultsPage from './../SearchResultsPage/searchResultsPage.jsx';
-
-function PrivateRouteInt({ path, component: Component, isLogged }) {
-  function conditionalRender(props) {
-    return (
-      isLogged ? (
-        <Component {...props}/>
-      ) : (
-        <Redirect to={{
-          pathname: '/login',
-          state: { from: props.location }
-        }}/>
-      )
-    );
-  }
-
-  return (
-    <Route path={path} render={conditionalRender}/>
-  );
-}
-
-const PrivateRoute = connect((state) => {
-  return { isLogged: state.user.token !== '' }
-})(PrivateRouteInt);
-
 
 /**
  * Maps state to props

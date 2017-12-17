@@ -1,4 +1,4 @@
-import {CSSTransitionGroup}  from 'react-transition-group';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import classNames from 'classnames';
 
@@ -12,20 +12,26 @@ class Notifications extends React.Component {
       const iconClass = classNames('fa', 'fa-2x', 'fa-border', 'fa-' + notification.icon);
 
       return (
-        <div key={notification.id} className={notifClass}>
-          <div className="icon">
-            <i className={iconClass} />
+        <CSSTransition
+          key={notification.id}
+          classNames="notification"
+          timeout={{ enter: 500, exit: 300 }}
+        >
+          <div className={notifClass}>
+            <div className="icon">
+              <i className={iconClass} />
+            </div>
+            <div className="content">{notification.content}</div>
           </div>
-          <div className="content">{notification.content}</div>
-        </div>
+        </CSSTransition>
       );
     });
 
     return (
       <section className="notifications">
-        <CSSTransitionGroup transitionName="notification" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
+        <TransitionGroup>
           {list}
-        </CSSTransitionGroup>
+        </TransitionGroup>
       </section>
     );
   }

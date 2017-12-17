@@ -66,8 +66,4 @@ class ExplorePage extends React.Component {
   }
 }
 
-ExplorePage.propTypes = {
-  history: PropTypes.object.isRequired
-};
-
 export default withRouter(connect()(ExplorePage));

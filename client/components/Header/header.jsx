@@ -36,7 +36,7 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  notWrittenDays: PropTypes.number.isRequired,
+  notWrittenDays: PropTypes.number.isRequired
 };
 
 export default Header;

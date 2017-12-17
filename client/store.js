@@ -20,4 +20,4 @@ export default () => {
   });
 
   return applyMiddleware(thunk, apiMiddleware)(createStore)(reducer);
-}
+};

@@ -37,8 +37,4 @@ class SearchPage extends React.Component {
   }
 }
 
-SearchPage.propTypes = {
-  history: PropTypes.object.isRequired
-};
-
 export default withRouter(connect()(SearchPage));

@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import TextareaAutosize from 'react-textarea-autosize';
 import DayHeader from './dayHeader.jsx';
 
-import { update, submit, explore } from '../../actionCreators/day.js';
+import { update, submit } from '../../actionCreators/day.js';
 
 import './day.less';
 
@@ -101,8 +101,8 @@ class Day extends React.Component {
     this.onActionsClose();
 
     this.props.dispatch(submit(this.props.data.date, content))
-      .catch(_.noop)
-      .then(this.props.onSubmit);
+      .then(this.props.onSubmit)
+      .catch(_.noop);
   }
 
   onConfirmationKey(event) {
@@ -146,8 +146,8 @@ class Day extends React.Component {
     if (this.state.confirmation) {
       confirmationOverlay = (
         <div className="confirmationOverlay">
-          <button onClick={this.onConfirmationBack}><i className="fa fa-close fa-2x" /></button>
-          <button onClick={this.onConfirmationSubmit}><i className="fa fa-check fa-2x" /></button>
+          <button onClick={this.onConfirmationBack} type="button"><i className="fa fa-close fa-2x" /></button>
+          <button onClick={this.onConfirmationSubmit} type="button"><i className="fa fa-check fa-2x" /></button>
         </div>
       );
     }
@@ -198,7 +198,6 @@ Day.propTypes = {
     content: PropTypes.string
   }).isRequired,
   disabled: PropTypes.bool,
-  history: PropTypes.object.isRequired,
   isExplorable: PropTypes.bool,
   isFocused: PropTypes.bool,
   onClose: PropTypes.func,
