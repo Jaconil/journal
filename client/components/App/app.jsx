@@ -8,27 +8,9 @@ import { getNotWrittenDays } from '../../actionCreators/days.js';
 
 import './app.less';
 
-import PrivateRoute from './../PrivateRoute.js';
+import PrivateRoute from './privateRoute';
+import SwipeablePages from './swipeablePages';
 import LoginBox from './../LoginBox/loginBox.jsx';
-import WritePage from './../WritePage/writePage.jsx';
-import ExplorePage from './../ExplorePage/explorePage.jsx';
-import ExploreListPage from './../ExploreListPage/exploreListPage.jsx';
-import SearchPage from './../SearchPage/searchPage.jsx';
-import SearchResultsPage from './../SearchResultsPage/searchResultsPage.jsx';
-
-/**
- * Maps state to props
- *
- * @param {object} state - State
- * @returns {object} Props
- */
-function setProps(state) {
-  return {
-    isLogged: state.user.token !== '',
-    notWrittenDays: _.reject(state.days.notWrittenDays.list, { status: 'written' }).length,
-    notifications: state.notifications
-  };
-}
 
 class App extends React.Component {
 
@@ -46,11 +28,9 @@ class App extends React.Component {
           {this.props.isLogged ? <Notifications list={this.props.notifications} /> : null}
           <Switch>
             <Route path="/login" component={LoginBox} />
-            <PrivateRoute path="/write" component={WritePage} />
-            <PrivateRoute path="/explore/:date" component={ExploreListPage} />
-            <PrivateRoute path="/explore" component={ExplorePage} />
-            <PrivateRoute path="/search/:term" component={SearchResultsPage} />
-            <PrivateRoute path="/search" component={SearchPage} />
+            <PrivateRoute path="/write" component={SwipeablePages} />
+            <PrivateRoute path="/explore" component={SwipeablePages} />
+            <PrivateRoute path="/search" component={SwipeablePages} />
             <Redirect to="/login" />
           </Switch>
         </div>
@@ -65,4 +45,10 @@ App.propTypes = {
   notifications: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
-export default connect(setProps)(App);
+export default connect(state => {
+  return {
+    isLogged: state.user.token !== '',
+    notWrittenDays: _.reject(state.days.notWrittenDays.list, { status: 'written' }).length,
+    notifications: state.notifications
+  };
+})(App);

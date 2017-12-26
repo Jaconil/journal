@@ -4,13 +4,13 @@ import moment from 'moment';
 
 import { sendWarning } from '../../actionCreators/notifications';
 
-import './explorePage.less';
+import './exploreDatepicker.less';
 
 const KEY_ENTER = 13;
 const FIRST_DAY = window.Journal.firstDay;
 const NOTIFICATION_DURATION = 5000; // 5s
 
-class ExplorePage extends React.Component {
+class ExploreDatepicker extends React.Component {
 
   constructor(props) {
     super(props);
@@ -46,24 +46,20 @@ class ExplorePage extends React.Component {
 
   render() {
     return (
-      <section className="page explorePage">
-        <div className="datepickerContainer">
-          <div className="datepicker animated fadeIn">
-            <input
-              type="date"
-              placeholder="jj/mm/aaaa"
-              min={FIRST_DAY}
-              max={moment().format('YYYY-MM-DD')}
-              autoFocus
-              ref={element => this.datePicker = element}
-              onChange={this.onDatePickerChange}
-              onKeyDown={this.onDatePickerKeyDown}
-            />
-          </div>
-        </div>
-      </section>
+      <div className="exploreDatepicker animated fadeIn">
+        <input
+          type="date"
+          placeholder="jj/mm/aaaa"
+          min={FIRST_DAY}
+          max={moment().format('YYYY-MM-DD')}
+
+          ref={element => this.datePicker = element}
+          onChange={this.onDatePickerChange}
+          onKeyDown={this.onDatePickerKeyDown}
+        />
+      </div>
     );
   }
 }
 
-export default withRouter(connect()(ExplorePage));
+export default withRouter(connect()(ExploreDatepicker));

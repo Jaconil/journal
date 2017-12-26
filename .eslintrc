@@ -37,6 +37,7 @@
     "array-element-newline": [2, {"minItems": 3}],
     "function-paren-newline": 0,
     "prefer-destructuring": [2, {"AssignmentExpression": {"object": false}}],
+    "linebreak-style": 0,
 
     // React
     "react/no-set-state": 0,

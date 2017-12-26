@@ -1,24 +1,26 @@
 @import "../../variables";
 
-html, body, #app {
+html, body, #app, .app-container {
   margin: 0;
   height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 #app {
-  overflow: hidden;
   background: url('images/noise.png') @beige;
-}
-
-.app-container {
-  height: 100%;
-  overflow: hidden;
-
-  * {
-    box-sizing: border-box;
-  }
 }
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+section.page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import './searchPage.less';
+import './searchInput.less';
 
 const KEY_ENTER = 13;
 
-class SearchPage extends React.Component {
+class SearchInput extends React.Component {
 
   constructor(props) {
     super(props);
@@ -21,20 +21,15 @@ class SearchPage extends React.Component {
 
   render() {
     return (
-      <section className="page searchPage">
-        <div className="searchContainer">
-          <div className="searchInput animated fadeIn">
-            <input
-              type="text"
-              autoFocus
-              ref={element => this.searchInput = element}
-              onKeyDown={this.onSearchInputKeyDown}
-            />
-          </div>
-        </div>
-      </section>
+      <div className="searchInput animated fadeIn">
+        <input
+          type="text"
+          ref={element => this.searchInput = element}
+          onKeyDown={this.onSearchInputKeyDown}
+        />
+      </div>
     );
   }
 }
 
-export default withRouter(connect()(SearchPage));
+export default withRouter(connect()(SearchInput));

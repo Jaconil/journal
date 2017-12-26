@@ -1,0 +1,45 @@
+@import "../../variables";
+
+.exploreDatepicker {
+  margin: auto;
+  box-sizing: border-box;
+  width: 20%;
+  min-width: 300px;
+
+  @media @tablet {
+    width: 50%;
+  }
+
+  @media @smartphone {
+    width: 90%;
+  }
+
+  input {
+    width: 100%;
+    border: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    color: @beige;
+    background-color: @darkgrey;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 1.7em;
+    font-family: @mainFont;
+
+    @media @smartphone {
+      &:before {
+        content: attr(placeholder) !important;
+        color: @beige;
+        margin-right: 0.5em;
+      }
+    }
+  }
+
+  ::-webkit-inner-spin-button, ::-webkit-calendar-picker-indicator {
+    display: none;
+  }
+
+  input:focus {
+    outline: none;
+  }
+}

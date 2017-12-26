@@ -5,20 +5,7 @@ import DaysList from './../DaysList/daysList.jsx';
 
 import { fetchDate } from '../../actionCreators/days';
 
-/**
- * Maps state to props
- *
- * @param {object} state - State
- * @returns {object} Props
- */
-function setProps(state) {
-  return {
-    isFetching: state.days.exploredDays.isFetching,
-    days: state.days.exploredDays.list
-  };
-}
-
-class ExploreListPage extends React.Component {
+class ExploreList extends React.Component {
 
   componentWillMount() {
     this.props.dispatch(fetchDate(this.props.match.params.date));
@@ -39,22 +26,23 @@ class ExploreListPage extends React.Component {
     });
 
     return (
-      <section className="page explorePage">
-        <DaysList
-          selected={selected}
-          loading={this.props.isFetching}
-          emptyText="Aucun jour n'a été trouvé"
-        >
-          {days}
-        </DaysList>
-      </section>
+      <DaysList
+        selected={selected}
+        loading={this.props.isFetching}
+        emptyText="Aucun jour n'a été trouvé"
+      >
+        {days}
+      </DaysList>
     );
   }
 }
 
-ExploreListPage.propTypes = {
+ExploreList.propTypes = {
   days: PropTypes.arrayOf(PropTypes.object).isRequired,
   isFetching: PropTypes.bool.isRequired
 };
 
-export default connect(setProps)(ExploreListPage);
+export default connect(state => ({
+  isFetching: state.days.exploredDays.isFetching,
+  days: state.days.exploredDays.list
+}))(ExploreList);
