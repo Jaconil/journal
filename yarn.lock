@@ -2529,9 +2529,9 @@ hapi-auth-jwt2@salzhrani/hapi-auth-jwt2#v-17:
     cookie "^0.3.1"
     jsonwebtoken "^8.1.0"
 
-hapi@17.2.0:
-  version "17.2.0"
-  resolved "https://registry.yarnpkg.com/hapi/-/hapi-17.2.0.tgz#e5d74b65235b443225e05d7b7510cdb80d4887e7"
+hapi@17.1.1:
+  version "17.1.1"
+  resolved "https://registry.yarnpkg.com/hapi/-/hapi-17.1.1.tgz#6f518ace1ab64d73cf2cca5fb2b719813d3c68b7"
   dependencies:
     accept "3.x.x"
     ammo "3.x.x"

@@ -15,7 +15,7 @@ function SearchPage() {
   return (
     <section className="page searchPage">
       <Route path="/search/:term" component={SearchResults} />
-      <Route exact path="/search" component={SearchInput} />
+      <Route component={SearchInput} />
     </section>
   );
 }

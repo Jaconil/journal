@@ -15,7 +15,7 @@ function ExplorePage() {
   return (
     <section className="page explorePage">
       <Route path="/explore/:date" component={ExploreList} />
-      <Route exact path="/explore" component={ExploreDatepicker} />
+      <Route component={ExploreDatepicker} />
     </section>
   );
 }
