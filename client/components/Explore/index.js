@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-import { Route, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 
 import ExploreDatepicker from './exploreDatepicker';
 import ExploreList from './exploreList';
@@ -14,8 +14,10 @@ import ExploreList from './exploreList';
 function ExplorePage() {
   return (
     <section className="page explorePage">
-      <Route path="/explore/:date" component={ExploreList} />
-      <Route component={ExploreDatepicker} />
+      <Switch>
+        <Route path="/explore/:date" component={ExploreList} />
+        <Route component={ExploreDatepicker} />
+      </Switch>
     </section>
   );
 }

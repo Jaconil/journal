@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-import { Route, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 
 import SearchInput from './searchInput';
 import SearchResults from './searchResults';
@@ -14,8 +14,10 @@ import SearchResults from './searchResults';
 function SearchPage() {
   return (
     <section className="page searchPage">
-      <Route path="/search/:term" component={SearchResults} />
-      <Route component={SearchInput} />
+      <Switch>
+        <Route path="/search/:term" component={SearchResults} />
+        <Route component={SearchInput} />
+      </Switch>
     </section>
   );
 }
